@@ -1,0 +1,16 @@
+'''
+This is the project setup file
+for the STON project.
+
+Author: R. Thomas (RSE)
+Place: U. of Sheffield
+Year: 2024-2025
+'''
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "STON"
+version = "0.1"

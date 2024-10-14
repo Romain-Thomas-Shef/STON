@@ -9,7 +9,7 @@
 project = 'STON'
 copyright = '2024, R. Thomas & E. Dammer'
 author = 'R. Thomas & E. Dammer'
-release = '1.0'
+release = '0.1'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
