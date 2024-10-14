@@ -8,9 +8,28 @@ Year: 2024-2025
 '''
 
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools", "sphinx-rtd-theme"]
+requires-python = ">=3.10"
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "STON"
 version = "0.1"
+authors = [{ name = "R. Thomas", email = "romain.thomas@sheffield.ac.uk" },
+    	   { name = 'E. Dammer'}]
+
+
+[project.urls]
+homepage = "https://romain-thomas-shef.github.io/STON/build/html/index.html"
+repository = "https://github.com/Romain-Thomas-Shef/STON"
+changelog = "https://github.com/me/spam/blob/master/CHANGELOG.md"
+
+[project.gui-scrips]
+ston = "ston.main:main"
+
+[tool.hatch.version]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/ston",
+]

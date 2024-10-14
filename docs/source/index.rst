@@ -10,6 +10,7 @@ STON: SofTware for petrOgraphic visualisatioN
    :maxdepth: 2
    :caption: Contents:
 
+   CHANGELOG
 
 
 Indices and tables
