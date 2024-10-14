@@ -1,0 +1,10 @@
+Metadata-Version: 2.1
+Name: STON
+Version: 0.1
+Author: E. Dammer
+Author-email: "R. Thomas" <romain.thomas@sheffield.ac.uk>
+Project-URL: repository, https://github.com/Romain-Thomas-Shef/STON
+Project-URL: homepage, https://romain-thomas-shef.github.io/STON/build/html/index.html
+Project-URL: changelog, https://romain-thomas-shef.github.io/STON/build/html/CHANGELOG.html
+Requires-Dist: sphinx-rtd-theme
+Requires-Dist: PyQt6>=6.7.1

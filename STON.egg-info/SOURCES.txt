@@ -1,0 +1,10 @@
+README.md
+pyproject.toml
+STON.egg-info/PKG-INFO
+STON.egg-info/SOURCES.txt
+STON.egg-info/dependency_links.txt
+STON.egg-info/entry_points.txt
+STON.egg-info/requires.txt
+STON.egg-info/top_level.txt
+ston/__init__.py
+ston/main.py

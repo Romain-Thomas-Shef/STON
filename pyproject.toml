@@ -1,14 +1,5 @@
-'''
-This is the project setup file
-for the STON project.
-
-Author: R. Thomas (RSE)
-Place: U. of Sheffield
-Year: 2024-2025
-'''
-
 [build-system]
-requires = ["setuptools", "sphinx-rtd-theme"]
+requires = ["setuptools"]
 requires-python = ">=3.10"
 build-backend = "setuptools.build_meta"
 
@@ -17,17 +8,17 @@ name = "STON"
 version = "0.1"
 authors = [{ name = "R. Thomas", email = "romain.thomas@sheffield.ac.uk" },
     	   { name = 'E. Dammer'}]
-
+dependencies = ["sphinx-rtd-theme",
+    "PyQt6 >= 6.7.1"]
 
 [project.urls]
-homepage = "https://romain-thomas-shef.github.io/STON/build/html/index.html"
 repository = "https://github.com/Romain-Thomas-Shef/STON"
-changelog = "https://github.com/me/spam/blob/master/CHANGELOG.md"
+homepage = "https://romain-thomas-shef.github.io/STON/build/html/index.html"
+changelog = "https://romain-thomas-shef.github.io/STON/build/html/CHANGELOG.html"
 
-[project.gui-scrips]
+
+[project.gui-scripts]
 ston = "ston.main:main"
-
-[tool.hatch.version]
 
 [tool.hatch.build.targets.sdist]
 include = [

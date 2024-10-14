@@ -1,0 +1,2 @@
+sphinx-rtd-theme
+PyQt6>=6.7.1
