@@ -28,13 +28,14 @@ def main():
     '''
     This is the main function
     '''
+
     ##1st we use the command line interface to look at potential
     ##arguments
     args = command_line_interface(sys.argv[1:])
 
     if args['config'] == 'default': ##no argument passed
         ##In that case we load the default
-        configuration = conf.default_conf()
+        configuration = conf.default_conf(sys.platform)
     else:
         ##in that case we extract the configuration from the file
         ##configuration = conf.load_conf(args['config'])

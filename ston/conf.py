@@ -16,14 +16,16 @@ changelog:
 
 ###Python standard library
 import configparser
+from pathlib import Path
 
-def default_conf():
+def default_conf(platform):
     '''
     This function creates an default configuration
     It takes no parameters but returns a dictionary
     Parameters
     ----------
-    None
+    platform    : str
+                  sys.platform
 
     Returns
     -------
@@ -33,10 +35,22 @@ def default_conf():
     config = {}
     ###projet
     config['Project_name'] = 'New project'
-
+    config['Project_directory'] = Path.home()
 
     ###tool
     config['Window-width'] = 1150
     config['Window-height'] = 700
 
+    ###options
+    config['With_hidden'] = True
+    config['Extensions'] = ['*.tif', '*.png']
+
+    ###general info
+    if 'linux' in platform:
+        config['OS'] = 'Linux'
+    elif 'darwin' in platform:
+        config['OS'] = 'OSX'
+    else:
+        config['OS'] = 'Windows'
+        
     return config
