@@ -35,7 +35,8 @@ def default_conf(platform):
     config = {}
     ###projet
     config['Project_name'] = 'New project'
-    config['Project_directory'] ='/home/romain/Documents/STON_data' #Path.home()
+    #config['Project_directory'] ='/home/romain/Documents/STON_data' #Path.home()
+    config['Project_directory'] ='/Users/romainthomas/Documents/STON_data' #Path.home()
 
     ###tool
     config['Window-width'] = 1150

@@ -186,16 +186,19 @@ class GUI(QMainWindow):
             for r in range(int(rows)):
                 label = LabelImage(f'{r},{c}')
                 label.setObjectName(f'{r},{c}')
-                label.setFixedWidth(self.configuration['Image_width'])
-                label.setFixedHeight(self.configuration['Image_width'])
+                label.setFixedWidth(self.configuration['Image_width']-15)
+                label.setFixedHeight(self.configuration['Image_width']-15)
                 self.grid.setCellWidget(r, c, label)
+
                 #label.installEventFilter(self.grid)
                 #self.grid.addWidget(label,r,c,1,1) 
 
         width = self.grid.horizontalHeader()
         width.setDefaultSectionSize(self.configuration['Image_width'])
+        width.hide()
         height = self.grid.verticalHeader()
         height.setDefaultSectionSize(self.configuration['Image_width'])
+        height.hide()
  
         self.scrollayout.addWidget(self.grid)
 
@@ -338,7 +341,7 @@ class LabelImage(QLabel):
         self.setText(content)
         
         color = ['red', 'yellow', 'green']
-        self.setStyleSheet("background-color : %s; color : black; "%random.choice(color))
+        self.setStyleSheet("margin-left:10; margin-right:10; margin-top:10; margin-botton:10; background-color : %s; color : black"%random.choice(color))
         self.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
 
         ###accepting drops
