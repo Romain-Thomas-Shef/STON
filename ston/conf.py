@@ -43,7 +43,7 @@ def default_conf(platform):
     config['Window-height'] = 700
 
     ###options
-    config['Display_area'] = '10x5'
+    config['Display_area'] = '5x10'
     config['Image_width'] = 200  ###assumed to be squared
     config['Extensions'] = ['.tif', '.png']
 

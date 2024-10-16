@@ -219,6 +219,7 @@ class MydraggableGrid(QTableWidget):
         #self.target = None
         self.setRowCount(int(rows))
         self.setColumnCount(int(columns))
+        self.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
 
     def eventFilter(self, watched, event:QtCore.QEvent):
         '''
