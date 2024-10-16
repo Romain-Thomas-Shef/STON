@@ -16,7 +16,7 @@ changelog:
 ####Standard Library
 import os
 
-def get_dir_and_files(root, with_hidden=False):
+def get_dir_and_files(root, extensions):
     '''
     This function gets all the files and sub directories
     from a root path given in argument
@@ -27,9 +27,8 @@ def get_dir_and_files(root, with_hidden=False):
     ----------
     root  : str
             root path
-    with_hidden : Bool
-                  False (default) if you ignore hidden files
-                  True if they must be used
+    extensions  : list
+                  of possible files extensions
 
     return
     ------
@@ -40,17 +39,23 @@ def get_dir_and_files(root, with_hidden=False):
     tree = {}
     files_only = []
     for stuff in os.listdir(root):
+        ##extract name extension
+        filename, extension = os.path.splitext(stuff)
+
         ###check if it is a file
-        if os.path.isfile(os.path.join(root, stuff)):
-            if with_hidden:
-                files_only.append(stuff) 
-            else:
-                ##check if the file is hidden
-                pass
+        if os.path.isfile(os.path.join(root, stuff)) and extension in extensions:
+            files_only.append(stuff) 
 
         ###check if it is a directory
         if os.path.isdir(os.path.join(root, stuff)):
-            if with_hidden:
-                print(stuff)
+            ##if it is we call the current function on that dictionary
+            dictionary = get_dir_and_files(os.path.join(root, stuff), extensions)
+            if dictionary:
+                tree[list(dictionary.keys())[0]] = dictionary[list(dictionary.keys())[0]]
 
-    print(files_only)
+    ###add to dictionary
+    if files_only:
+        tree[root] = files_only
+    
+    return tree
+

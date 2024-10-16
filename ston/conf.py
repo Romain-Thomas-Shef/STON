@@ -35,15 +35,16 @@ def default_conf(platform):
     config = {}
     ###projet
     config['Project_name'] = 'New project'
-    config['Project_directory'] = Path.home()
+    config['Project_directory'] ='/home/romain/Documents/STON_data' #Path.home()
 
     ###tool
     config['Window-width'] = 1150
     config['Window-height'] = 700
 
     ###options
-    config['With_hidden'] = True
-    config['Extensions'] = ['*.tif', '*.png']
+    config['Display_area'] = '10x5'
+    config['Image_width'] = 200  ###assumed to be squared
+    config['Extensions'] = ['.tif', '.png']
 
     ###general info
     if 'linux' in platform:
