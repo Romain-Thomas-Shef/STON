@@ -24,6 +24,8 @@ from PyQt6.QtWidgets import QMainWindow, QSplitter, QWidget, QGridLayout, QStatu
                             QLabel, QTreeWidget, QHeaderView, QAbstractItemView,\
                             QPlainTextEdit, QScrollArea, QHBoxLayout, QTableWidget,\
                             QListView, QListWidget, QListWidgetItem
+from PIL import Image
+
 
 ####local impors
 from . import explore_files
@@ -101,7 +103,7 @@ class GUI(QMainWindow):
 
         ##populate with widget
         self.filenames_iterator = None
-        self.timer_loading = QtCore.QTimer(interval=20, timeout=self.load_image)
+        self.timer_loading = QtCore.QTimer(interval=10, timeout=self.load_image)
         self.make_layout()
     
         self.eventTrap = None
@@ -141,7 +143,7 @@ class GUI(QMainWindow):
         self.tree.insertTopLevelItems(0, items)
         ###Adjust some propertiess
         self.tree.header().setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)
-        self.tree.setSelectionMode(QAbstractItemView.SelectionMode.MultiSelection)
+        self.tree.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
         self.tree.setDragDropMode(QAbstractItemView.DragDropMode.DragOnly)
         ###add it to the grid
         left_grid.addWidget(self.tree, row, 0, 15, 1)
@@ -180,8 +182,7 @@ class GUI(QMainWindow):
         self.image_list = QListWidget(
             viewMode=QListView.ViewMode.IconMode,
             iconSize= self.conf['Options']['Image_width'] * QtCore.QSize(1, 1),
-            resizeMode=QListView.ResizeMode.Adjust,
-        )
+            resizeMode=QListView.ResizeMode.Adjust)
         self.image_list.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
         self.scrollayout.addWidget(self.image_list)
         self.start_loading(self.conf['Project_info']['Directory'])
@@ -211,9 +212,21 @@ class GUI(QMainWindow):
             self.timer_loading.stop()
         else:
             name = os.path.basename(filename)
-            print(name)
             it = QListWidgetItem(name)
-            it.setIcon(QtGui.QIcon(filename))
+            
+            ##open image
+            image = Image.open(filename)
+            im = image.thumbnail((image.size[1]/5,image.size[0]/5))
+            im = image.convert("RGBA")
+            data = im.tobytes("raw","RGBA")
+            qim = QtGui.QImage(data, im.size[0], im.size[1], QtGui.QImage.Format.Format_RGBA8888)
+            pix = QtGui.QPixmap.fromImage(qim)
+
+            #print(type(image))
+            #print(pixmap.size())
+            icon = QtGui.QIcon()
+            icon.addPixmap(pix)
+            it.setIcon(icon)
             self.image_list.addItem(it)
 
     def load_images(self, directory):
@@ -227,15 +240,7 @@ class GUI(QMainWindow):
             yield filename
 
 
-class MydraggableGrid(QTableWidget):
-    def __init__(self, columns, rows):
-        super().__init__()
-        #self.eventTrap = None
-        #self.target = None
-        self.setRowCount(int(rows))
-        self.setColumnCount(int(columns))
-        self.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
-
+    """
     def eventFilter(self, watched, event:QtCore.QEvent):
         '''
         This method implements an mouse event filter
@@ -251,9 +256,9 @@ class MydraggableGrid(QTableWidget):
             print('release')
         return super().eventFilter(watched, event)
 
-    '''
+    
     def get_index(self, pos) -> int:
-        """Helper Function = get widget index that we click into/drop into"""
+        Helper Function = get widget index that we click into/drop into
         for i in range(self.count()):
             print(i)
             contains = self.itemAt(i).geometry().contains(pos)
@@ -274,9 +279,9 @@ class MydraggableGrid(QTableWidget):
             self.target = None
 
     def mouseReleaseEvent(self, event):
-        """
+        '''
         This event just reinitialise the target and trap
-        """
+        '''
         self.target = None
         self.eventTrap = None
 
@@ -306,7 +311,7 @@ class MydraggableGrid(QTableWidget):
             event.ignore()
 
     def dropEvent(self, event:QtGui.QDropEvent):
-        """Check if swap needs to occur and perform swap if so. """
+        '''Check if swap needs to occur and perform swap if so. '''
         eventSource:QVBoxLayout = event.source() # For typehinting the next line
         if not eventSource.geometry().contains(event.position().toPoint()):
             source = self.get_index(event.position().toPoint())
@@ -328,49 +333,7 @@ class MydraggableGrid(QTableWidget):
             # Always reset our event trap & target handles.
             self.target = None
             self.eventTrap = None
-        '''
-
-class LabelImage(QLabel):
-    '''
-    This class modifies sligtly the QPlainTextEdit
-    '''
-    def __init__(self, content):
-        '''
-        A generic QPlainTextEdit widget
-
-        Parameters
-        ----------
-        startup     :   list
-                        list of things to display at startup
-        font        :   str
-                        'medium' or 'small'
-        readonly    :   Bool
-                        Optional. If True (default),
-                        this box can not be edited by user
-        Return
-        ------
-        None
-        '''
-        super().__init__()
-
-        ###add content
-        self.setText(content)
-        
-        color = ['red', 'yellow', 'green']
-        self.setStyleSheet("margin-left:10; margin-right:10; margin-top:10; margin-bottom:10; background-color : %s; color : black"%random.choice(color))
-        self.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-
-        ###accepting drops
-        self.acceptDrops()
-
-    def dragEnterEvent(self, event):
-        data_type = "text/plain"
-        if event.mimeData().hasFormat(data_type):
-            event.accept()
-        else:
-            event.ignore()
-
-
+        """
 
 ###below is temporary
 class PT(QPlainTextEdit):

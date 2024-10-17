@@ -42,14 +42,15 @@ def default_conf(platform):
 
     ###tool
     config['Conf'] = {}
-    config['Conf']['Window-width'] = 1150
-    config['Conf']['Window-height'] = 700
+    config['Conf']['Window-width'] = 1550
+    config['Conf']['Window-height'] = 900
     config['Conf']['OS'] = get_OS(platform)
 
     ###options
     config['Options'] = {}
     config['Options']['Display_area'] = '5x10'
-    config['Options']['Image_width'] = 200  ###assumed to be squared
+    config['Options']['Image_width'] = 100  ###assumed to be squared
+    config['Options']['Downgrade_factor'] = 10
     config['Options']['Extensions'] = ['.tif', '.png']
 
     return config
@@ -102,6 +103,7 @@ def load_conf(file, platform):
     config['Options'] = {}
     config['Options']['Display_area'] = loadconf['Options']['Display_area'] 
     config['Options']['Image_width'] = int(loadconf['Options']['Image_width'])
+    config['Options']['Downgrade_factor'] = int(loadconf['Options']['Downgrade_factor'])
     config['Options']['Extensions'] = loadconf['Options']['Extensions'].split(';')
 
     return config, 'Configuration file found'
