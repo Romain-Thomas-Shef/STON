@@ -9,7 +9,8 @@ version = "0.1"
 authors = [{ name = "R. Thomas", email = "romain.thomas@sheffield.ac.uk" },
     	   { name = 'E. Dammer'}]
 dependencies = ["sphinx-rtd-theme",
-    "PyQt6 >= 6.7.1"]
+                "PyQt6 >= 6.7.1",
+    		"pillow >= 10.3"]
 
 [project.urls]
 repository = "https://github.com/Romain-Thomas-Shef/STON"
