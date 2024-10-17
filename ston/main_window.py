@@ -23,7 +23,7 @@ from PyQt6.QtWidgets import QMainWindow, QSplitter, QWidget, QGridLayout, QStatu
                             QTreeView, QTreeWidgetItem, QToolBar, QTabWidget,\
                             QLabel, QTreeWidget, QHeaderView, QAbstractItemView,\
                             QPlainTextEdit, QScrollArea, QHBoxLayout, QTableWidget,\
-                            QTableWidgetItem
+                            QListView, QListWidget, QListWidgetItem
 
 ####local impors
 from . import explore_files
@@ -100,6 +100,8 @@ class GUI(QMainWindow):
         self.setWindowIcon(QtGui.QIcon(self.logo))
 
         ##populate with widget
+        self.filenames_iterator = None
+        self.timer_loading = QtCore.QTimer(interval=20, timeout=self.load_image)
         self.make_layout()
     
         self.eventTrap = None
@@ -171,35 +173,18 @@ class GUI(QMainWindow):
         scroll.setWidget(scrollwidget)
         hbox.addWidget(scroll)
         edit = PT()
+        edit.setFixedWidth(200)
         self.scrollayout.addWidget(edit)
 
-
-        ###Add QLabels in a grid
-        columns = self.conf['Options']['Display_area'].split('x')[0]
-        rows = self.conf['Options']['Display_area'].split('x')[1]
-        
-        self.grid = MydraggableGrid(columns, rows)
-        #grid = QWidget()
-        #grid.setLayout(self.grid)
-        for c in range(int(columns)):
-            for r in range(int(rows)):
-                label = LabelImage(f'{r},{c}')
-                label.setObjectName(f'{r},{c}')
-                label.setFixedWidth(self.conf['Options']['Image_width']-15)
-                label.setFixedHeight(self.conf['Options']['Image_width']-15)
-                self.grid.setCellWidget(r, c, label)
-
-                #label.installEventFilter(self.grid)
-                #self.grid.addWidget(label,r,c,1,1) 
-
-        width = self.grid.horizontalHeader()
-        width.setDefaultSectionSize(self.conf['Options']['Image_width'])
-        width.hide()
-        height = self.grid.verticalHeader()
-        height.setDefaultSectionSize(self.conf['Options']['Image_width'])
-        height.hide()
- 
-        self.scrollayout.addWidget(self.grid)
+	####place where image will be displayed
+        self.image_list = QListWidget(
+            viewMode=QListView.ViewMode.IconMode,
+            iconSize= self.conf['Options']['Image_width'] * QtCore.QSize(1, 1),
+            resizeMode=QListView.ResizeMode.Adjust,
+        )
+        self.image_list.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
+        self.scrollayout.addWidget(self.image_list)
+        self.start_loading(self.conf['Project_info']['Directory'])
 
         ###add everything to the split
         split.addWidget(left)
@@ -209,6 +194,37 @@ class GUI(QMainWindow):
         ###status bar
         self.statusBar = QStatusBar()
         self.setStatusBar(self.statusBar)
+
+    def start_loading(self, directory):
+        if self.timer_loading.isActive():
+            self.timer_loading.stop()
+        self.filenames_iterator = self.load_images(directory)
+        print(directory)
+        self.image_list.clear()
+        self.timer_loading.start()
+
+
+    def load_image(self):
+        try:
+            filename = next(self.filenames_iterator)
+        except StopIteration:
+            self.timer_loading.stop()
+        else:
+            name = os.path.basename(filename)
+            print(name)
+            it = QListWidgetItem(name)
+            it.setIcon(QtGui.QIcon(filename))
+            self.image_list.addItem(it)
+
+    def load_images(self, directory):
+        it = QtCore.QDirIterator(
+            directory,
+            ["*.tif", "*.png"],
+            QtCore.QDir.Filter.Files)
+        while it.hasNext():
+            filename = it.next()
+            print(filename)
+            yield filename
 
 
 class MydraggableGrid(QTableWidget):
