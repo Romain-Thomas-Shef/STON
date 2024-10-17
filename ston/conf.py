@@ -16,6 +16,7 @@ changelog:
 
 ###Python standard library
 import configparser
+import os
 from pathlib import Path
 
 def default_conf(platform):
@@ -34,25 +35,95 @@ def default_conf(platform):
     '''
     config = {}
     ###projet
-    config['Project_name'] = 'New project'
-    #config['Project_directory'] ='/home/romain/Documents/STON_data' #Path.home()
-    config['Project_directory'] ='/Users/romainthomas/Documents/STON_data' #Path.home()
+    config['Project_info'] = {}
+    config['Project_info']['Name'] = 'New project'
+    #config['Project_info']['Project_directory'] ='/home/romain/Documents/STON_data' #Path.home()
+    config['Project_info']['Directory'] ='/Users/romainthomas/Documents/STON_data' #Path.home()
 
     ###tool
-    config['Window-width'] = 1150
-    config['Window-height'] = 700
+    config['Conf'] = {}
+    config['Conf']['Window-width'] = 1150
+    config['Conf']['Window-height'] = 700
+    config['Conf']['OS'] = get_OS(platform)
 
     ###options
-    config['Display_area'] = '5x10'
-    config['Image_width'] = 200  ###assumed to be squared
-    config['Extensions'] = ['.tif', '.png']
+    config['Options'] = {}
+    config['Options']['Display_area'] = '5x10'
+    config['Options']['Image_width'] = 200  ###assumed to be squared
+    config['Options']['Extensions'] = ['.tif', '.png']
 
+    return config
+
+
+def load_conf(file, platform):
+    '''
+    This function loads a configuration file given to the command line interface
+    
+    Parameter
+    ---------
+    file	: str
+		  configuration file (with path)
+    platform    : str
+                  sys.platform
+
+
+    Return
+    ------
+    config	: dict
+                  configuration
+    '''
+
+    ###Check that the file exist
+    my_file = Path(file)
+    if not my_file.is_file():
+        return {}, 'no file'
+
+    ##Create empty dictionaty	
+    config = {}
+
+    ###create the config object 
+    loadconf = configparser.ConfigParser() 
+
+    ###And read the file
+    loadconf.read(file)
+
+    ##Extract the conf and organise it
+    config['Project_info'] = {}
+    config['Project_info']['Name'] = loadconf['Project_info']['Name']
+    config['Project_info']['Directory'] = loadconf['Project_info']['Directory']
+
+    ###tool
+    config['Conf'] = {}
+    config['Conf']['Window-width'] = int(loadconf['Conf']['Window-width'])
+    config['Conf']['Window-height'] = int(loadconf['Conf']['Window-height'])
+    config['Conf']['OS'] = get_OS(platform)
+
+    ###options
+    config['Options'] = {}
+    config['Options']['Display_area'] = loadconf['Options']['Display_area'] 
+    config['Options']['Image_width'] = int(loadconf['Options']['Image_width'])
+    config['Options']['Extensions'] = loadconf['Options']['Extensions'].split(';')
+
+    return config, 'Configuration file found'
+
+def get_OS(platform):
+    '''
+    SImple function that gets the right OS
+    Parameters
+    ----------
+    None
+
+    Return
+    ------
+    OS	:	str
+                Name of the OS
+    '''
     ###general info
     if 'linux' in platform:
-        config['OS'] = 'Linux'
+        OS = 'Linux'
     elif 'darwin' in platform:
-        config['OS'] = 'OSX'
+        OS = 'OSX'
     else:
-        config['OS'] = 'Windows'
-        
-    return config
+        OS = 'Windows'
+
+    return OS

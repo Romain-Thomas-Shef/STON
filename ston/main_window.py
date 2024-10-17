@@ -71,7 +71,7 @@ class GUI(QMainWindow):
         super().__init__()
 
         ###The configuration becomes an attribute
-        self.configuration = configuration
+        self.conf = configuration
 
         ###selected lines attributes
         self.selected_lines = []
@@ -79,15 +79,14 @@ class GUI(QMainWindow):
         self.target = None
         self.setAcceptDrops(True)
 
-
-
         ##get all files
-        self.files_dict = explore_files.get_dir_and_files(self.configuration['Project_directory'],                                                     self.configuration['Extensions'])
+        self.files_dict = explore_files.get_dir_and_files(self.conf['Project_info']['Directory'],\
+                                                          self.conf['Options']['Extensions'])
 
         ###set the size and title of the window
-        self.resize(self.configuration['Window-width'], self.configuration['Window-height'])
+        self.resize(self.conf['Conf']['Window-width'], self.conf['Conf']['Window-height'])
         self.setWindowTitle('STON: SofTware for petrOgraphic visualisatioN'+
-                            f" - {self.configuration['Project_name']}")
+                            f" - {self.conf['Project_info']['Name']}")
 
         ###add toolbar
         #self.toolbar = QToolBar("My main toolbar")
@@ -176,8 +175,8 @@ class GUI(QMainWindow):
 
 
         ###Add QLabels in a grid
-        columns = self.configuration['Display_area'].split('x')[0]
-        rows = self.configuration['Display_area'].split('x')[1]
+        columns = self.conf['Options']['Display_area'].split('x')[0]
+        rows = self.conf['Options']['Display_area'].split('x')[1]
         
         self.grid = MydraggableGrid(columns, rows)
         #grid = QWidget()
@@ -186,18 +185,18 @@ class GUI(QMainWindow):
             for r in range(int(rows)):
                 label = LabelImage(f'{r},{c}')
                 label.setObjectName(f'{r},{c}')
-                label.setFixedWidth(self.configuration['Image_width']-15)
-                label.setFixedHeight(self.configuration['Image_width']-15)
+                label.setFixedWidth(self.conf['Options']['Image_width']-15)
+                label.setFixedHeight(self.conf['Options']['Image_width']-15)
                 self.grid.setCellWidget(r, c, label)
 
                 #label.installEventFilter(self.grid)
                 #self.grid.addWidget(label,r,c,1,1) 
 
         width = self.grid.horizontalHeader()
-        width.setDefaultSectionSize(self.configuration['Image_width'])
+        width.setDefaultSectionSize(self.conf['Options']['Image_width'])
         width.hide()
         height = self.grid.verticalHeader()
-        height.setDefaultSectionSize(self.configuration['Image_width'])
+        height.setDefaultSectionSize(self.conf['Options']['Image_width'])
         height.hide()
  
         self.scrollayout.addWidget(self.grid)
@@ -342,7 +341,7 @@ class LabelImage(QLabel):
         self.setText(content)
         
         color = ['red', 'yellow', 'green']
-        self.setStyleSheet("margin-left:10; margin-right:10; margin-top:10; margin-botton:10; background-color : %s; color : black"%random.choice(color))
+        self.setStyleSheet("margin-left:10; margin-right:10; margin-top:10; margin-bottom:10; background-color : %s; color : black"%random.choice(color))
         self.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
 
         ###accepting drops

@@ -38,8 +38,10 @@ def main():
         configuration = conf.default_conf(sys.platform)
     else:
         ##in that case we extract the configuration from the file
-        ##configuration = conf.load_conf(args['config'])
-        pass
+        configuration, msg = conf.load_conf(args['config'], sys.platform)
+        if msg == 'no file':
+            print(f'Configuration file does not exist. {args["config"]}')
+            sys.exit() 
 
     ##create the app
     app = QApplication(sys.argv)
