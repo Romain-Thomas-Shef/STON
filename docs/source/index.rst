@@ -32,7 +32,7 @@ Indices and tables
 	the terms of the GNU General Public License as published by the Free Software Foundation,
 	version 3 of the License.
 
-	dfitspy is distributed without any warranty; without even the implied warranty of merchantability
+	STON is distributed without any warranty; without even the implied warranty of merchantability
 	or fitness for a particular purpose.  See the GNU General Public License for more details.
 
 	You should have received a copy of the GNU General Public License along with the program.
