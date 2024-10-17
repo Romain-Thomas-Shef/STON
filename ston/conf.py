@@ -104,7 +104,9 @@ def load_conf(file, platform):
     config['Options']['Display_area'] = loadconf['Options']['Display_area'] 
     config['Options']['Image_width'] = int(loadconf['Options']['Image_width'])
     config['Options']['Downgrade_factor'] = int(loadconf['Options']['Downgrade_factor'])
-    config['Options']['Extensions'] = loadconf['Options']['Extensions'].split(';')
+    extensions = loadconf['Options']['Extensions'].split(';')
+    
+    config['Options']['Extensions'] = ['*'+i for i in extensions]
 
     return config, 'Configuration file found'
 

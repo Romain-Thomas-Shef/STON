@@ -17,7 +17,7 @@ import os
 import sys
 
 ####Python third party
-from PyQt6.QtWidgets import QApplication, QMessageBox
+from PySide6.QtWidgets import QApplication, QMessageBox
 
 ####Local imports
 from .cli import command_line_interface

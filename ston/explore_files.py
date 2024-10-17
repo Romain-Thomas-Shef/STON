@@ -35,9 +35,13 @@ def get_dir_and_files(root, extensions):
     tree    :   nested dictionary
                 hierarchical tree of files and directories
     '''
-    
+   
     tree = {}
     files_only = []
+
+    ##Remove stars from extension
+    extensions = [i.lstrip('*') for i in extensions]
+ 
     for stuff in os.listdir(root):
         ##extract name extension
         filename, extension = os.path.splitext(stuff)

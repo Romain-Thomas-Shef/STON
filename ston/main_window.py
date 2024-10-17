@@ -15,41 +15,33 @@ changelog:
 
 ####Standard Library
 import os
-import random #temp
+import datetime
+import time
 
 ####python third party
-from PyQt6 import QtGui, QtCore
-from PyQt6.QtWidgets import QMainWindow, QSplitter, QWidget, QGridLayout, QStatusBar,\
-                            QTreeView, QTreeWidgetItem, QToolBar, QTabWidget,\
-                            QLabel, QTreeWidget, QHeaderView, QAbstractItemView,\
-                            QPlainTextEdit, QScrollArea, QHBoxLayout, QTableWidget,\
-                            QListView, QListWidget, QListWidgetItem
+from PySide6 import QtGui, QtCore
+from PySide6.QtWidgets import QMainWindow, QSplitter, QWidget, QGridLayout,\
+                            QTreeWidgetItem, QTabWidget, QLabel, QTreeWidget,\
+                            QHeaderView, QAbstractItemView, QPlainTextEdit,\
+                            QScrollArea, QHBoxLayout, QListView, QListWidget,\
+                            QListWidgetItem, QPushButton, QVBoxLayout, QApplication
+
 from PIL import Image
 
 
 ####local impors
 from . import explore_files
 
-class tree(QTreeWidget):
-    '''
-    We subclass the tree widget to change
-    mimeData for the draganddrop events
-    '''
-    def __init__(self):
-        '''
-        Class constructor
-        '''
+class DetailWindow(QWidget):
+    """
+    This "window" is a QWidget. If it has no parent, it
+    will appear as a free-floating window as we want.
+    """
+    def __init__(self, config, x, y, log):
         super().__init__()
-
-    def mimeData(self, items):
-        '''
-        Change the mime data to add the text
-        '''
-        md = super().mimeData(items)
-        text = "|".join([it.text(0) for it in items])
-        md.setText(text)
-        return md
-
+        self.resize(config['Conf']['Window-width']/2, config['Conf']['Window-height']/2)
+        self.move(x/2,y/2)
+        self.setWindowTitle('STON: Detail window')
 
 
 class GUI(QMainWindow):
@@ -90,26 +82,22 @@ class GUI(QMainWindow):
         self.setWindowTitle('STON: SofTware for petrOgraphic visualisatioN'+
                             f" - {self.conf['Project_info']['Name']}")
 
-        ###add toolbar
-        #self.toolbar = QToolBar("My main toolbar")
-        #self.toolbar.setIconSize(QtCore.QSize(16, 16))
-        #self.addToolBar(self.toolbar)
-        #Toolbar_setup(self.toolbar) ##--> https://www.pythonguis.com/tutorials/pyqt6-actions-toolbars-menus/
-
         ###add the logo
         dir_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
         self.logo = os.path.join(dir_path, 'docs/source/images/logo/logo.jpeg')
         self.setWindowIcon(QtGui.QIcon(self.logo))
 
         ##populate with widget
-        self.filenames_iterator = None
-        self.timer_loading = QtCore.QTimer(interval=10, timeout=self.load_image)
         self.make_layout()
     
-        self.eventTrap = None
-
         ###and display it
         self.show()
+
+        ###Open detail window
+        self.w = DetailWindow(self.conf, self.pos().x(), self.pos().y(), self.log)
+        self.w.show()
+        self.printinLog('startup', 'Welcome to STON!')
+
 
 
     def make_layout(self):
@@ -128,9 +116,9 @@ class GUI(QMainWindow):
         row = 0
         
         ###create the tree
-        self.tree = tree()
-        self.tree.setColumnCount(2)
-        self.tree.setHeaderLabels(["Directory", "Name"])
+        self.tree = QTreeWidget()
+        self.tree.setColumnCount(1)
+        self.tree.setHeaderLabels(["Files"])
         ###populate
         items = []
         for key, values in self.files_dict.items():
@@ -146,12 +134,26 @@ class GUI(QMainWindow):
         self.tree.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
         self.tree.setDragDropMode(QAbstractItemView.DragDropMode.DragOnly)
         ###add it to the grid
-        left_grid.addWidget(self.tree, row, 0, 15, 1)
+        left_grid.addWidget(self.tree, row, 0, 15, 2)
         row += 15
 
-        ###Selected image label
-        self.label = QLabel('Selected Image:')
-        left_grid.addWidget(self.label, row, 0, 1, 1)
+        ##Load button
+        button = QPushButton('Load selected Image(s)')
+        left_grid.addWidget(button, row, 0, 1, 2)
+        row += 1
+
+        ##Clear selection
+        button_clear = QPushButton('Clear displayer')
+        left_grid.addWidget(button_clear, row, 0, 1, 1)
+
+        ##remove button
+        button_remove = QPushButton('Remove selected Image')
+        left_grid.addWidget(button_remove, row, 1, 1, 1)
+        row += 1
+
+        ##remove button
+        button_inspect = QPushButton('Inspect selected Image(s)')
+        left_grid.addWidget(button_inspect, row, 0, 1, 2)
         row += 1
 
         ####image of the logo in the zoom area (just at the start of the GUI)
@@ -159,11 +161,11 @@ class GUI(QMainWindow):
         pixmap = QtGui.QPixmap(self.logo)
         scaled = pixmap.scaled(300, 300, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
         self.zoom.setPixmap(scaled)
-        left_grid.addWidget(self.zoom, row, 0, 5, 1, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
+        left_grid.addWidget(self.zoom, row, 0, 5, 2, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
 
         ###create the tab on the right
         self.right = QTabWidget()
-        hbox = QHBoxLayout()
+        hbox = QVBoxLayout()
         self.right.setLayout(hbox)
 
         ###set the srcrlling area
@@ -174,9 +176,6 @@ class GUI(QMainWindow):
         scroll.setWidgetResizable(True)
         scroll.setWidget(scrollwidget)
         hbox.addWidget(scroll)
-        edit = PT()
-        edit.setFixedWidth(200)
-        self.scrollayout.addWidget(edit)
 
 	####place where image will be displayed
         self.image_list = QListWidget(
@@ -185,192 +184,177 @@ class GUI(QMainWindow):
             resizeMode=QListView.ResizeMode.Adjust)
         self.image_list.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
         self.scrollayout.addWidget(self.image_list)
-        self.start_loading(self.conf['Project_info']['Directory'])
+
+        ##Add log window
+        self.log = QPlainTextEdit() 
+        self.log.setReadOnly(True)
+        self.log.setFixedHeight(150)
+        hbox.addWidget(self.log)
+
+        #self.start_loading(self.conf['Project_info']['Directory'])
 
         ###add everything to the split
         split.addWidget(left)
         split.addWidget(self.right)
         split.setStretchFactor(1, 10)
 
-        ###status bar
-        self.statusBar = QStatusBar()
-        self.setStatusBar(self.statusBar)
-
-    def start_loading(self, directory):
-        if self.timer_loading.isActive():
-            self.timer_loading.stop()
-        self.filenames_iterator = self.load_images(directory)
-        print(directory)
-        self.image_list.clear()
-        self.timer_loading.start()
-
-
-    def load_image(self):
-        try:
-            filename = next(self.filenames_iterator)
-        except StopIteration:
-            self.timer_loading.stop()
-        else:
-            name = os.path.basename(filename)
-            it = QListWidgetItem(name)
-            
-            ##open image
-            image = Image.open(filename)
-            im = image.thumbnail((image.size[1]/5,image.size[0]/5))
-            im = image.convert("RGBA")
-            data = im.tobytes("raw","RGBA")
-            qim = QtGui.QImage(data, im.size[0], im.size[1], QtGui.QImage.Format.Format_RGBA8888)
-            pix = QtGui.QPixmap.fromImage(qim)
-
-            #print(type(image))
-            #print(pixmap.size())
-            icon = QtGui.QIcon()
-            icon.addPixmap(pix)
-            it.setIcon(icon)
-            self.image_list.addItem(it)
-
-    def load_images(self, directory):
-        it = QtCore.QDirIterator(
-            directory,
-            ["*.tif", "*.png"],
-            QtCore.QDir.Filter.Files)
-        while it.hasNext():
-            filename = it.next()
-            print(filename)
-            yield filename
-
-
-    """
-    def eventFilter(self, watched, event:QtCore.QEvent):
+        ####Connect events
+        button.clicked.connect(self.loadimages)
+        button_remove.clicked.connect(self.remove_single_image)
+        button_clear.clicked.connect(self.remove_all_images)
+        button_inspect.clicked.connect(self.inspect)
+        
+    def printinlog(self, msgtype, text):
         '''
-        This method implements an mouse event filter
-        '''
-        if event.type() == QtCore.QEvent.Type.MouseButtonPress:
-            #self.mousePressEvent(event)
-            print('press')
-        elif event.type() == QtCore.QEvent.Type.MouseMove:
-            #self.mouseMoveEvent(event)
-            print('move')
-        elif event.type() == QtCore.QEvent.Type.MouseButtonRelease:
-            #self.mouseReleaseEvent(event)
-            print('release')
-        return super().eventFilter(watched, event)
-
-    
-    def get_index(self, pos) -> int:
-        Helper Function = get widget index that we click into/drop into
-        for i in range(self.count()):
-            print(i)
-            contains = self.itemAt(i).geometry().contains(pos)
-            if contains and i != self.target:
-                return i
-
-    def mousePressEvent(self, event:QtGui.QMouseEvent):
-        if event.button() == QtCore.Qt.MouseButton.LeftButton:
-            if self.eventTrap is None:
-                self.eventTrap = event
-                self.target = self.get_index(event.scenePosition().toPoint())
-                print('-->', event.scenePosition().toPoint(), self.target)
-            elif self.eventTrap == event:
-                pass
-            else:
-                print("Something broke")
-        else:
-            self.target = None
-
-    def mouseReleaseEvent(self, event):
-        '''
-        This event just reinitialise the target and trap
-        '''
-        self.target = None
-        self.eventTrap = None
-
-    def mouseMoveEvent(self, event:QtGui.QMouseEvent):
-        if event.buttons() & QtCore.Qt.MouseButton.LeftButton and self.target is not None:
-            print(self.target)
-            drag = QtGui.QDrag(self.itemAt(self.target).widget())
-            pix = self.itemAt(self.target).widget().grab()
-            #print(self.itemAt(self.target).objectName())
-            mimedata = QtCore.QMimeData()
-            print(mimedata.imageData())
-            mimedata.setImageData(pix)
-            drag.setMimeData(mimedata)
-            drag.setPixmap(pix)
-            drag.setHotSpot(event.pos())
-            a = drag.exec()
-            print(a)
-        else:
-            pass
-
-
-
-    def dragEnterEvent(self, event):
-        if event.mimeData().hasImage():
-            event.accept()
-        else:
-            event.ignore()
-
-    def dropEvent(self, event:QtGui.QDropEvent):
-        '''Check if swap needs to occur and perform swap if so. '''
-        eventSource:QVBoxLayout = event.source() # For typehinting the next line
-        if not eventSource.geometry().contains(event.position().toPoint()):
-            source = self.get_index(event.position().toPoint())
-            if source is None:
-                self.eventTrap = None
-                self.target = None
-                return
-
-            i, j = max(self.target, source), min(self.target, source)
-            p1, p2 = self.grid.getItemPosition(i), self.grid.getItemPosition(j)
-
-            # Update widget.lbl prior to moving items, while item handles are useful
-            #self.grid.itemAt(i).widget().relabel(p2[0],p2[1])
-            #self.grid.itemAt(j).widget().relabel(p1[0],p1[1])
-
-            # The magic - pop item out of grid, then add item at new row/col/rowspan/colspan
-            self.grid.addItem(self.grid.takeAt(i), *p2)
-            self.grid.addItem(self.grid.takeAt(j), *p1)
-            # Always reset our event trap & target handles.
-            self.target = None
-            self.eventTrap = None
-        """
-
-###below is temporary
-class PT(QPlainTextEdit):
-    '''
-    This class modifies sligtly the QPlainTextEdit
-    '''
-    def __init__(self, readonly=True):
-        '''
-        A generic QPlainTextEdit widget
-
+        Prints images in log window
         Parameters
         ----------
-        startup     :   list
-                        list of things to display at startup
-        font        :   str
-                        'medium' or 'small'
-        readonly    :   Bool
-                        Optional. If True (default),
-                        this box can not be edited by user
-        Return
+        msgtype :	str
+                        type of message
+        text    :       str
+                        text to display
+         
+        Return:
         ------
         None
         '''
-        super().__init__()
-        self.acceptDrops()
+
+        if msgtype == 'startup':
+            final_text = f"[{str(datetime.datetime.now()).split('.')[0]}, Startup] : " + text
+            self.log.appendHtml(f'<span style="color:blue;">{final_text} </span>')
+
+        if msgtype == 'Error':
+            final_text = f"[{str(datetime.datetime.now()).split('.')[0]}, --Error] : "  + text
+            self.log.appendHtml(f'<span style="color:red;">{final_text} </span>')
+
+        if msgtype == 'Info':
+            final_text = f"[{str(datetime.datetime.now()).split('.')[0]}, ---Info] : "  + text
+            self.log.appendHtml(f'<span style="color:green;">{final_text} </span>')
+
+        if msgtype == 'Warning':
+            final_text = f"[{str(datetime.datetime.now()).split('.')[0]}, Warning] : " + text
+            self.log.appendHtml(f'<span style="color:orange;">{final_text} </span>')
+
+        self.log.repaint()
+
+    def loadimages(self):
+        '''
+        Method is selected whem the load button is pressed
+        It checks that some items have been selected and, if
+        this is the case load the images.
+        '''
+	###Get the selected images in the tree
+        listimage = self.tree.selectedItems()
+
+        if listimage:
+            ###Give info
+            self.printinlog('Info', f'{len(listimage)} items selected')
+            self.printinlog('Info', 'Analyse selection...')
+            
+            ##Start checking selected images
+            goodimages = 0
+            goodimages_with_path = []
+            ##go over all imtes
+            for item in listimage:
+                ##Get the iamge name
+                name = item.text(0)  ###-->column 0 of the tree
     
-    def dragEnterEvent(self, event):
-        data_type = "text/plain"
-        if event.mimeData().hasFormat(data_type):
-            event.accept()
+                ###Check if this are file names (and not directory)
+                for folder in self.files_dict:
+                    if os.path.basename(folder) != name:
+                        for files in self.files_dict[folder]:
+                            if files == name:
+                                goodimages += 1
+                                goodimages_with_path.append(os.path.join(folder,name)) 
+            
+            ##if some files are images we display
+            if not goodimages_with_path:
+                self.printinlog('Warning', 'No images found in the selected images...try again')
+
+            else:
+                #give info
+                self.printinlog('Info', f'{len(goodimages_with_path)} were selected')
+                self.printinlog('Info', 'Start displaying...')
+                
+            	###Start displaying
+                for file in goodimages_with_path:
+
+                    ##Get name to display below the thumbnail 
+                    name = os.path.basename(file)
+                    it = QListWidgetItem(name)
+            
+                    ##open image
+                    image = Image.open(file)
+
+                    ###Reduce size (no need to have full resolution for the list of image)
+                    im = image.thumbnail((image.size[1]/5,image.size[0]/5))
+                    im = image.convert("RGBA")
+                    data = im.tobytes("raw","RGBA")
+
+                    ###convert to QImages and then Pixmap
+                    qim = QtGui.QImage(data, im.size[0], im.size[1],
+                                       QtGui.QImage.Format.Format_RGBA8888)
+                    pix = QtGui.QPixmap.fromImage(qim)
+                
+                    ##Create the Icon
+                    icon = QtGui.QIcon()
+                    icon.addPixmap(pix)
+                    it.setIcon(icon)
+                
+                    ###And add to the list
+                    self.image_list.addItem(it)
+                    
+                    ###Process the event
+                    QApplication.processEvents()
+                    time.sleep(0.05)
+
+ 
+          
         else:
-            event.ignore()
+            self.printinlog('Warning', 'No files selected')    
 
-    def dropEvent(self, event):
-        data_type = "text/plain"
-        if event.mimeData().hasFormat(data_type):
-            for i in event.mimeData().text().split('|'):
-                self.appendPlainText(i+'\n')
+    def remove_single_image(self):
+        '''
+        This method remove the selected image from the displayed area
+        '''
+        ###get all selected images
+        listItems=self.image_list.selectedItems()
+         
+        ###if some items are selected we remove them
+        for item in listItems:
+            self.image_list.takeItem(self.image_list.row(item))
 
+    def remove_all_images(self):
+        '''
+        This method remove all the images from the displayed area
+        '''
+        self.image_list.clear()
 
+  
+    def inspect(self):
+        '''
+        This method sends the selected image(s) to the second window for inspection
+        '''
+        ###get all selected images
+        listItems=self.image_list.selectedItems()
+         
+        ###if some items are selected we remove them
+        if listItems:
+            all_selected_images = []
+            for item in listItems:
+                ####give info
+                self.printinlog('Info', 'Start inspection')
+                ##get image name
+                image_name = item.text()
+                ##assemble path
+                for folder in self.files_dict:
+                    if os.path.basename(folder) != image_name:
+                        for files in self.files_dict[folder]:
+                            if files == image_name:
+                                all_selected_images.append(os.path.join(folder, image_name)) 
+
+            ###And send them all to the seond window 
+           
+
+        else:
+            self.printinlog('Warning', 'No Image(s) selected for inspection')
