@@ -71,31 +71,40 @@ class DetailWindow(QWidget):
         row += 1
 
         ##Plot
-        self.plot = self.create_plot()
+        self.plot, self.fig, self.axs = self.create_plot()
         self.change_image(self.logo)
         left_grid.addWidget(self.plot, 0, 1, 3, 2)
 
+
+        ##live zoom Plot
+        self.plot_zoom, self.zoom_fig, self.zoom_axs = self.create_plot()
+        self.zoom_axs.axis('off')
+        #self.change_image(self.logo)
+        self.plot_zoom.setFixedWidth(250)
+        self.plot_zoom.setFixedHeight(250)
+        left_grid.addWidget(self.plot_zoom, row, 0, 1, 1)
+
         ##QLabel for zoom
-        self.zoom = QLabel()
-        pixmap = QtGui.QPixmap(self.logo)
-        scaled = pixmap.scaled(200, 200, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
-        self.zoom.setPixmap(scaled)
-        left_grid.addWidget(self.zoom, row, 0, 1, 1, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
+        #self.zoom = QLabel()
+        #pixmap = QtGui.QPixmap(self.logo)
+        #scaled = pixmap.scaled(200, 200, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
+        #self.zoom.setPixmap(scaled)
+        #left_grid.addWidget(self.zoom, row, 0, 1, 1, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
 
     def create_plot(self):
         '''
         This initialize the image plot
         '''
         #Create a matplotliub figure and axes isntance, witth the plotting parameters
-        self.fig, self.axs = plt.subplots(1, 1, dpi=100)
+        fig, axs = plt.subplots(1, 1, dpi=100)
 
         #Create the Matplotlib canvas widget, and add to parent layout
-        canvas = FigureCanvas(self.fig)
+        canvas = FigureCanvas(fig)
 
         #SOme widget resizing code, not sure what it does but was in a tutorial... TO be removed?
         canvas.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         canvas.updateGeometry()
-        return canvas
+        return canvas, fig, axs
 
     def change_image(self, file):
         '''

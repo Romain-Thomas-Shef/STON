@@ -96,7 +96,7 @@ class GUI(QMainWindow):
         self.show()
 
         ###create detail window (hidden)
-        self.zoom_window = zoom_window.DetailWindow(self.conf, self.logo)
+        self.zoom_window = zoom_window.DetailWindow(self.logo)
         self.zoom_window.show()
 
         ###And cluster window (hidden)
