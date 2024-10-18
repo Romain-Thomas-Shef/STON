@@ -31,18 +31,7 @@ from PIL import Image
 
 ####local impors
 from . import explore_files
-
-class DetailWindow(QWidget):
-    """
-    This "window" is a QWidget. If it has no parent, it
-    will appear as a free-floating window as we want.
-    """
-    def __init__(self, config):
-        super().__init__()
-        self.hidden = True
-        self.resize(config['Conf']['Window-width']/2, config['Conf']['Window-height']/2)
-        self.move(200,200)
-        self.setWindowTitle('STON: Detail window')
+from . import zoom_window
 
 class ClusterWindow(QWidget):
     """
@@ -107,7 +96,8 @@ class GUI(QMainWindow):
         self.show()
 
         ###create detail window (hidden)
-        self.zoom_window = DetailWindow(self.conf)
+        self.zoom_window = zoom_window.DetailWindow(self.conf, self.logo)
+        self.zoom_window.show()
 
         ###And cluster window (hidden)
         self.cluster_window = ClusterWindow(self.conf)
@@ -430,7 +420,17 @@ class GUI(QMainWindow):
         listItems=self.image_list.selectedItems()
 
         ###if some items are selected we remove them
-        print(listItems)
+        image_name = listItems[0].text()
+        for folder in self.files_dict:
+            if os.path.basename(folder) != image_name:
+                for files in self.files_dict[folder]:
+                    if files == image_name:
+                        filepath = os.path.join(folder, image_name)
+        if filepath:
+            self.zoom_window.change_image(filepath)
+        else:
+            self.printinlog('Error', 'File not found..')
+
 
     def closeEvent(self, event):
         '''
