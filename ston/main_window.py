@@ -82,7 +82,7 @@ class GUI(QMainWindow):
         ###set the size and title of the window
         self.resize(self.conf['Conf']['Window-width'], self.conf['Conf']['Window-height'])
         self.setWindowTitle('STON: SofTware for petrOgraphic visualisatioN'+
-                            f" - {self.conf['Project_info']['Name']}")
+                            f" - {self.conf['Project_info']['Name']} - By R. Thomas and E. Dammer")
 
         ###add the logo
         dir_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
