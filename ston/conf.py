@@ -48,7 +48,6 @@ def default_conf(platform):
 
     ###options
     config['Options'] = {}
-    config['Options']['Display_area'] = '5x10'
     config['Options']['Image_width'] = 100  ###assumed to be squared
     config['Options']['Downgrade_factor'] = 10
     config['Options']['Extensions'] = ['.tif', '.png']
@@ -101,7 +100,6 @@ def load_conf(file, platform):
 
     ###options
     config['Options'] = {}
-    config['Options']['Display_area'] = loadconf['Options']['Display_area'] 
     config['Options']['Image_width'] = int(loadconf['Options']['Image_width'])
     config['Options']['Downgrade_factor'] = int(loadconf['Options']['Downgrade_factor'])
     extensions = loadconf['Options']['Extensions'].split(';')
