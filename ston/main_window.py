@@ -37,12 +37,25 @@ class DetailWindow(QWidget):
     This "window" is a QWidget. If it has no parent, it
     will appear as a free-floating window as we want.
     """
-    def __init__(self, config, x, y, log):
+    def __init__(self, config):
         super().__init__()
+        self.hidden = True
         self.resize(config['Conf']['Window-width']/2, config['Conf']['Window-height']/2)
-        self.move(x/2,y/2)
+        self.move(200,200)
         self.setWindowTitle('STON: Detail window')
 
+class ClusterWindow(QWidget):
+    """
+    This "window" is a QWidget. If it has no parent, it
+    will appear as a free-floating window as we want.
+    """
+    def __init__(self, config):
+        super().__init__()
+        self.hidden = True
+        self.resize(config['Conf']['Window-width']/2, config['Conf']['Window-height']/2)
+        self.move(400,400)
+        self.setWindowTitle('STON: Cluster window')
+        self.parent()
 
 class GUI(QMainWindow):
     '''
@@ -89,16 +102,18 @@ class GUI(QMainWindow):
 
         ##populate with widget
         self.make_layout()
-    
+
         ###and display it
         self.show()
 
-        ###Open detail window
-        self.w = DetailWindow(self.conf, self.pos().x(), self.pos().y(), self.log)
-        self.w.show()
-        self.printinLog('startup', 'Welcome to STON!')
+        ###create detail window (hidden)
+        self.zoom_window = DetailWindow(self.conf)
 
+        ###And cluster window (hidden)
+        self.cluster_window = ClusterWindow(self.conf)
 
+        ###Start up is done, give info in log
+        self.printinlog('startup', 'Welcome to STON!')
 
     def make_layout(self):
         '''
@@ -114,7 +129,16 @@ class GUI(QMainWindow):
         left_grid = QGridLayout()
         left.setLayout(left_grid)
         row = 0
-        
+
+        ##zoom window button
+        button_hide_zoom = QPushButton('Zoom window')
+        left_grid.addWidget(button_hide_zoom, row, 0, 1, 1)
+
+        ##remove button
+        button_hide_cluster = QPushButton('Cluster window')
+        left_grid.addWidget(button_hide_cluster, row, 1, 1, 1)
+        row += 1
+
         ###create the tree
         self.tree = QTreeWidget()
         self.tree.setColumnCount(1)
@@ -159,7 +183,7 @@ class GUI(QMainWindow):
         ####image of the logo in the zoom area (just at the start of the GUI)
         self.zoom = QLabel()
         pixmap = QtGui.QPixmap(self.logo)
-        scaled = pixmap.scaled(300, 300, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
+        scaled = pixmap.scaled(200, 200, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
         self.zoom.setPixmap(scaled)
         left_grid.addWidget(self.zoom, row, 0, 5, 2, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
 
@@ -177,7 +201,7 @@ class GUI(QMainWindow):
         scroll.setWidget(scrollwidget)
         hbox.addWidget(scroll)
 
-	####place where image will be displayed
+        ####place where image will be displayed
         self.image_list = QListWidget(
             viewMode=QListView.ViewMode.IconMode,
             iconSize= self.conf['Options']['Image_width'] * QtCore.QSize(1, 1),
@@ -186,7 +210,7 @@ class GUI(QMainWindow):
         self.scrollayout.addWidget(self.image_list)
 
         ##Add log window
-        self.log = QPlainTextEdit() 
+        self.log = QPlainTextEdit()
         self.log.setReadOnly(True)
         self.log.setFixedHeight(150)
         hbox.addWidget(self.log)
@@ -203,7 +227,10 @@ class GUI(QMainWindow):
         button_remove.clicked.connect(self.remove_single_image)
         button_clear.clicked.connect(self.remove_all_images)
         button_inspect.clicked.connect(self.inspect)
-        
+        button_hide_zoom.clicked.connect(self.hide_zoom_window)
+        button_hide_cluster.clicked.connect(self.hide_cluster_window)
+        self.image_list.itemDoubleClicked.connect(self.send_to_zoom)
+
     def printinlog(self, msgtype, text):
         '''
         Prints images in log window
@@ -243,14 +270,14 @@ class GUI(QMainWindow):
         It checks that some items have been selected and, if
         this is the case load the images.
         '''
-	###Get the selected images in the tree
+       	###Get the selected images in the tree
         listimage = self.tree.selectedItems()
 
         if listimage:
             ###Give info
             self.printinlog('Info', f'{len(listimage)} items selected')
             self.printinlog('Info', 'Analyse selection...')
-            
+
             ##Start checking selected images
             goodimages = 0
             goodimages_with_path = []
@@ -258,15 +285,15 @@ class GUI(QMainWindow):
             for item in listimage:
                 ##Get the iamge name
                 name = item.text(0)  ###-->column 0 of the tree
-    
+
                 ###Check if this are file names (and not directory)
                 for folder in self.files_dict:
                     if os.path.basename(folder) != name:
                         for files in self.files_dict[folder]:
                             if files == name:
                                 goodimages += 1
-                                goodimages_with_path.append(os.path.join(folder,name)) 
-            
+                                goodimages_with_path.append(os.path.join(folder,name))
+
             ##if some files are images we display
             if not goodimages_with_path:
                 self.printinlog('Warning', 'No images found in the selected images...try again')
@@ -275,14 +302,14 @@ class GUI(QMainWindow):
                 #give info
                 self.printinlog('Info', f'{len(goodimages_with_path)} were selected')
                 self.printinlog('Info', 'Start displaying...')
-                
+
             	###Start displaying
                 for file in goodimages_with_path:
 
-                    ##Get name to display below the thumbnail 
+                    ##Get name to display below the thumbnail
                     name = os.path.basename(file)
                     it = QListWidgetItem(name)
-            
+
                     ##open image
                     image = Image.open(file)
 
@@ -295,23 +322,21 @@ class GUI(QMainWindow):
                     qim = QtGui.QImage(data, im.size[0], im.size[1],
                                        QtGui.QImage.Format.Format_RGBA8888)
                     pix = QtGui.QPixmap.fromImage(qim)
-                
+
                     ##Create the Icon
                     icon = QtGui.QIcon()
                     icon.addPixmap(pix)
                     it.setIcon(icon)
-                
+
                     ###And add to the list
                     self.image_list.addItem(it)
-                    
+
                     ###Process the event
                     QApplication.processEvents()
                     time.sleep(0.05)
 
- 
-          
         else:
-            self.printinlog('Warning', 'No files selected')    
+            self.printinlog('Warning', 'No files selected')
 
     def remove_single_image(self):
         '''
@@ -319,31 +344,34 @@ class GUI(QMainWindow):
         '''
         ###get all selected images
         listItems=self.image_list.selectedItems()
-         
+
         ###if some items are selected we remove them
         for item in listItems:
             self.image_list.takeItem(self.image_list.row(item))
+            image_name = item.text()
+            self.printinlog('Warning', f'{image_name} was removed.')
 
     def remove_all_images(self):
         '''
         This method remove all the images from the displayed area
         '''
         self.image_list.clear()
+        self.printinlog('Warning', 'Displayer has been cleared. No images are displayed.')
 
-  
+
     def inspect(self):
         '''
         This method sends the selected image(s) to the second window for inspection
         '''
         ###get all selected images
         listItems=self.image_list.selectedItems()
-         
+
         ###if some items are selected we remove them
         if listItems:
             all_selected_images = []
             for item in listItems:
                 ####give info
-                self.printinlog('Info', 'Start inspection')
+                self.printinlog('Info', 'Start inspection.')
                 ##get image name
                 image_name = item.text()
                 ##assemble path
@@ -351,10 +379,70 @@ class GUI(QMainWindow):
                     if os.path.basename(folder) != image_name:
                         for files in self.files_dict[folder]:
                             if files == image_name:
-                                all_selected_images.append(os.path.join(folder, image_name)) 
+                                all_selected_images.append(os.path.join(folder, image_name))
 
-            ###And send them all to the seond window 
-           
+            ###And send them all to the seond window
 
         else:
             self.printinlog('Warning', 'No Image(s) selected for inspection')
+
+    def hide_zoom_window(self):
+        '''
+        This method show/hide the zoom window
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        '''
+        if self.zoom_window.hidden:
+            self.zoom_window.show()
+            self.zoom_window.hidden = False
+        else:
+            self.zoom_window.hide()
+            self.zoom_window.hidden = True
+
+    def hide_cluster_window(self):
+        '''
+        This method show/hide the cluster window
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        '''
+        if self.cluster_window.hidden:
+            self.cluster_window.show()
+            self.cluster_window.hidden = False
+        else:
+            self.cluster_window.hide()
+            self.cluster_window.hidden = True
+
+    def send_to_zoom(self):
+        '''
+        This method sends the selected image(s) to the second window for inspection
+        '''
+        ###get all selected images
+        listItems=self.image_list.selectedItems()
+
+        ###if some items are selected we remove them
+        print(listItems)
+
+    def closeEvent(self, event):
+        '''
+        This method makes sure that when them ain window is closed all
+        the other windows are closed too
+        Parameters
+        ----------
+        event   :   QEvent
+                     
+        Return
+        ------
+        None
+        '''
+        QApplication.closeAllWindows()
+        event.accept()
