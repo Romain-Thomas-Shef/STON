@@ -180,7 +180,6 @@ class DetailWindow(QWidget):
             #Store the coordinates of the cursor
             self.xcursorloc = event.xdata
             self.ycursorloc = event.ydata
-            print(self.xcursorloc)
             #Update the zoom-in display of source_picker
             self.update_picker_display()
 
