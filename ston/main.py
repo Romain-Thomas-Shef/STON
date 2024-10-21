@@ -14,6 +14,7 @@ changelog:
 
 ####Standard Library
 import os
+import shutil
 import sys
 
 ####Python third party
@@ -32,6 +33,18 @@ def main():
     ##1st we use the command line interface to look at potential
     ##arguments
     args = command_line_interface(sys.argv[1:])
+
+
+    if args['makeconfig']:
+        ##get current working directory and create the final path
+        targetfile = os.path.join(os.getcwd(), 'STON.conf')
+        ###build the path of the template file
+        template = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'example.conf')
+
+        ##Make the copy
+        shutil.copyfile(template, targetfile)
+
+        sys.exit()
 
     if args['config'] == 'default': ##no argument passed
         ##In that case we load the default

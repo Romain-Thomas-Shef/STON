@@ -46,6 +46,8 @@ def command_line_interface(args):
     parser.add_argument('--config', help='Configuration file. If no given,'+
                                          '\nSTON will use default configuration',
                                          default='default')
+    parser.add_argument('--makeconfig', help='This command will create blank configuration'+\
+                                             ' file in the current directory', action='store_true')
     parser.add_argument('--version', action='store_true', help='Prints the version of STON')
 
     ###analyse the arguments

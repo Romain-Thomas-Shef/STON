@@ -97,7 +97,6 @@ class GUI(QMainWindow):
 
         ###create detail window (hidden)
         self.zoom_window = zoom_window.DetailWindow(self.logo)
-        self.zoom_window.show()
 
         ###And cluster window (hidden)
         self.cluster_window = ClusterWindow(self.conf)
@@ -205,8 +204,6 @@ class GUI(QMainWindow):
         self.log.setFixedHeight(150)
         hbox.addWidget(self.log)
 
-        #self.start_loading(self.conf['Project_info']['Directory'])
-
         ###add everything to the split
         split.addWidget(left)
         split.addWidget(self.right)
@@ -263,6 +260,9 @@ class GUI(QMainWindow):
        	###Get the selected images in the tree
         listimage = self.tree.selectedItems()
 
+        ##And get images that are already displayed
+        listitems = [self.image_list.item(x).text() for x in range(self.image_list.count())]
+
         if listimage:
             ###Give info
             self.printinlog('Info', f'{len(listimage)} items selected')
@@ -271,22 +271,30 @@ class GUI(QMainWindow):
             ##Start checking selected images
             goodimages = 0
             goodimages_with_path = []
+            goodimages_without_path = []
             ##go over all imtes
             for item in listimage:
-                ##Get the iamge name
+                ##Get the image name
                 name = item.text(0)  ###-->column 0 of the tree
 
+                ##If the image is already displayed then we stop the loop  
+                if name in listitems:
+                    self.printinlog('Warning', f'{name} already displayed')
+                    continue
+                
                 ###Check if this are file names (and not directory)
                 for folder in self.files_dict:
                     if os.path.basename(folder) != name:
                         for files in self.files_dict[folder]:
-                            if files == name:
+                            if files == name and name not in goodimages_without_path:
                                 goodimages += 1
                                 goodimages_with_path.append(os.path.join(folder,name))
+                                goodimages_without_path.append(name)
+
 
             ##if some files are images we display
             if not goodimages_with_path:
-                self.printinlog('Warning', 'No images found in the selected images...try again')
+                self.printinlog('Warning', 'No (new) images found in the selected file...try again')
 
             else:
                 #give info

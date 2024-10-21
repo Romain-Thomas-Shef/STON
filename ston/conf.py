@@ -38,7 +38,7 @@ def default_conf(platform):
     config['Project_info'] = {}
     config['Project_info']['Name'] = 'New project'
     #config['Project_info']['Project_directory'] ='/home/romain/Documents/STON_data' #Path.home()
-    config['Project_info']['Directory'] ='/Users/romainthomas/Documents/STON_data' #Path.home()
+    config['Project_info']['Directory'] = Path.home()
 
     ###tool
     config['Conf'] = {}
