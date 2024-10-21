@@ -312,7 +312,7 @@ class GUI(QMainWindow):
                     image = Image.open(file)
 
                     ###Reduce size (no need to have full resolution for the list of image)
-                    im = image.thumbnail((image.size[1]/5,image.size[0]/5))
+                    im = image.thumbnail((image.size[0]/5,image.size[1]/5))
                     im = image.convert("RGBA")
                     data = im.tobytes("raw","RGBA")
 
