@@ -196,6 +196,7 @@ class GUI(QMainWindow):
             iconSize= self.conf['Options']['Image_width'] * QtCore.QSize(1, 1),
             resizeMode=QListView.ResizeMode.Adjust)
         self.image_list.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
+        #self.image_list.setDragDropMode(QAbstractItemView.DragDropMode.InternalMove)
         self.scrollayout.addWidget(self.image_list)
 
         ##Add log window
