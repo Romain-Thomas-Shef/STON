@@ -295,7 +295,7 @@ class GUI(QMainWindow):
 
             ##if some files are images we display
             if not goodimages_with_path:
-                self.printinlog('Warning', 'No (new) images found in the selected file...try again')
+                self.printinlog('Warning', 'No (new) images found in the selected files...try again')
 
             else:
                 #give info
@@ -327,8 +327,10 @@ class GUI(QMainWindow):
                     icon.addPixmap(pix)
                     it.setIcon(icon)
 
-                    ###And add to the list
+                    ###And add to the list and print in log
                     self.image_list.addItem(it)
+                    self.printinlog('Info', f"{file.split('/')[-1]} is displayed")
+                    
 
                     ###Process the event
                     QApplication.processEvents()
