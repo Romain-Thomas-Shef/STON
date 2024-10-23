@@ -218,6 +218,7 @@ class GUI(QMainWindow):
         button_hide_zoom.clicked.connect(self.hide_zoom_window)
         button_hide_cluster.clicked.connect(self.hide_cluster_window)
         self.image_list.itemDoubleClicked.connect(self.send_to_zoom)
+        self.tree.itemDoubleClicked.connect(self.loadimages)
 
     def printinlog(self, msgtype, text):
         '''
