@@ -383,6 +383,13 @@ class GUI(QMainWindow):
                                 all_selected_images.append(os.path.join(folder, image_name))
 
             ###And send them all to the seond window
+            #if only one file, we send to zoom window
+            if len(all_selected_images) == 1:
+                self.zoom_window.change_image(all_selected_images[0])
+                self.printinlog('Info', "f{all_selected_images[0].split('/')[-1]} is displayed in the zoom window")
+            else:
+                ##send to the cluster window
+                pass
 
         else:
             self.printinlog('Warning', 'No Image(s) selected for inspection')
@@ -437,10 +444,8 @@ class GUI(QMainWindow):
                 for files in self.files_dict[folder]:
                     if files == image_name:
                         filepath = os.path.join(folder, image_name)
-        if filepath:
-            self.zoom_window.change_image(filepath)
-        else:
-            self.printinlog('Error', 'File not found..')
+        ###send to zoom window
+        self.zoom_window.change_image(filepath)
 
 
     def closeEvent(self, event):
