@@ -63,3 +63,45 @@ def get_dir_and_files(root, extensions):
     
     return tree
 
+
+def get_files_and_path(filelist_selected, original_file_dict, ignorefiles):
+    '''
+    This function checks creates a list of files (with there path).
+    If goes over the filelist_selected list and find where they are
+    located in the original_file_dict
+
+    Parameters
+    ----------
+    filelist_selected   :   list
+                            list of file to assemble
+
+    original_file_dict  :   dict
+                            original file dictionary
+                            keys = absolute path
+                            values = filename
+
+    ignorefiles         :   list
+                            of files not to add to the final list
+    Returns
+    -------
+    list_with_path      : list
+                          of files with their path
+    list_without_path   : list
+                          list of filenames
+    '''
+    list_with_path = []
+    list_without_path = []
+
+    for name in filelist_selected:
+        ##for each entry in the list we check in the dictionary
+        for folder in original_file_dict:
+            ###first we have to check the name is a folder
+            if os.path.basename(folder) != name:
+                ##if not we can try to find the file. We also check that it was not already
+                ##found in another folder
+                for file in original_file_dict[folder]: 
+                    if file == name and file not in list_without_path and file not in ignorefiles:
+                        list_with_path.append(os.path.join(folder,name))
+                        list_without_path.append(name)
+
+    return list_with_path, list_without_path

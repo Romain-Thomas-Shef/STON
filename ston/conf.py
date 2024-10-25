@@ -42,8 +42,12 @@ def default_conf(platform):
 
     ###tool
     config['Conf'] = {}
-    config['Conf']['Window-width'] = 1550
-    config['Conf']['Window-height'] = 900
+    config['Conf']['main_window_width'] = 1550
+    config['Conf']['main_window_height'] = 900
+    config['Conf']['cluster_window_width'] = 700
+    config['Conf']['cluster_window_height'] = 400
+    config['Conf']['zoom_window_width'] = 700
+    config['Conf']['zoom_window_height'] = 400
     config['Conf']['OS'] = get_OS(platform)
 
     ###options
@@ -94,8 +98,12 @@ def load_conf(file, platform):
 
     ###tool
     config['Conf'] = {}
-    config['Conf']['Window-width'] = int(loadconf['Conf']['Window-width'])
-    config['Conf']['Window-height'] = int(loadconf['Conf']['Window-height'])
+    config['Conf']['main_window_width'] = int(loadconf['Conf']['main_window_width'])
+    config['Conf']['main_window_height'] = int(loadconf['Conf']['main_window_height'])
+    config['Conf']['zoom_window_width'] = int(loadconf['Conf']['zoom_window_width'])
+    config['Conf']['zoom_window_height'] = int(loadconf['Conf']['zoom_window_height'])
+    config['Conf']['cluster_window_width'] = int(loadconf['Conf']['cluster_window_width'])
+    config['Conf']['cluster_window_height'] = int(loadconf['Conf']['cluster_window_height']) 
     config['Conf']['OS'] = get_OS(platform)
 
     ###options

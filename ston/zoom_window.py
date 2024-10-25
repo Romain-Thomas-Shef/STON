@@ -16,7 +16,6 @@ changelog:
 ####Standard Library
 
 ####python third party
-from PySide6 import QtGui, QtCore
 from PySide6.QtWidgets import QWidget, QGridLayout, QLabel, QPlainTextEdit, QSizePolicy
 
 from PIL import Image
@@ -34,20 +33,17 @@ class DetailWindow(QWidget):
     This "window" is a QWidget. If it has no parent, it
     will appear as a free-floating window as we want.
     """
-    def __init__(self, logo):
+    def __init__(self, logo, config):
         '''
         Class constructor
         '''
         super().__init__()
         self.hidden = True
         self.move(200,200)
+        self.resize(config['Conf']['zoom_window_width'], config['Conf']['zoom_window_height'])
         self.setWindowTitle('STON: Detail window')
         self.logo = logo
         self.make_layout()
-
-        ###fixe the size of the window
-        #self.setFixedSize(self.width(), self.height())
-
 
     def make_layout(self):
         '''
@@ -205,7 +201,8 @@ class DetailWindow(QWidget):
         xmin, xmax = self.xcursorloc - 0.5 * self.winsize, self.xcursorloc + 0.5 * self.winsize
         ymin, ymax = self.ycursorloc - 0.5 * self.winsize, self.ycursorloc + 0.5 * self.winsize
 
-        #Make sure the zoomed-in display window shows a full image in the corner, and not blank space
+        #Make sure the zoomed-in display window shows a
+        #full image in the corner, and not blank space
         if xmin < 0:
             xmin = 0
             xmax = self.winsize

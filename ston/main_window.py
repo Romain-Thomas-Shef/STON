@@ -26,25 +26,12 @@ from PySide6.QtWidgets import QMainWindow, QSplitter, QWidget, QGridLayout,\
                             QScrollArea, QHBoxLayout, QListView, QListWidget,\
                             QListWidgetItem, QPushButton, QVBoxLayout, QApplication
 
-from PIL import Image
-
 
 ####local impors
 from . import explore_files
 from . import zoom_window
-
-class ClusterWindow(QWidget):
-    """
-    This "window" is a QWidget. If it has no parent, it
-    will appear as a free-floating window as we want.
-    """
-    def __init__(self, config):
-        super().__init__()
-        self.hidden = True
-        self.resize(config['Conf']['Window-width']/2, config['Conf']['Window-height']/2)
-        self.move(400,400)
-        self.setWindowTitle('STON: Cluster window')
-        self.parent()
+from . import cluster_window
+from . import image_processing
 
 class GUI(QMainWindow):
     '''
@@ -69,18 +56,14 @@ class GUI(QMainWindow):
         ###The configuration becomes an attribute
         self.conf = configuration
 
-        ###selected lines attributes
-        self.selected_lines = []
-        self.displayed_lines = []
-        self.target = None
-        self.setAcceptDrops(True)
+        #self.setAcceptDrops(True)
 
         ##get all files
         self.files_dict = explore_files.get_dir_and_files(self.conf['Project_info']['Directory'],\
                                                           self.conf['Options']['Extensions'])
 
         ###set the size and title of the window
-        self.resize(self.conf['Conf']['Window-width'], self.conf['Conf']['Window-height'])
+        self.resize(self.conf['Conf']['main_window_width'], self.conf['Conf']['main_window_height'])
         self.setWindowTitle('STON: SofTware for petrOgraphic visualisatioN'+
                             f" - {self.conf['Project_info']['Name']} - By R. Thomas and E. Dammer")
 
@@ -89,6 +72,9 @@ class GUI(QMainWindow):
         self.logo = os.path.join(dir_path, 'docs/source/images/logo/logo.jpeg')
         self.setWindowIcon(QtGui.QIcon(self.logo))
 
+        ###cluster window counter
+        self.n_cluster = 1
+
         ##populate with widget
         self.make_layout()
 
@@ -96,10 +82,7 @@ class GUI(QMainWindow):
         self.show()
 
         ###create detail window (hidden)
-        self.zoom_window = zoom_window.DetailWindow(self.logo)
-
-        ###And cluster window (hidden)
-        self.cluster_window = ClusterWindow(self.conf)
+        self.zoom_window = zoom_window.DetailWindow(self.logo, self.conf)
 
         ###Start up is done, give info in log
         self.printinlog('startup', 'Welcome to STON!')
@@ -124,8 +107,8 @@ class GUI(QMainWindow):
         left_grid.addWidget(button_hide_zoom, row, 0, 1, 1)
 
         ##remove button
-        button_hide_cluster = QPushButton('Cluster window')
-        left_grid.addWidget(button_hide_cluster, row, 1, 1, 1)
+        button_cluster = QPushButton('Cluster window')
+        left_grid.addWidget(button_cluster, row, 1, 1, 1)
         row += 1
 
         ###create the tree
@@ -162,11 +145,6 @@ class GUI(QMainWindow):
         ##remove button
         button_remove = QPushButton('Remove selected Image')
         left_grid.addWidget(button_remove, row, 1, 1, 1)
-        row += 1
-
-        ##remove button
-        button_inspect = QPushButton('Inspect selected Image(s)')
-        left_grid.addWidget(button_inspect, row, 0, 1, 2)
         row += 1
 
         ####image of the logo in the zoom area (just at the start of the GUI)
@@ -214,9 +192,8 @@ class GUI(QMainWindow):
         button.clicked.connect(self.loadimages)
         button_remove.clicked.connect(self.remove_single_image)
         button_clear.clicked.connect(self.remove_all_images)
-        button_inspect.clicked.connect(self.inspect)
         button_hide_zoom.clicked.connect(self.hide_zoom_window)
-        button_hide_cluster.clicked.connect(self.hide_cluster_window)
+        button_cluster.clicked.connect(self.open_cluster_window)
         self.image_list.itemDoubleClicked.connect(self.send_to_zoom)
         self.tree.itemDoubleClicked.connect(self.loadimages)
 
@@ -259,84 +236,58 @@ class GUI(QMainWindow):
         It checks that some items have been selected and, if
         this is the case load the images.
         '''
-       	###Get the selected images in the tree
-        listimage = self.tree.selectedItems()
+       	###Get the selected files in the tree
+        listfiles = [file.text(0) for file in self.tree.selectedItems()]
 
         ##And get images that are already displayed
-        listitems = [self.image_list.item(x).text() for x in range(self.image_list.count())]
+        listdisplayed = [self.image_list.item(x).text() for x in range(self.image_list.count())]
 
-        if listimage:
+        if listfiles:
             ###Give info
-            self.printinlog('Info', f'{len(listimage)} items selected')
+            self.printinlog('Info', f'{len(listfiles)} items selected')
             self.printinlog('Info', 'Analyse selection...')
 
-            ##Start checking selected images
-            goodimages = 0
-            goodimages_with_path = []
-            goodimages_without_path = []
-            ##go over all imtes
-            for item in listimage:
-                ##Get the image name
-                name = item.text(0)  ###-->column 0 of the tree
-
-                ##If the image is already displayed then we stop the loop  
-                if name in listitems:
-                    self.printinlog('Warning', f'{name} already displayed')
-                    continue
-                
-                ###Check if this are file names (and not directory)
-                for folder in self.files_dict:
-                    if os.path.basename(folder) != name:
-                        for files in self.files_dict[folder]:
-                            if files == name and name not in goodimages_without_path:
-                                goodimages += 1
-                                goodimages_with_path.append(os.path.join(folder,name))
-                                goodimages_without_path.append(name)
-
-
+            ###assemble paths of selected objects
+            images_with_path, images_without_path = explore_files.get_files_and_path(listfiles,
+                                                                                     self.files_dict,
+                                                                                     listdisplayed)
+             
             ##if some files are images we display
-            if not goodimages_with_path:
+            if not images_with_path:
                 self.printinlog('Warning', 'No (new) images found in the selected files...try again')
 
             else:
                 #give info
-                self.printinlog('Info', f'{len(goodimages_with_path)} were selected')
+                self.printinlog('Info', f'{len(images_with_path)} image(s) selected')
                 self.printinlog('Info', 'Start displaying...')
 
             	###Start displaying
-                for file in goodimages_with_path:
+                for name,nameandpath in zip(images_without_path, images_with_path):
 
-                    ##Get name to display below the thumbnail
-                    name = os.path.basename(file)
-                    it = QListWidgetItem(name)
+                    ##Create and Widget item with the file name
+                    ##it will go below the image
+                    newitem = QListWidgetItem(name)
 
-                    ##open image
-                    image = Image.open(file)
-
-                    ###Reduce size (no need to have full resolution for the list of image)
-                    im = image.thumbnail((image.size[0]/5,image.size[1]/5))
-                    im = image.convert("RGBA")
-                    data = im.tobytes("raw","RGBA")
-
+                    ##process image
+                    data, image = image_processing.make_thumbnail_from_image(nameandpath,
+                                                                             self.conf['Options']['Downgrade_factor']) 
                     ###convert to QImages and then Pixmap
-                    qim = QtGui.QImage(data, im.size[0], im.size[1],
+                    qim = QtGui.QImage(data, image.size[0], image.size[1],
                                        QtGui.QImage.Format.Format_RGBA8888)
                     pix = QtGui.QPixmap.fromImage(qim)
-
                     ##Create the Icon
                     icon = QtGui.QIcon()
                     icon.addPixmap(pix)
-                    it.setIcon(icon)
+                    newitem.setIcon(icon)
 
                     ###And add to the list and print in log
-                    self.image_list.addItem(it)
-                    self.printinlog('Info', f"{file.split('/')[-1]} is displayed")
+                    self.image_list.addItem(newitem)
+                    self.printinlog('Info', f"{name} is displayed")
                     
-
                     ###Process the event
                     QApplication.processEvents()
                     time.sleep(0.05)
-
+ 
         else:
             self.printinlog('Warning', 'No files selected')
 
@@ -361,7 +312,44 @@ class GUI(QMainWindow):
         self.printinlog('Warning', 'Displayer has been cleared. No images are displayed.')
 
 
-    def inspect(self):
+    def open_cluster_window(self):
+        '''
+        This method show/hide the cluster window
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        '''
+        ###get all selected images
+        listItems=self.image_list.selectedItems()
+
+        ##And get images that are already displayed
+        listdisplayed = [item.text() for item in listItems]
+        
+        ###assemble paths of selected objects
+        images_with_path, images_without_path = explore_files.get_files_and_path(listdisplayed,
+                                                                                 self.files_dict, [])
+ 
+        ###if some files where found
+        if images_with_path: #checks if something is selected
+            ###create cluster window with a dynamic name
+            setattr(self, f'Cluster_window_n{self.n_cluster}',
+                    cluster_window.ClusterWindow(self.conf, images_with_path, images_without_path))
+            ###extract it back
+            window = getattr(self, f'Cluster_window_n{self.n_cluster}')
+            ###display it
+            window.show()
+            ###increment the counter
+            self.n_cluster += 1
+ 
+        else:
+            self.printinlog('Warning', 'No files were selected')
+
+
+    def send_to_zoom(self):
         '''
         This method sends the selected image(s) to the second window for inspection
         '''
@@ -369,31 +357,14 @@ class GUI(QMainWindow):
         listItems=self.image_list.selectedItems()
 
         ###if some items are selected we remove them
-        if listItems:
-            all_selected_images = []
-            for item in listItems:
-                ####give info
-                self.printinlog('Info', 'Start inspection.')
-                ##get image name
-                image_name = item.text()
-                ##assemble path
-                for folder in self.files_dict:
-                    if os.path.basename(folder) != image_name:
-                        for files in self.files_dict[folder]:
-                            if files == image_name:
-                                all_selected_images.append(os.path.join(folder, image_name))
-
-            ###And send them all to the seond window
-            #if only one file, we send to zoom window
-            if len(all_selected_images) == 1:
-                self.zoom_window.change_image(all_selected_images[0])
-                self.printinlog('Info', "f{all_selected_images[0].split('/')[-1]} is displayed in the zoom window")
-            else:
-                ##send to the cluster window
-                pass
-
-        else:
-            self.printinlog('Warning', 'No Image(s) selected for inspection')
+        image_name = listItems[0].text()
+        for folder in self.files_dict:
+            if os.path.basename(folder) != image_name:
+                for files in self.files_dict[folder]:
+                    if files == image_name:
+                        filepath = os.path.join(folder, image_name)
+        ###send to zoom window
+        self.zoom_window.change_image(filepath)
 
     def hide_zoom_window(self):
         '''
@@ -413,40 +384,7 @@ class GUI(QMainWindow):
             self.zoom_window.hide()
             self.zoom_window.hidden = True
 
-    def hide_cluster_window(self):
-        '''
-        This method show/hide the cluster window
-        Parameters
-        ----------
-        None
 
-        Returns
-        -------
-        None
-        '''
-        if self.cluster_window.hidden:
-            self.cluster_window.show()
-            self.cluster_window.hidden = False
-        else:
-            self.cluster_window.hide()
-            self.cluster_window.hidden = True
-
-    def send_to_zoom(self):
-        '''
-        This method sends the selected image(s) to the second window for inspection
-        '''
-        ###get all selected images
-        listItems=self.image_list.selectedItems()
-
-        ###if some items are selected we remove them
-        image_name = listItems[0].text()
-        for folder in self.files_dict:
-            if os.path.basename(folder) != image_name:
-                for files in self.files_dict[folder]:
-                    if files == image_name:
-                        filepath = os.path.join(folder, image_name)
-        ###send to zoom window
-        self.zoom_window.change_image(filepath)
 
 
     def closeEvent(self, event):
