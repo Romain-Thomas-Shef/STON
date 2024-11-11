@@ -48,6 +48,9 @@ def default_conf(platform):
     config['Conf']['cluster_window_height'] = 400
     config['Conf']['zoom_window_width'] = 700
     config['Conf']['zoom_window_height'] = 400
+    config['Conf']['compare_window_width'] = 700
+    config['Conf']['compare_window_height'] = 400
+ 
     config['Conf']['OS'] = get_OS(platform)
 
     ###options
@@ -104,6 +107,9 @@ def load_conf(file, platform):
     config['Conf']['zoom_window_height'] = int(loadconf['Conf']['zoom_window_height'])
     config['Conf']['cluster_window_width'] = int(loadconf['Conf']['cluster_window_width'])
     config['Conf']['cluster_window_height'] = int(loadconf['Conf']['cluster_window_height']) 
+    config['Conf']['compare_window_width'] = int(loadconf['Conf']['compare_window_width'])
+    config['Conf']['compare_window_height'] = int(loadconf['Conf']['compare_window_height']) 
+ 
     config['Conf']['OS'] = get_OS(platform)
 
     ###options

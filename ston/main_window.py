@@ -31,6 +31,7 @@ from PySide6.QtWidgets import QMainWindow, QSplitter, QWidget, QGridLayout,\
 from . import explore_files
 from . import zoom_window
 from . import cluster_window
+from . import comparison_window
 from . import image_processing
 
 class GUI(QMainWindow):
@@ -75,6 +76,9 @@ class GUI(QMainWindow):
         ###cluster window counter
         self.n_cluster = 1
 
+        ###Comparison window counter
+        self.n_comparison = 1
+
         ##populate with widget
         self.make_layout()
 
@@ -109,6 +113,11 @@ class GUI(QMainWindow):
         ##remove button
         button_cluster = QPushButton('Cluster window')
         left_grid.addWidget(button_cluster, row, 1, 1, 1)
+        row += 1
+
+        ##compare window button
+        button_compare = QPushButton('size by size comparison')
+        left_grid.addWidget(button_compare, row, 0, 1, 2)
         row += 1
 
         ###create the tree
@@ -194,6 +203,7 @@ class GUI(QMainWindow):
         button_clear.clicked.connect(self.remove_all_images)
         button_hide_zoom.clicked.connect(self.hide_zoom_window)
         button_cluster.clicked.connect(self.open_cluster_window)
+        button_compare.clicked.connect(self.open_compare_window)
         self.image_list.itemDoubleClicked.connect(self.send_to_zoom)
         self.tree.itemDoubleClicked.connect(self.loadimages)
 
@@ -314,7 +324,7 @@ class GUI(QMainWindow):
 
     def open_cluster_window(self):
         '''
-        This method show/hide the cluster window
+        This method open the cluster window
         Parameters
         ----------
         None
@@ -347,6 +357,52 @@ class GUI(QMainWindow):
  
         else:
             self.printinlog('Warning', 'No files were selected')
+
+
+    def open_compare_window(self):
+        '''
+        This method open the comparison window
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        '''
+        ###get all selected images
+        listItems=self.image_list.selectedItems()
+
+        ##And get images that are already displayed
+        listdisplayed = [item.text() for item in listItems]
+        
+        ###assemble paths of selected objects
+        images_with_path, images_without_path = explore_files.get_files_and_path(listdisplayed,
+                                                                                 self.files_dict, [])
+ 
+        ###if some files where found
+        if len(images_with_path) == 2: #checks if two images where selected
+            ###create cluster window with a dynamic name
+            setattr(self, f'Comparison_window_n{self.n_comparison}',
+                    comparison_window.CompareWindow(self.conf, images_with_path, images_without_path))
+            ###extract it back
+            window = getattr(self, f'Comparison_window_n{self.n_comparison}')
+            ###display it
+            window.show()
+            ###increment the counter
+            self.n_comparison += 1
+            
+            ##and print in log
+            self.printinlog('Info', 'Selected images have been opened in comparison window.')
+
+ 
+        elif len(images_with_path) > 2:
+            self.printinlog('Error', 'You selected more than two images. The comparison window only work with two. Try again.')
+
+        else:
+            self.printinlog('Error', 'Not enough files were selected. Two are needed. Try again')
+
+
 
 
     def send_to_zoom(self):
