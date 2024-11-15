@@ -20,4 +20,4 @@ jobs:
         pip install pylint==3.0.3 PySide6 matplotlib
     - name: Analysing the code with pylint
       run: |
-        pylint --rcfile=$(git ls-files '*pylintrc') $(git ls-files 'ston/*.py' )
+        pylint --rcfile=$(git ls-files '*pylintrc') $(git ls-files 'ston/*.py') --output-format=text:pylint_score.txt,colorized

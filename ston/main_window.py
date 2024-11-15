@@ -448,7 +448,7 @@ class GUI(QMainWindow):
 
 
 
-    def closeEvent(self, event):
+    def closeevent(self, event):
         '''
         This method makes sure that when them ain window is closed all
         the other windows are closed too
