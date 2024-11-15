@@ -3,14 +3,22 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-STON: SofTware for petrOgraphic visualisatioN
-=============================================
+Welcome to STON: SofTware for petrOgraphic visualisatioN
+========================================================
+
+.. image:: https://img.shields.io/badge/License-GPLv3-blue.svg
+.. image:: https://img.shields.io/badge/python-3.12%2B-blue
+.. image:: https://github.com/Romain-Thomas-Shef/STON/actions/workflows/pylint.yml/badge.svg
+
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
    CHANGELOG
+
+
+
 
 
 Indices and tables
