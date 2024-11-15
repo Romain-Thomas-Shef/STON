@@ -1,6 +1,11 @@
 # STON
 
+<div align="center">
+
 ![Pylint](https://github.com/Romain-Thomas-Shef/STON/actions/workflows/pylint.yml/badge.svg)
 
+</div>
 
-SofTware for petrOgraphic visualisatioN
+---
+
+Welcome to STON:SofTware for petrOgraphic visualisatioN!
