@@ -33,7 +33,7 @@ class CompareWindow(QWidget):
     def __init__(self, config, images_with_path, images_without_path):
         '''
         Class constructor
-        
+
         Parameter
         ---------
         config  :dict
