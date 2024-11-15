@@ -35,20 +35,20 @@ def get_dir_and_files(root, extensions):
     tree    :   nested dictionary
                 hierarchical tree of files and directories
     '''
-   
+
     tree = {}
     files_only = []
 
     ##Remove stars from extension
     extensions = [i.lstrip('*') for i in extensions]
- 
+
     for stuff in os.listdir(root):
         ##extract name extension
-        filename, extension = os.path.splitext(stuff)
+        _, extension = os.path.splitext(stuff)
 
         ###check if it is a file
         if os.path.isfile(os.path.join(root, stuff)) and extension in extensions:
-            files_only.append(stuff) 
+            files_only.append(stuff)
 
         ###check if it is a directory
         if os.path.isdir(os.path.join(root, stuff)):
@@ -60,7 +60,7 @@ def get_dir_and_files(root, extensions):
     ###add to dictionary
     if files_only:
         tree[root] = files_only
-    
+
     return tree
 
 
@@ -99,7 +99,7 @@ def get_files_and_path(filelist_selected, original_file_dict, ignorefiles):
             if os.path.basename(folder) != name:
                 ##if not we can try to find the file. We also check that it was not already
                 ##found in another folder
-                for file in original_file_dict[folder]: 
+                for file in original_file_dict[folder]:
                     if file == name and file not in list_without_path and file not in ignorefiles:
                         list_with_path.append(os.path.join(folder,name))
                         list_without_path.append(name)

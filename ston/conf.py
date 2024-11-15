@@ -16,7 +16,6 @@ changelog:
 
 ###Python standard library
 import configparser
-import os
 from pathlib import Path
 
 def default_conf(platform):
@@ -51,7 +50,7 @@ def default_conf(platform):
     config['Conf']['compare_window_width'] = 700
     config['Conf']['compare_window_height'] = 400
 
-    config['Conf']['OS'] = get_OS(platform)
+    config['Conf']['OS'] = get_os(platform)
 
     ###options
     config['Options'] = {}
@@ -110,7 +109,7 @@ def load_conf(file, platform):
     config['Conf']['compare_window_width'] = int(loadconf['Conf']['compare_window_width'])
     config['Conf']['compare_window_height'] = int(loadconf['Conf']['compare_window_height'])
  
-    config['Conf']['OS'] = get_OS(platform)
+    config['Conf']['OS'] = get_os(platform)
 
     ###options
     config['Options'] = {}

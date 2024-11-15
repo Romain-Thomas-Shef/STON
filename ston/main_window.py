@@ -223,19 +223,19 @@ class GUI(QMainWindow):
         '''
 
         if msgtype == 'startup':
-            final_text = f"[{str(datetime.datetime.now()).split('.')[0]}, Startup] : " + text
+            final_text = f"[{str(datetime.datetime.now()).split('.', maxsplit=1)[0]}, Startup] : " + text
             self.log.appendHtml(f'<span style="color:blue;">{final_text} </span>')
 
         if msgtype == 'Error':
-            final_text = f"[{str(datetime.datetime.now()).split('.')[0]}, --Error] : "  + text
+            final_text = f"[{str(datetime.datetime.now()).split('.', maxsplit=1)[0]}, -Error] : "  + text
             self.log.appendHtml(f'<span style="color:red;">{final_text} </span>')
 
         if msgtype == 'Info':
-            final_text = f"[{str(datetime.datetime.now()).split('.')[0]}, ---Info] : "  + text
+            final_text = f"[{str(datetime.datetime.now()).split('.', maxsplit=1)[0]}, -Info] : "  + text
             self.log.appendHtml(f'<span style="color:green;">{final_text} </span>')
 
         if msgtype == 'Warning':
-            final_text = f"[{str(datetime.datetime.now()).split('.')[0]}, Warning] : " + text
+            final_text = f"[{str(datetime.datetime.now()).split('.', maxsplit=1)[0]}, -Warning] : " + text
             self.log.appendHtml(f'<span style="color:orange;">{final_text} </span>')
 
         self.log.repaint()
@@ -258,13 +258,15 @@ class GUI(QMainWindow):
             self.printinlog('Info', 'Analyse selection...')
 
             ###assemble paths of selected objects
-            images_with_path, images_without_path = explore_files.get_files_and_path(listfiles,
-                                                                                     self.files_dict,
-                                                                                     listdisplayed)
-             
+            images_with_path, images_without_path = \
+                    explore_files.get_files_and_path(listfiles,
+                                                     self.files_dict,
+                                                     listdisplayed)
+
             ##if some files are images we display
             if not images_with_path:
-                self.printinlog('Warning', 'No (new) images found in the selected files...try again')
+                self.printinlog('Warning',
+                                'No (new) images found in the selected files...try again')
 
             else:
                 #give info
@@ -279,8 +281,9 @@ class GUI(QMainWindow):
                     newitem = QListWidgetItem(name)
 
                     ##process image
-                    data, image = image_processing.make_thumbnail_from_image(nameandpath,
-                                                                             self.conf['Options']['Downgrade_factor']) 
+                    data, image = \
+                       image_processing.make_thumbnail_from_image(nameandpath,
+                                                                  self.conf['Options']['Downgrade_factor'])
                     ###convert to QImages and then Pixmap
                     qim = QtGui.QImage(data, image.size[0], image.size[1],
                                        QtGui.QImage.Format.Format_RGBA8888)
@@ -293,11 +296,11 @@ class GUI(QMainWindow):
                     ###And add to the list and print in log
                     self.image_list.addItem(newitem)
                     self.printinlog('Info', f"{name} is displayed")
-                    
+
                     ###Process the event
                     QApplication.processEvents()
                     time.sleep(0.05)
- 
+
         else:
             self.printinlog('Warning', 'No files selected')
 
@@ -306,10 +309,10 @@ class GUI(QMainWindow):
         This method remove the selected image from the displayed area
         '''
         ###get all selected images
-        listItems=self.image_list.selectedItems()
+        listitems=self.image_list.selectedItems()
 
         ###if some items are selected we remove them
-        for item in listItems:
+        for item in listitems:
             self.image_list.takeItem(self.image_list.row(item))
             image_name = item.text()
             self.printinlog('Warning', f'{image_name} was removed.')
@@ -334,15 +337,16 @@ class GUI(QMainWindow):
         None
         '''
         ###get all selected images
-        listItems=self.image_list.selectedItems()
+        listitems=self.image_list.selectedItems()
 
         ##And get images that are already displayed
-        listdisplayed = [item.text() for item in listItems]
-        
+        listdisplayed = [item.text() for item in listitems]
+
         ###assemble paths of selected objects
-        images_with_path, images_without_path = explore_files.get_files_and_path(listdisplayed,
-                                                                                 self.files_dict, [])
- 
+        images_with_path, \
+                images_without_path = explore_files.get_files_and_path(listdisplayed,
+                                                                       self.files_dict, [])
+
         ###if some files where found
         if images_with_path: #checks if something is selected
             ###create cluster window with a dynamic name
@@ -354,7 +358,7 @@ class GUI(QMainWindow):
             window.show()
             ###increment the counter
             self.n_cluster += 1
- 
+
         else:
             self.printinlog('Warning', 'No files were selected')
 
@@ -371,31 +375,32 @@ class GUI(QMainWindow):
         None
         '''
         ###get all selected images
-        listItems=self.image_list.selectedItems()
+        listitems=self.image_list.selectedItems()
 
         ##And get images that are already displayed
-        listdisplayed = [item.text() for item in listItems]
-        
+        listdisplayed = [item.text() for item in listitems]
+
         ###assemble paths of selected objects
-        images_with_path, images_without_path = explore_files.get_files_and_path(listdisplayed,
-                                                                                 self.files_dict, [])
- 
+        images_with_path,\
+                images_without_path = explore_files.get_files_and_path(listdisplayed,
+                                                                       self.files_dict, [])
+
         ###if some files where found
         if len(images_with_path) == 2: #checks if two images where selected
             ###create cluster window with a dynamic name
             setattr(self, f'Comparison_window_n{self.n_comparison}',
-                    comparison_window.CompareWindow(self.conf, images_with_path, images_without_path))
+                    comparison_window.CompareWindow(self.conf, images_with_path,\
+                                                    images_without_path))
             ###extract it back
             window = getattr(self, f'Comparison_window_n{self.n_comparison}')
             ###display it
             window.show()
             ###increment the counter
             self.n_comparison += 1
-            
+
             ##and print in log
             self.printinlog('Info', 'Selected images have been opened in comparison window.')
 
- 
         elif len(images_with_path) > 2:
             self.printinlog('Error', 'You selected more than two images. The comparison window only work with two. Try again.')
 
@@ -410,10 +415,10 @@ class GUI(QMainWindow):
         This method sends the selected image(s) to the second window for inspection
         '''
         ###get all selected images
-        listItems=self.image_list.selectedItems()
+        listitems=self.image_list.selectedItems()
 
         ###if some items are selected we remove them
-        image_name = listItems[0].text()
+        image_name = listitems[0].text()
         for folder in self.files_dict:
             if os.path.basename(folder) != image_name:
                 for files in self.files_dict[folder]:

@@ -54,7 +54,7 @@ def main():
         configuration, msg = conf.load_conf(args['config'], sys.platform)
         if msg == 'no file':
             print(f'Configuration file does not exist. {args["config"]}')
-            sys.exit() 
+            sys.exit()
 
     ##create the app
     app = QApplication(sys.argv)
