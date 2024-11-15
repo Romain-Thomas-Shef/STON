@@ -50,7 +50,7 @@ def default_conf(platform):
     config['Conf']['zoom_window_height'] = 400
     config['Conf']['compare_window_width'] = 700
     config['Conf']['compare_window_height'] = 400
- 
+
     config['Conf']['OS'] = get_OS(platform)
 
     ###options
@@ -85,11 +85,11 @@ def load_conf(file, platform):
     if not my_file.is_file():
         return {}, 'no file'
 
-    ##Create empty dictionaty	
+    ##Create empty dictionaty
     config = {}
 
-    ###create the config object 
-    loadconf = configparser.ConfigParser() 
+    ###create the config object
+    loadconf = configparser.ConfigParser()
 
     ###And read the file
     loadconf.read(file)
@@ -106,9 +106,9 @@ def load_conf(file, platform):
     config['Conf']['zoom_window_width'] = int(loadconf['Conf']['zoom_window_width'])
     config['Conf']['zoom_window_height'] = int(loadconf['Conf']['zoom_window_height'])
     config['Conf']['cluster_window_width'] = int(loadconf['Conf']['cluster_window_width'])
-    config['Conf']['cluster_window_height'] = int(loadconf['Conf']['cluster_window_height']) 
+    config['Conf']['cluster_window_height'] = int(loadconf['Conf']['cluster_window_height'])
     config['Conf']['compare_window_width'] = int(loadconf['Conf']['compare_window_width'])
-    config['Conf']['compare_window_height'] = int(loadconf['Conf']['compare_window_height']) 
+    config['Conf']['compare_window_height'] = int(loadconf['Conf']['compare_window_height'])
  
     config['Conf']['OS'] = get_OS(platform)
 
@@ -117,12 +117,12 @@ def load_conf(file, platform):
     config['Options']['Image_width'] = int(loadconf['Options']['Image_width'])
     config['Options']['Downgrade_factor'] = int(loadconf['Options']['Downgrade_factor'])
     extensions = loadconf['Options']['Extensions'].split(';')
-    
+
     config['Options']['Extensions'] = ['*'+i for i in extensions]
 
     return config, 'Configuration file found'
 
-def get_OS(platform):
+def get_os(platform):
     '''
     SImple function that gets the right OS
     Parameters
@@ -136,10 +136,10 @@ def get_OS(platform):
     '''
     ###general info
     if 'linux' in platform:
-        OS = 'Linux'
+        op_sys = 'Linux'
     elif 'darwin' in platform:
-        OS = 'OSX'
+        op_sys = 'OSX'
     else:
-        OS = 'Windows'
+        op_sys = 'Windows'
 
-    return OS
+    return op_sys

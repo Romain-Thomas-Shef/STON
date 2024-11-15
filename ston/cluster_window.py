@@ -14,14 +14,12 @@ changelog:
 """
 
 ####Standard Library
-import os
 
 ####python third party
 from PySide6.QtWidgets import QWidget
 
 
 ####local impors
-from . import image_processing
 
 class ClusterWindow(QWidget):
     """
@@ -35,4 +33,5 @@ class ClusterWindow(QWidget):
         self.resize(config['Conf']['cluster_window_width'], config['Conf']['cluster_window_height'])
         self.move(400,400)
         self.setWindowTitle('STON: Cluster window')
+        self.images_with_path, self.images_without_path = images_with_path, images_without_path
         self.parent()

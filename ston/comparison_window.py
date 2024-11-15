@@ -14,7 +14,6 @@ changelog:
 """
 
 ####Standard Library
-import os
 
 ####python third party
 from PySide6.QtWidgets import QWidget, QGridLayout, QSizePolicy
@@ -58,6 +57,8 @@ class CompareWindow(QWidget):
         self.images = images_with_path
         self.setWindowTitle('STON: Comparison: ' +
                            f'{images_without_path[0]} and {images_without_path[1]}')
+        self.data1 = None
+        self.data2 = None
         self.parent()
         self.make_layout()
 
