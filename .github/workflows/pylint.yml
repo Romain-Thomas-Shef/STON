@@ -22,5 +22,4 @@ jobs:
         pip install matplotlib
     - name: Analysing the code with pylint
       run: |
-        echo $(git ls-files '*pylintrc')
         pylint --rcfile=$(git ls-files '*pylintrc') $(git ls-files '*.py' )
