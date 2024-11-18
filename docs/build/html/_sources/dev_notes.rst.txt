@@ -110,6 +110,6 @@ Linting
 
    To lint locally you need to install Pylint 3.0.3
 
-Linting of the code is done automatically via a `github-action <https://github.com/Romain-Thomas-Shef/STON/blob/main/.github/workflows/pylint.yml>`_. It uses `pylint <https://pylint.readthedocs.io/en/stable/whatsnew/3/3.0/>`_ 3.0.3 with the *pylintrc* file available in the source code. The github action will fail if the pylint score falls below 9/10.
+Linting of the code is done automatically via a `github-action <https://github.com/Romain-Thomas-Shef/STON/blob/main/.github/workflows/pylint.yml>`_. It uses `pylint <https://pylint.readthedocs.io/en/stable/whatsnew/3/3.0/>`_ 3.0.3 with the *pylintrc* file available in the source code. The github action will fail if the pylint score falls below 9/10. This github action is triggered ONLY if some of the source code a been changed (i.e. if you just change the documentation it will not be triggered).
 
 If you want to lint the code localy you can run the following command ``pylint --rcfile=pylintrc your_file.py``, where *pylintrc* is the file in the source code directory.
