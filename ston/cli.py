@@ -38,7 +38,7 @@ def command_line_interface(args):
             '------------------------------------------------'+\
             '\n - STON: SofTware for petrOgraphic visualisatioN'+\
             '\n - Authors: R. Thomas & E. Dammer'+\
-            '\n - Licence: MIT - '+\
+            '\n - Licence: GPLv3 - '+\
             '\n------------------------------------------------', \
             formatter_class=argparse.RawTextHelpFormatter)
 
@@ -48,7 +48,7 @@ def command_line_interface(args):
                                          default='default')
     parser.add_argument('--makeconfig', help='This command will create blank configuration'+\
                                              ' file in the current directory', action='store_true')
-    parser.add_argument('--version', action='store_true', help='Prints the version of STON')
+    parser.add_argument('--version', action='version', version='0.1')
 
     ###analyse the arguments
     parsed = vars(parser.parse_args(args))

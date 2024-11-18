@@ -56,7 +56,7 @@ def default_conf(platform):
     config['Options'] = {}
     config['Options']['Image_width'] = 100  ###assumed to be squared
     config['Options']['Downgrade_factor'] = 10
-    config['Options']['Extensions'] = ['.tif', '.png']
+    config['Options']['Extensions'] = ['.tif', '.jpeg']
 
     return config
 

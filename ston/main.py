@@ -46,17 +46,19 @@ def main():
 
         sys.exit()
 
-    if args['config'] == 'default': ##no argument passed
-        ##In that case we load the default
-        configuration = conf.default_conf(sys.platform)
-    else:
-        ##in that case we extract the configuration from the file
-        configuration, msg = conf.load_conf(args['config'], sys.platform)
-        if msg == 'no file':
-            print(f'Configuration file does not exist. {args["config"]}')
-            sys.exit()
 
-    ##create the app
-    app = QApplication(sys.argv)
-    ex = main_window.GUI(configuration)
-    sys.exit(app.exec())
+    if args['config']:
+        if args['config'] == 'default': ##no argument passed
+            ##In that case we load the default
+            configuration = conf.default_conf(sys.platform)
+        else:
+            ##in that case we extract the configuration from the file
+            configuration, msg = conf.load_conf(args['config'], sys.platform)
+            if msg == 'no file':
+                print(f'Configuration file does not exist. {args["config"]}')
+                sys.exit()
+
+        ##create the app
+        app = QApplication(sys.argv)
+        ex = main_window.GUI(configuration)
+        sys.exit(app.exec())
