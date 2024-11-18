@@ -54,6 +54,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#git-repo-structure">Git repo structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#source-code-flow">Source code flow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#linting">Linting</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="CHANGELOG.html">CHANGELOG</a></li>
@@ -176,6 +177,15 @@ This function is parsing the command line interface argument that were given by 
 <p class="admonition-title">Danger</p>
 <p>To be able to update the github documentation, you need to compile it first in your disk and then push everything in the repo.</p>
 </div>
+</section>
+<section id="linting">
+<h2>Linting<a class="headerlink" href="#linting" title="Link to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To lint locally you need to install Pylint 3.0.3</p>
+</div>
+<p>Linting of the code is done automatically via a <a class="reference external" href="https://github.com/Romain-Thomas-Shef/STON/blob/main/.github/workflows/pylint.yml">github-action</a>. It uses <a class="reference external" href="https://pylint.readthedocs.io/en/stable/whatsnew/3/3.0/">pylint</a> 3.0.3 with the <em>pylintrc</em> file available in the source code. The github action will fail if the pylint score falls below 9/10.</p>
+<p>If you want to lint the code localy you can run the following command <code class="docutils literal notranslate"><span class="pre">pylint</span> <span class="pre">--rcfile=pylintrc</span> <span class="pre">your_file.py</span></code>, where <em>pylintrc</em> is the file in the source code directory.</p>
 </section>
 </section>
 

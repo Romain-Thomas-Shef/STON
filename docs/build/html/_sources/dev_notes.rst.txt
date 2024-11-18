@@ -102,3 +102,14 @@ Once modified, go to **docs/** and run ``make clean && make html`` in the termin
 .. danger:: 
 
    To be able to update the github documentation, you need to compile it first in your disk and then push everything in the repo.
+
+Linting
+-------
+
+.. note::
+
+   To lint locally you need to install Pylint 3.0.3
+
+Linting of the code is done automatically via a `github-action <https://github.com/Romain-Thomas-Shef/STON/blob/main/.github/workflows/pylint.yml>`_. It uses `pylint <https://pylint.readthedocs.io/en/stable/whatsnew/3/3.0/>`_ 3.0.3 with the *pylintrc* file available in the source code. The github action will fail if the pylint score falls below 9/10.
+
+If you want to lint the code localy you can run the following command ``pylint --rcfile=pylintrc your_file.py``, where *pylintrc* is the file in the source code directory.
