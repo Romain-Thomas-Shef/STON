@@ -15,6 +15,9 @@ Welcome to STON: SofTware for petrOgraphic visualisatioN
    :maxdepth: 2
    :caption: Contents:
 
+   installation
+   usage
+   dev_notes
    CHANGELOG
 
 
