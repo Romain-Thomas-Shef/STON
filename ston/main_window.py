@@ -24,7 +24,8 @@ from PySide6.QtWidgets import QMainWindow, QSplitter, QWidget, QGridLayout,\
                             QTreeWidgetItem, QTabWidget, QLabel, QTreeWidget,\
                             QHeaderView, QAbstractItemView, QPlainTextEdit,\
                             QScrollArea, QHBoxLayout, QListView, QListWidget,\
-                            QListWidgetItem, QPushButton, QVBoxLayout, QApplication
+                            QListWidgetItem, QPushButton, QVBoxLayout, QApplication,\
+                            QFileDialog
 
 
 ####local impors
@@ -33,6 +34,7 @@ from . import zoom_window
 from . import cluster_window
 from . import comparison_window
 from . import image_processing
+from . import conf
 
 class GUI(QMainWindow):
     '''
@@ -56,8 +58,6 @@ class GUI(QMainWindow):
 
         ###The configuration becomes an attribute
         self.conf = configuration
-
-        #self.setAcceptDrops(True)
 
         ##get all files
         self.files_dict = explore_files.get_dir_and_files(self.conf['Project_info']['Directory'],\
@@ -106,18 +106,9 @@ class GUI(QMainWindow):
         left.setLayout(left_grid)
         row = 0
 
-        ##zoom window button
-        button_hide_zoom = QPushButton('Zoom window')
-        left_grid.addWidget(button_hide_zoom, row, 0, 1, 1)
-
-        ##remove button
-        button_cluster = QPushButton('Cluster window')
-        left_grid.addWidget(button_cluster, row, 1, 1, 1)
-        row += 1
-
-        ##compare window button
-        button_compare = QPushButton('size by size comparison')
-        left_grid.addWidget(button_compare, row, 0, 1, 2)
+        ##Load conf button
+        button_load = QPushButton('Load new configuration')
+        left_grid.addWidget(button_load, row, 0, 1, 2)
         row += 1
 
         ###create the tree
@@ -125,19 +116,8 @@ class GUI(QMainWindow):
         self.tree.setColumnCount(1)
         self.tree.setHeaderLabels(["Files"])
         ###populate
-        items = []
-        for key, values in self.files_dict.items():
-            item = QTreeWidgetItem([os.path.basename(key)])
-            for value in values:
-                ext = value.split(".")[-1].upper()
-                child = QTreeWidgetItem([value, ext])
-                item.addChild(child)
-            items.append(item)
-        self.tree.insertTopLevelItems(0, items)
-        ###Adjust some propertiess
-        self.tree.header().setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)
-        self.tree.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
-        self.tree.setDragDropMode(QAbstractItemView.DragDropMode.DragOnly)
+        self.populate_tree()
+
         ###add it to the grid
         left_grid.addWidget(self.tree, row, 0, 15, 2)
         row += 15
@@ -162,6 +142,21 @@ class GUI(QMainWindow):
         scaled = pixmap.scaled(200, 200, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
         self.zoom.setPixmap(scaled)
         left_grid.addWidget(self.zoom, row, 0, 5, 2, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
+        row += 5
+
+        ##zoom window button
+        button_hide_zoom = QPushButton('Zoom window')
+        left_grid.addWidget(button_hide_zoom, row, 0, 1, 1)
+
+        ##remove button
+        button_cluster = QPushButton('Cluster window')
+        left_grid.addWidget(button_cluster, row, 1, 1, 1)
+        row += 1
+
+        ##compare window button
+        button_compare = QPushButton('size by size comparison')
+        left_grid.addWidget(button_compare, row, 0, 1, 2)
+        row += 1
 
         ###create the tab on the right
         self.right = QTabWidget()
@@ -204,8 +199,40 @@ class GUI(QMainWindow):
         button_hide_zoom.clicked.connect(self.hide_zoom_window)
         button_cluster.clicked.connect(self.open_cluster_window)
         button_compare.clicked.connect(self.open_compare_window)
+        button_load.clicked.connect(self.get_new_conf)
         self.image_list.itemDoubleClicked.connect(self.send_to_zoom)
         self.tree.itemDoubleClicked.connect(self.loadimages)
+
+
+    def populate_tree(self):
+        '''
+        This method populate the file tree with file name
+        Parameter
+        ---------
+        None
+
+        Return
+        ------
+        None
+        '''
+
+        ###remove any potential files that was there before
+        self.tree.clear()
+
+        ###and update with the new list
+        items = []
+        for key, values in self.files_dict.items():
+            item = QTreeWidgetItem([os.path.basename(key)])
+            for value in values:
+                ext = value.split(".")[-1].upper()
+                child = QTreeWidgetItem([value, ext])
+                item.addChild(child)
+            items.append(item)
+        self.tree.insertTopLevelItems(0, items)
+        ###Adjust some propertiess
+        self.tree.header().setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)
+        self.tree.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
+        self.tree.setDragDropMode(QAbstractItemView.DragDropMode.DragOnly)
 
     def printinlog(self, msgtype, text):
         '''
@@ -222,20 +249,21 @@ class GUI(QMainWindow):
         None
         '''
 
+        date = str(datetime.datetime.now()).split('.', maxsplit=1)[0]
         if msgtype == 'startup':
-            final_text = f"[{str(datetime.datetime.now()).split('.', maxsplit=1)[0]}, Startup] : " + text
+            final_text = f"[{date}, -Startup] : " + text
             self.log.appendHtml(f'<span style="color:blue;">{final_text} </span>')
 
         if msgtype == 'Error':
-            final_text = f"[{str(datetime.datetime.now()).split('.', maxsplit=1)[0]}, -Error] : "  + text
+            final_text = f"[{date}, -Error] : " + text
             self.log.appendHtml(f'<span style="color:red;">{final_text} </span>')
 
         if msgtype == 'Info':
-            final_text = f"[{str(datetime.datetime.now()).split('.', maxsplit=1)[0]}, -Info] : "  + text
+            final_text = f"[{date}, -Info] : " + text
             self.log.appendHtml(f'<span style="color:green;">{final_text} </span>')
 
         if msgtype == 'Warning':
-            final_text = f"[{str(datetime.datetime.now()).split('.', maxsplit=1)[0]}, -Warning] : " + text
+            final_text = f"[{date}, -Warning] : " + text
             self.log.appendHtml(f'<span style="color:orange;">{final_text} </span>')
 
         self.log.repaint()
@@ -299,7 +327,7 @@ class GUI(QMainWindow):
 
                     ###Process the event
                     QApplication.processEvents()
-                    time.sleep(0.05)
+                    time.sleep(0.025)
 
         else:
             self.printinlog('Warning', 'No files selected')
@@ -445,6 +473,53 @@ class GUI(QMainWindow):
             self.zoom_window.hide()
             self.zoom_window.hidden = True
 
+    def get_new_conf(self):
+        '''
+        This method is triggered when the use wants to change the configuration file
+        It opens a dialog to find a new file
+
+        Parameter
+        ---------
+        None
+
+        Return
+        ------
+        None
+        '''
+        ##create the dialog file
+        selected_file = QFileDialog.getOpenFileName(parent=self, caption='select',
+                                           options=QFileDialog.DontUseNativeDialog)
+
+        ##get the file
+        file = selected_file[0]
+        if not file:
+            self.printinlog('Error', 'No file selected, try again')
+        else:
+            self.printinlog('Warning', f'Attempt to load configuation from {file}')
+            try:
+                ###load conf
+                configuration, _ = conf.load_conf(file, self.conf['Conf']['OS'])
+                self.conf = configuration
+
+                ###clear displayer
+                self.remove_all_images()
+
+                ##update the files dict
+                self.files_dict = \
+                        explore_files.get_dir_and_files(self.conf['Project_info']['Directory'],\
+                                                        self.conf['Options']['Extensions'])
+
+                ##and repopulate the file tree
+                self.populate_tree()
+
+                ###and update the image size in the displayer area
+                self.image_list.setIconSize(self.conf['Options']['Image_width'] * \
+                                            QtCore.QSize(1, 1))
+
+                self.printinlog('Info', f'Configuration from {file} loaded')
+
+            except:
+                self.printinlog('Error', f'Could not read configuration from {file}')
 
 
 

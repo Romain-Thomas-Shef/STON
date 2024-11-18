@@ -12,26 +12,13 @@ Welcome to STON: SofTware for petrOgraphic visualisatioN
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
    installation
    usage
    dev_notes
    CHANGELOG
-
-
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
-
 
 ----
 
