@@ -17,7 +17,7 @@
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="_static/documentation_options.js?v=2709fde1"></script>
-        <script src="_static/doctools.js?v=9bcbadda"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -52,7 +52,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#install-from-pip">Install from pip</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#install-from-github">Install from github</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#install-for-development">Install for development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
@@ -88,15 +87,30 @@
 <h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
 <section id="dependencies">
 <h2>Dependencies<a class="headerlink" href="#dependencies" title="Link to this heading"></a></h2>
+<p>STON is written entirely in Python. To make it work you will neec the following packages:</p>
+<ul class="simple">
+<li><p>PySide6: This the graphical interface library. We coded it using version 6.8.0.1</p></li>
+<li><p>Pillow and numpy : This is what allows us to manipulate images and data</p></li>
+<li><p>matplotlib: this is what we use to display images.</p></li>
+</ul>
 </section>
 <section id="install-from-pip">
 <h2>Install from pip<a class="headerlink" href="#install-from-pip" title="Link to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>note available yet!</p>
+</div>
 </section>
 <section id="install-from-github">
 <h2>Install from github<a class="headerlink" href="#install-from-github" title="Link to this heading"></a></h2>
-</section>
-<section id="install-for-development">
-<h2>Install for development<a class="headerlink" href="#install-for-development" title="Link to this heading"></a></h2>
+<p>To install from github you can:</p>
+<ul class="simple">
+<li><p>Clone the repository and create a local install from it</p></li>
+<li><p>Use pip to install it directly from github:</p></li>
+</ul>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/Romain-Thomas-Shef/STON
+</pre></div>
+</div>
 </section>
 </section>
 

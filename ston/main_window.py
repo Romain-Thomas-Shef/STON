@@ -90,6 +90,10 @@ class GUI(QMainWindow):
 
         ###Start up is done, give info in log
         self.printinlog('startup', 'Welcome to STON!')
+        credit = 'STON, R. Thomas and E. Dammer, 2024-2025, Licence GPLv3. Documentation at: '+\
+                 'https://romain-thomas-shef.github.io/STON/build/html/index.html\n'
+        self.printinlog('Info', credit)
+        
 
     def make_layout(self):
         '''
@@ -137,11 +141,11 @@ class GUI(QMainWindow):
         row += 1
 
         ####image of the logo in the zoom area (just at the start of the GUI)
-        self.zoom = QLabel()
+        self.logodisplay = QLabel()
         pixmap = QtGui.QPixmap(self.logo)
         scaled = pixmap.scaled(200, 200, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
-        self.zoom.setPixmap(scaled)
-        left_grid.addWidget(self.zoom, row, 0, 5, 2, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.logodisplay.setPixmap(scaled)
+        left_grid.addWidget(self.logodisplay, row, 0, 5, 2, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
         row += 5
 
         ##zoom window button
@@ -520,7 +524,6 @@ class GUI(QMainWindow):
 
             except:
                 self.printinlog('Error', f'Could not read configuration from {file}')
-
 
 
     def closeevent(self, event):

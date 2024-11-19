@@ -6,9 +6,13 @@
 Welcome to STON: SofTware for petrOgraphic visualisatioN
 ========================================================
 
+.. figure :: images/logo/logo.png
+    :align: right
+    :width: 200
+
 .. image:: https://img.shields.io/badge/License-GPLv3-blue.svg
 .. image:: https://img.shields.io/badge/python-3.12%2B-blue
-.. image:: https://github.com/Romain-Thomas-Shef/STON/actions/workflows/pylint.yml/badge.svg
+.. image:: https://img.shields.io/badge/linting-pylint-yellowgreen
 
 
 .. toctree::
@@ -19,6 +23,12 @@ Welcome to STON: SofTware for petrOgraphic visualisatioN
    usage
    dev_notes
    CHANGELOG
+
+
+
+----
+
+STON is a visualisation tool aiming to allow you to get a better loook at petrogrpahic images. It allows zoom, image comparison, clustering of images and header exploration. 
 
 ----
 
