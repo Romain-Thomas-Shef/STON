@@ -1,4 +1,4 @@
-# STON
+# Welcome to STON:SofTware for petrOgraphic visualisatioN!
 
 <div align="center">
 
@@ -11,7 +11,6 @@
 
 ---
 
-Welcome to STON:SofTware for petrOgraphic visualisatioN!
 
 
 Full documentation is available [here](https://romain-thomas-shef.github.io/STON/build/html/index.html).
