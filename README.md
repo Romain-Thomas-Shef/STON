@@ -24,7 +24,7 @@ Full documentation is available [here](https://romain-thomas-shef.github.io/STON
 
 ---
 
-**Contribute!**
+**Contribute!** Contribute! STON is not perfect! If you have any comment or anything you would like to be added to STON, or, even better, if you want to modify you can either do it yourself or please feel free to contact us! ---> romain.thomas@sheffield.ac.uk & dammer.evgenia@gmail.com
 
 ---
 
