@@ -24,7 +24,7 @@ Install from github
 
 To install from github you can:
 
-* Clone the repository and create a local install from it
+* Clone the `repository <https://github.com/Romain-Thomas-Shef/STON>`_ and create a local install from it
 * Use pip to install it directly from github:
 
 .. code-block:: shell
