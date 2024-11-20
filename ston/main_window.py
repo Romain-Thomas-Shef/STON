@@ -60,8 +60,9 @@ class GUI(QMainWindow):
         self.conf = configuration
 
         ##get all files
-        self.files_dict = explore_files.get_dir_and_files(self.conf['Project_info']['Directory'],\
-                                                          self.conf['Options']['Extensions'])
+        self.conf['files_dict'] = \
+                explore_files.get_dir_and_files(self.conf['Project_info']['Directory'],\
+                                                self.conf['Options']['Extensions'])
 
         ###set the size and title of the window
         self.resize(self.conf['Conf']['main_window_width'], self.conf['Conf']['main_window_height'])
@@ -93,7 +94,7 @@ class GUI(QMainWindow):
         credit = 'STON, R. Thomas and E. Dammer, 2024-2025, Licence GPLv3. Documentation at: '+\
                  'https://romain-thomas-shef.github.io/STON/build/html/index.html\n'
         self.printinlog('Info', credit)
-        
+
 
     def make_layout(self):
         '''
@@ -145,7 +146,8 @@ class GUI(QMainWindow):
         pixmap = QtGui.QPixmap(self.logo)
         scaled = pixmap.scaled(200, 200, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
         self.logodisplay.setPixmap(scaled)
-        left_grid.addWidget(self.logodisplay, row, 0, 5, 2, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
+        left_grid.addWidget(self.logodisplay, row, 0, 5, 2,
+                            alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
         row += 5
 
         ##zoom window button
@@ -225,7 +227,7 @@ class GUI(QMainWindow):
 
         ###and update with the new list
         items = []
-        for key, values in self.files_dict.items():
+        for key, values in self.conf['files_dict'].items():
             item = QTreeWidgetItem([os.path.basename(key)])
             for value in values:
                 ext = value.split(".")[-1].upper()
@@ -292,7 +294,7 @@ class GUI(QMainWindow):
             ###assemble paths of selected objects
             images_with_path, images_without_path = \
                     explore_files.get_files_and_path(listfiles,
-                                                     self.files_dict,
+                                                     self.conf['files_dict'],
                                                      listdisplayed)
 
             ##if some files are images we display
@@ -316,17 +318,12 @@ class GUI(QMainWindow):
                     data, image = \
                        image_processing.make_thumbnail_from_image(nameandpath,
                                                                   self.conf['Options']['Downgrade_factor'])
-                    ###convert to QImages and then Pixmap
-                    qim = QtGui.QImage(data, image.size[0], image.size[1],
-                                       QtGui.QImage.Format.Format_RGBA8888)
-                    pix = QtGui.QPixmap.fromImage(qim)
-                    ##Create the Icon
-                    icon = QtGui.QIcon()
-                    icon.addPixmap(pix)
-                    newitem.setIcon(icon)
+
+                    ##create the icon
+                    item_with_icon = image_processing.create_icon(data, image, newitem)
 
                     ###And add to the list and print in log
-                    self.image_list.addItem(newitem)
+                    self.image_list.addItem(item_with_icon)
                     self.printinlog('Info', f"{name} is displayed")
 
                     ###Process the event
@@ -377,13 +374,15 @@ class GUI(QMainWindow):
         ###assemble paths of selected objects
         images_with_path, \
                 images_without_path = explore_files.get_files_and_path(listdisplayed,
-                                                                       self.files_dict, [])
+                                                                       self.conf['files_dict'],
+                                                                       [])
 
         ###if some files where found
         if images_with_path: #checks if something is selected
             ###create cluster window with a dynamic name
             setattr(self, f'Cluster_window_n{self.n_cluster}',
-                    cluster_window.ClusterWindow(self.conf, images_with_path, images_without_path))
+                    cluster_window.ClusterWindow(self.conf, images_with_path,
+                                                 images_without_path, self.zoom_window))
             ###extract it back
             window = getattr(self, f'Cluster_window_n{self.n_cluster}')
             ###display it
@@ -397,7 +396,8 @@ class GUI(QMainWindow):
 
     def open_compare_window(self):
         '''
-        This method open the comparison window
+        This method open two images to the comparison window
+
         Parameters
         ----------
         None
@@ -415,7 +415,8 @@ class GUI(QMainWindow):
         ###assemble paths of selected objects
         images_with_path,\
                 images_without_path = explore_files.get_files_and_path(listdisplayed,
-                                                                       self.files_dict, [])
+                                                                       self.conf['files_dict'],
+                                                                       [])
 
         ###if some files where found
         if len(images_with_path) == 2: #checks if two images where selected
@@ -434,7 +435,8 @@ class GUI(QMainWindow):
             self.printinlog('Info', 'Selected images have been opened in comparison window.')
 
         elif len(images_with_path) > 2:
-            self.printinlog('Error', 'You selected more than two images. The comparison window only work with two. Try again.')
+            self.printinlog('Error', 'You selected more than two images.'+
+                                     ' The comparison window only work with two. Try again.')
 
         else:
             self.printinlog('Error', 'Not enough files were selected. Two are needed. Try again')
@@ -451,9 +453,9 @@ class GUI(QMainWindow):
 
         ###if some items are selected we remove them
         image_name = listitems[0].text()
-        for folder in self.files_dict:
+        for folder in self.conf['files_dict']:
             if os.path.basename(folder) != image_name:
-                for files in self.files_dict[folder]:
+                for files in self.conf['files_dict'][folder]:
                     if files == image_name:
                         filepath = os.path.join(folder, image_name)
         ###send to zoom window
@@ -509,7 +511,7 @@ class GUI(QMainWindow):
                 self.remove_all_images()
 
                 ##update the files dict
-                self.files_dict = \
+                self.conf['files_dict'] = \
                         explore_files.get_dir_and_files(self.conf['Project_info']['Directory'],\
                                                         self.conf['Options']['Extensions'])
 

@@ -14,6 +14,40 @@ changelog:
 """
 ###Third party library
 from PIL import Image
+from PySide6 import QtGui
+
+def create_icon(data, image, item):
+    '''
+    This function creates an icon to be displayed in the main window
+    display area and cluster window dsplay area
+
+    Parameters
+    ----------
+    data:   bytes
+            data from image (from make_thumbnail_from_image function)
+
+    image:  PIL.image object
+            data from image (from make_thumbnail_from_image function)
+
+    item    :   QListWidgetItem
+                where we put the icon
+
+    return
+    ------
+    item    :   QlistWiggetItem
+                with an Icon
+    '''
+    ###convert to QImages and then Pixmap
+    qim = QtGui.QImage(data, image.size[0], image.size[1],
+                             QtGui.QImage.Format.Format_RGBA8888)
+    pix = QtGui.QPixmap.fromImage(qim)
+    ##Create the Icon
+    icon = QtGui.QIcon()
+    icon.addPixmap(pix)
+    item.setIcon(pix)
+
+    return item
+
 
 def make_thumbnail_from_image(name_and_path, downgrade_factor):
     '''
@@ -46,3 +80,5 @@ def make_thumbnail_from_image(name_and_path, downgrade_factor):
     data = im.tobytes("raw", "RGBA")
 
     return data, im
+
+
