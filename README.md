@@ -1,7 +1,7 @@
-# Welcome to STON:SofTware for petrOgraphic visualisatioN!
+# Welcome to STON
+
 
 <div align="center">
-
 
 [![Python312](https://img.shields.io/badge/python-3.12%2B-blue)](https://www.python.org/)
 ![Pylint](https://github.com/Romain-Thomas-Shef/STON/actions/workflows/pylint.yml/badge.svg)
