@@ -20,8 +20,8 @@ import os
 from PySide6 import QtCore
 from PySide6.QtWidgets import QWidget, QListWidget, QListWidgetItem, QGridLayout,\
                               QScrollArea, QHBoxLayout, QListView, QAbstractItemView,\
-                              QApplication
-
+                              QApplication, QPushButton, QDialog, QDialogButtonBox,\
+                              QLabel, QComboBox, QLineEdit
 
 ####local impors
 from . import image_processing
@@ -85,11 +85,17 @@ class ClusterWindow(QWidget):
         self.scrollayout.addWidget(self.image_list)
         row += 1
 
+        ###add button for mashup
+        mashup = QPushButton('Create Mash-up')
+        grid.addWidget(mashup, row, 0, 1, 1)
+
+
         ###load the images
         self.load_images()
 
         ##connect events
         self.image_list.itemDoubleClicked.connect(self.send_to_zoom)
+        mashup.clicked.connect(self.mashup_dialog)
 
     def load_images(self):
         '''
@@ -131,3 +137,102 @@ class ClusterWindow(QWidget):
 
         ###send to zoom window
         self.zoom_window.change_image(filepath)
+
+    def mashup_dialog(self):
+        '''
+        This method get all the images (selected OR not) that are displayed
+        in the image list
+        '''
+
+        ###get all images
+        filelist = []
+        for image_index in range(self.image_list.count()):
+            filelist.append(self.image_list.item(image_index).text())
+
+        ##dialog
+        dialog = MashupDialog(filelist)
+        if dialog.exec():
+            ###if the user clicked 'ok' on the mashup dialog we retrieve the configuration and
+            ###send it to the mashup maker
+            configmashup = dialog.get_mashup_config()
+            final_image = image_processing.make_mashup(configmashup, self.images_with_path)
+            self.zoom_window.change_image(final_image)
+
+        else:
+            ####if the user clicked on 'cancel', or pressed escape
+            print("Cancel!")
+
+
+class MashupDialog(QDialog):
+    '''
+    This class inherits from QDialog and creates the mashup Dialog
+    It gives the options for sorting the files in the mashup and
+    select a direction
+    '''
+    def __init__(self, filelist):
+        super().__init__()
+
+        self.setWindowTitle("Mashup")
+
+        ###attribute
+        self.filelist = filelist
+
+
+        ###create widgets
+        layout = QGridLayout()
+        row = 0
+
+        ##name of the mashup
+        self.name = QLineEdit('name.jpg')
+        layout.addWidget(self.name, row, 0, 1, 1)
+        row += 1
+
+        ###order of the mashup
+        message = QLabel("Select order")
+        layout.addWidget(message, row, 0, 1, 1)
+        row += 1
+
+        #we create the combobox programitically
+        for image in self.filelist:
+            ###create comboboxes and Qlabel dynamically
+            setattr(self, f'CB_{image}', QComboBox())
+
+            ###add filename
+            image_name = QLabel(image)
+            layout.addWidget(image_name, row, 0, 1, 1)
+
+            ##add number to comboboxes
+            combobox = getattr(self, f'CB_{image}')
+            for n in range(len(self.filelist)):
+                combobox.addItem(str(n+1))
+            layout.addWidget(combobox, row, 1, 1, 1)
+
+            row += 1
+
+        ###ok/cancel buttons
+        qbutton = (QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
+        self.buttonbox = QDialogButtonBox(qbutton)
+        self.buttonbox.accepted.connect(self.accept)
+        self.buttonbox.rejected.connect(self.reject)
+        layout.addWidget(self.buttonbox, row, 0, 1, 1)
+
+        self.setLayout(layout)
+
+    def get_mashup_config(self):
+        '''
+        This method analysis the state of all widget and create a configuration
+        dictionary
+        '''
+
+        ##initialize a dictionary
+        config = {}
+
+        ###name of the mashup
+        config['name'] = self.name.text()
+
+        ##get all widgets for order
+        for image in self.filelist:
+            dropdown = getattr(self, f'CB_{image}')
+            config[image] = int(dropdown.currentText())
+
+        return config

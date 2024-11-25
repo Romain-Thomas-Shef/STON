@@ -1,6 +1,7 @@
 CHANGELOG
 =========
 
+24.11.25 : Start adding mashup from cluster
 
 24.11.20 : Fill up the cluster window with images
 

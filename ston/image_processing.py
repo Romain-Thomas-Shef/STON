@@ -12,6 +12,9 @@ changelog:
 ----------
 0.1 : RTh - Creation
 """
+###standard library
+import os
+
 ###Third party library
 from PIL import Image
 from PySide6 import QtGui
@@ -82,3 +85,61 @@ def make_thumbnail_from_image(name_and_path, downgrade_factor):
     return data, im
 
 
+def make_mashup(config, imageswithpath):
+    '''
+    This function creates a mashup from different images
+
+    Parameters
+    ----------
+    Config  :   dict
+                configuration of the mashup.
+
+    imageswithpath:   list
+                    of files with path
+
+    Return
+    ------
+    mashupimage     str
+                    path to new image
+    '''
+    ##retrieve the images with their path
+    fullpath_images = {}
+    for image in imageswithpath:
+        for configimage in config:
+            if configimage == os.path.basename(image):
+                fullpath_images[image] = config[configimage]
+
+    ##sort the dictionary
+    sorted_images_by_order = sorted(fullpath_images, key=fullpath_images.get)
+
+    ##load the images
+    images = []
+    for image in sorted_images_by_order:
+        images.append(Image.open(image))
+
+    ##get the sizes
+    all_width = []
+    all_height = []
+    for i in images:
+        all_width.append(i.size[0])
+        all_height.append(i.size[1])
+
+    ##final size
+    total_width = sum(all_width)
+    total_height = max(all_height)
+
+
+    #create an empty image
+    final_im = Image.new('RGB', (total_width, total_height))
+
+    ##and finally the mashup
+    x_offset = 0
+    for i in images:
+        final_im.paste(i, (x_offset, 0))
+        x_offset += i.size[0]
+
+    ###save the image
+    final_name = os.path.join(os.path.dirname(imageswithpath[0]), config['name'])
+    final_im.save(final_name)
+
+    return final_name

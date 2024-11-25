@@ -14,6 +14,7 @@ changelog:
 """
 
 ####Standard Library
+import os
 
 ####python third party
 from PySide6.QtWidgets import QWidget, QGridLayout, QLabel, QPlainTextEdit, QSizePolicy
@@ -126,13 +127,19 @@ class DetailWindow(QWidget):
         ##open image
         image = Image.open(file)
 
-        ##get header
+        ##clear the header
         self.header.clear()
-        if file.split('.')[-1] == 'tif':
+        ##get the extnsion of the file
+        _, extension = os.path.splitext(file)
+        ###get the header
+        if extension == '.tif':
             header = {TAGS[key] : image.tag[key] for key in image.tag_v2}
             for i in header:
                 text = f"{i[:17]:<20} \t{str(header[i]).replace('(','').replace(')','')}"
                 self.header.appendPlainText(text)
+        else:
+            text = f'No header display for {extension} extensions.'
+            self.header.appendPlainText(text)
 
         ##clear the plot
         self.axs.cla()
