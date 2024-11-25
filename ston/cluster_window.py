@@ -188,7 +188,7 @@ class MashupDialog(QDialog):
         row += 1
 
         ###order of the mashup
-        message = QLabel("Select order")
+        message = QLabel("Select order:")
         layout.addWidget(message, row, 0, 1, 1)
         row += 1
 
