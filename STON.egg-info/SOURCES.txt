@@ -1,3 +1,4 @@
+LICENCE.txt
 README.md
 pyproject.toml
 STON.egg-info/PKG-INFO
@@ -8,7 +9,11 @@ STON.egg-info/requires.txt
 STON.egg-info/top_level.txt
 ston/__init__.py
 ston/cli.py
+ston/cluster_window.py
+ston/comparison_window.py
 ston/conf.py
 ston/explore_files.py
+ston/image_processing.py
 ston/main.py
 ston/main_window.py
+ston/zoom_window.py

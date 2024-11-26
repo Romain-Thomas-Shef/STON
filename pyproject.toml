@@ -18,7 +18,7 @@ homepage = "https://romain-thomas-shef.github.io/STON/build/html/index.html"
 changelog = "https://romain-thomas-shef.github.io/STON/build/html/CHANGELOG.html"
 
 
-[project.gui-scripts]
+[project.scripts]
 ston = "ston.main:main"
 
 [tool.hatch.build.targets.sdist]
