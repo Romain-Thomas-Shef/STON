@@ -139,7 +139,6 @@ def make_mashup(config, imageswithpath):
         x_offset += i.size[0]
 
     ###save the image
-    final_name = os.path.join(os.path.dirname(imageswithpath[0]), config['name'])
-    final_im.save(final_name)
+    final_im.save(config['name'])
 
-    return final_name
+    return config['name']

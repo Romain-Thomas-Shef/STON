@@ -1,6 +1,8 @@
 CHANGELOG
 =========
 
+24.11.26 : Add mashup dialog file saving dialog. Change conf file to add size of insert in pix in the zoom window.
+
 24.11.25 : Start adding mashup from cluster
 
 24.11.20 : Fill up the cluster window with images

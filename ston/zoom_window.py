@@ -41,7 +41,8 @@ class DetailWindow(QWidget):
         super().__init__()
         self.hidden = True
         self.move(200,200)
-        self.resize(config['Conf']['zoom_window_width'], config['Conf']['zoom_window_height'])
+        self.conf = config['Conf']
+        self.resize(self.conf['zoom_window_width'], self.conf['zoom_window_height'])
         self.setWindowTitle('STON: Detail window')
         self.logo = logo
         self.make_layout()
@@ -203,7 +204,7 @@ class DetailWindow(QWidget):
         self.maxy = self.data.shape[1]
         self.zoom_axs.imshow(self.data, rasterized=True, origin='lower')
 
-        self.winsize=numpy.min([min(self.maxx, self.maxy)/20, self.maxx, self.maxy])
+        self.winsize = self.conf['zoom_insert_pix_size']
         #Zoom-in on original 2D image data according to size obtained from the sliding bar
         xmin, xmax = self.xcursorloc - 0.5 * self.winsize, self.xcursorloc + 0.5 * self.winsize
         ymin, ymax = self.ycursorloc - 0.5 * self.winsize, self.ycursorloc + 0.5 * self.winsize

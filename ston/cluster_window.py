@@ -15,13 +15,14 @@ changelog:
 
 ####Standard Library
 import os
+from functools import partial
 
 ####python third party
 from PySide6 import QtCore
 from PySide6.QtWidgets import QWidget, QListWidget, QListWidgetItem, QGridLayout,\
                               QScrollArea, QHBoxLayout, QListView, QAbstractItemView,\
                               QApplication, QPushButton, QDialog, QDialogButtonBox,\
-                              QLabel, QComboBox, QLineEdit
+                              QLabel, QComboBox, QLineEdit, QFileDialog
 
 ####local impors
 from . import image_processing
@@ -150,7 +151,7 @@ class ClusterWindow(QWidget):
             filelist.append(self.image_list.item(image_index).text())
 
         ##dialog
-        dialog = MashupDialog(filelist)
+        dialog = MashupDialog(filelist, self.conf['Project_info']['Directory'])
         if dialog.exec():
             ###if the user clicked 'ok' on the mashup dialog we retrieve the configuration and
             ###send it to the mashup maker
@@ -169,7 +170,7 @@ class MashupDialog(QDialog):
     It gives the options for sorting the files in the mashup and
     select a direction
     '''
-    def __init__(self, filelist):
+    def __init__(self, filelist, directory):
         super().__init__()
 
         self.setWindowTitle("Mashup")
@@ -185,6 +186,8 @@ class MashupDialog(QDialog):
         ##name of the mashup
         self.name = QLineEdit('name.jpg')
         layout.addWidget(self.name, row, 0, 1, 1)
+        savebutton = QPushButton('Choose File')
+        layout.addWidget(savebutton, row, 1, 1, 1)
         row += 1
 
         ###order of the mashup
@@ -216,7 +219,28 @@ class MashupDialog(QDialog):
         self.buttonbox.rejected.connect(self.reject)
         layout.addWidget(self.buttonbox, row, 0, 1, 1)
 
+
+        ##save button dialog
+        savebutton.clicked.connect(partial(self.savefile, directory))
+
+
         self.setLayout(layout)
+
+    def savefile(self, directory):
+        '''
+        This method open a file dialog for saving a file
+
+        Parameters
+        ----------
+        directory   str
+                    project directory
+
+        Return
+        ------
+        None
+        '''
+        filename, _ = QFileDialog.getSaveFileName(caption='Save File', dir=directory)
+        self.name.setText(filename)
 
     def get_mashup_config(self):
         '''
