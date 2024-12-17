@@ -25,7 +25,7 @@ from PySide6.QtWidgets import QWidget, QListWidget, QListWidgetItem, QGridLayout
                               QLabel, QComboBox, QLineEdit, QFileDialog
 
 ####local impors
-from . import image_processing
+from ..processing import image_processing
 
 class ClusterWindow(QWidget):
     """

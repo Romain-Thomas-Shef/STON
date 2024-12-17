@@ -21,9 +21,8 @@ import sys
 from PySide6.QtWidgets import QApplication, QMessageBox
 
 ####Local imports
-from .cli import command_line_interface
-from . import conf
-from . import main_window
+from .utils import cli, conf
+from .GUI import main_window
 
 def main():
     '''
@@ -32,14 +31,18 @@ def main():
 
     ##1st we use the command line interface to look at potential
     ##arguments
-    args = command_line_interface(sys.argv[1:])
+    args = cli.command_line_interface(sys.argv[1:])
 
+
+    if args['test']:
+        print('Testing Ston started')
+        sys.exit()
 
     if args['makeconfig']:
         ##get current working directory and create the final path
         targetfile = os.path.join(os.getcwd(), 'STON.conf')
         ###build the path of the template file
-        template = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'example.conf')
+        template = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'utils/example.conf')
 
         ##Make the copy
         shutil.copyfile(template, targetfile)

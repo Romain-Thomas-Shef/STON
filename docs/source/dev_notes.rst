@@ -38,7 +38,7 @@ To understand a bit how the structure of the code works you can look at the pict
 
    Source code flow
 
-The *pyproject.toml* file includes the ``[project.gui-scripts]`` section with ``ston="ston.main:main"``. This means that when you start STON with the ``ston`` command it will go directly in the *main.py* file starting the ``main()`` function. 
+The *pyproject.toml* file includes the ``[project.scripts]`` section with ``ston="ston.main:main"``. This means that when you start STON with the ``ston`` command it will go directly in the *main.py* file starting the ``main()`` function. 
 This function is parsing the command line interface argument that were given by the user. Depending on these, STON will do multiple actions:
 
 - Create an empty configuration file (``makeconfig``). This is done directly in the *main.py* function.
@@ -65,27 +65,32 @@ The content of ``ston/`` is visible below:
 .. code-block:: shell
 
         ston
-        ├── cli.py
-        ├── cluster_window.py
-        ├── comparison_window.py
-        ├── conf.py
-        ├── example.conf
-        ├── explore_files.py
-        ├── image_processing.py
+        ├── GUI
+        │   ├── cluster_window.py
+        │   ├── comparison_window.py
+        │   ├── logo
+        │   │   └── logo.jpeg
+        │   ├── main_window.py
+        │   └── zoom_window.py
         ├── __init__.py
         ├── main.py
-        ├── main_window.py
-        ├── __pycache__/ 
+        ├── processing
+        │   ├── explore_files.py
+        │   └── image_processing.py
         ├── pylintrc
         ├── template_file
-        └── zoom_window.py
+        ├── tests
+        └── utils
+            ├── cli.py
+            ├── conf.py
+            ├── example.conf
+            └── __init__.py
 
 You can see that extra files/directories are available:
 
 * *pylintrc*: this is the pylint configuration file for STON.
 * *template_file*: This is a file with just a header. To start a new source code file.
 * *example.conf*: This is the generic configuration file used by the ``--makeconfig`` argument. 
-* **__pycache__**: Where the compiled python code is stored (this is NOT to be touched).
 
 
 Documentation

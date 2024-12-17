@@ -3,13 +3,13 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-requires-python = ">=3.10"
 name = "STON"
 version = "0.1"
+requires-python = ">=3.10"
 authors = [{ name = "R. Thomas", email = "romain.thomas@sheffield.ac.uk" },
     	   { name = 'E. Dammer'}]
 dependencies = ["PySide6 >= 6.7.1",
-    		    "pillow >= 10.3",
+    		"pillow >= 10.3",
                 "matplotlib >= 3.0"]
 
 [project.urls]
@@ -22,6 +22,4 @@ changelog = "https://romain-thomas-shef.github.io/STON/build/html/CHANGELOG.html
 ston = "ston.main:main"
 
 [tool.hatch.build.targets.sdist]
-include = [
-    "/ston",
-]
+include = ["/ston"]

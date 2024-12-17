@@ -1,0 +1,4 @@
+include ston/utils/example.conf
+include ston/GUI/logo/logo.jpeg
+include ston/template_file
+include ston/pylintrc

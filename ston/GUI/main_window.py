@@ -29,12 +29,11 @@ from PySide6.QtWidgets import QMainWindow, QSplitter, QWidget, QGridLayout,\
 
 
 ####local impors
-from . import explore_files
+from ..processing import explore_files, image_processing
+from ..utils import conf
 from . import zoom_window
 from . import cluster_window
 from . import comparison_window
-from . import image_processing
-from . import conf
 
 class GUI(QMainWindow):
     '''
@@ -70,8 +69,8 @@ class GUI(QMainWindow):
                             f" - {self.conf['Project_info']['Name']} - By R. Thomas and E. Dammer")
 
         ###add the logo
-        dir_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-        self.logo = os.path.join(dir_path, 'docs/source/images/logo/logo.jpeg')
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        self.logo = os.path.join(dir_path, 'logo/logo.jpeg')
         self.setWindowIcon(QtGui.QIcon(self.logo))
 
         ###cluster window counter

@@ -48,6 +48,7 @@ def command_line_interface(args):
                                          default='default')
     parser.add_argument('--makeconfig', help='This command will create blank configuration'+\
                                              ' file in the current directory', action='store_true')
+    parser.add_argument('--test', action='store_true', help='Run ston tests')
     parser.add_argument('--version', action='version', version='0.1')
 
     ###analyse the arguments
