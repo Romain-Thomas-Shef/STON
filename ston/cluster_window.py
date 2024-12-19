@@ -92,7 +92,7 @@ class ClusterWindow(QWidget):
 
         ###add button to a list with file names of image clusters
         export_button = QPushButton('Export Cluster List')
-        grid.addWidget(export_cluster_list, row, 1, 1, 1)
+        grid.addWidget(export_button, row, 1, 1, 1)
         export_button.clicked.connect(self.export_cluster_list)
         
         ###load the images
@@ -126,7 +126,9 @@ class ClusterWindow(QWidget):
             QApplication.processEvents()
 
     def export_cluster_list(self):
-        ''' Save names of all clustered images to a text file'''
+        ''' 
+        Save names of all clustered images to a text file
+        '''
         save_path, _ = QFileDialog.getSaveFileName(self, "Export Cluster List", "new_cluster_list.txt", "Text Files, (*.txt)")
         if save_path:
             try:
