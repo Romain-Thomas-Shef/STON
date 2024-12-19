@@ -90,7 +90,11 @@ class ClusterWindow(QWidget):
         mashup = QPushButton('Create Mash-up')
         grid.addWidget(mashup, row, 0, 1, 1)
 
-
+        ###add button to a list with file names of image clusters
+        export_button = QPushButton('Export Cluster List')
+        grid.addWidget(export_cluster_list, row, 1, 1, 1)
+        export_button.clicked.connect(self.export_cluster_list)
+        
         ###load the images
         self.load_images()
 
@@ -120,6 +124,18 @@ class ClusterWindow(QWidget):
 
             ###Process the event
             QApplication.processEvents()
+
+    def export_cluster_list(self):
+        ''' Save names of all clustered images to a text file'''
+        save_path, _ = QFileDialog.getSaveFileName(self, "Export Cluster List", "new_cluster_list.txt", "Text Files, (*.txt)")
+        if save_path:
+            try:
+                with open(save_path, 'w') as file:
+                    for image_index in range(self.image_list.count()):
+                        file.write(self.image_list.item(image_index).text() + '\n')
+                print(f"File names saved to {save_path}")
+            except Exception as e:
+                print(f"Error saving file: {e}")
 
     def send_to_zoom(self):
         '''
