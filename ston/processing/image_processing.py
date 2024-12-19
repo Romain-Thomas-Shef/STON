@@ -142,3 +142,107 @@ def make_mashup(config, imageswithpath):
     final_im.save(config['name'])
 
     return config['name']
+
+def create_meta_image(image_list, final_image_name, conf):
+    '''
+    This function creates a meta image with all the images
+    given in the list
+
+    The final image is made of N column (given in the configuration)
+    and the number of lines depends on the number of images
+
+    Parameters
+    ----------
+    image_list	list
+                with paths to images             
+
+    final_image_name    str
+                        this is the name of the image that will be saved on disc
+
+    conf        dictionary
+                main configuration of ston
+    '''
+    ##Get the number of columns in the configuration file
+    ##We substract one because counters start at 0 in python
+    columns = conf['Options']['Ncol_meta_image'] - 1
+
+    ##we also downgrade the quality to avoid to heave final image
+    downgrade_factor = conf['Options']['Downgrade_factor']
+
+    ###In a single loop compute the number of lines and
+    ###the height and width of each row
+    colindiv = 0
+    line = 0
+    layout = {}
+    for n,image in enumerate(image_list):
+
+        del n ##we don't need it
+
+        #update the dictionaries if we are on a newline
+        if f'{line}' not in layout:
+            layout[f'{line}'] = {}
+
+        ##open the image
+        im = Image.open(image)
+        im.thumbnail((im.width/downgrade_factor, im.height/downgrade_factor))
+
+        ##Fill up the dictionries
+        layout[f'{line}'][f'{colindiv}'] = {'name': image, 'data': im}
+
+        ###if we are at the last column we need to change line
+        ###and reinitialise the column counter
+        if colindiv >= columns:
+            colindiv = 0
+            line += 1
+        else:
+            ##Go to next column
+            colindiv += 1
+
+    ###create the final width and height of each line
+    ###between each image we add a space of 100 pix gap
+    gap = 20
+    all_line_sum_width = [] ##we will keep the width of each full line
+    all_line_max_height = [] ##and the max height of each full line
+
+    for line in layout:
+        line_width = [] ##gather all widths of each image
+        line_height = [] ##gather all height of each image
+
+        for column in layout[line]:
+            line_width.append(layout[line][column]['data'].width + gap)
+            line_height.append(layout[line][column]['data'].height + gap)
+
+        all_line_sum_width.append(sum(line_width)) ##keep the sum of the widths
+        all_line_max_height.append(max(line_height)) ##and the max height on that line
+
+    ##the width of the final image if the max width between each line
+    ##and the height of the final image is the sum of each maximum height
+    ##of each line
+    final_image_width = max(all_line_sum_width)
+    final_image_height = sum(all_line_max_height)
+
+    ###prepare the final image
+    final_image = Image.new("RGBA", (final_image_width, final_image_height) )
+
+    ##create the final image
+    width_offset = 0
+    height_offset = 0
+    l = 0 ###keep track of line
+    for line in layout:
+        for column in layout[line]:
+            #Extract data
+            data = layout[line][column]['data']
+
+            ##add the individual image to the final image
+            final_image.paste(data, (width_offset, height_offset))
+
+            ##update the offset
+            width_offset += data.width + gap
+
+        ##when done with a line, reinitialise width and update height offset
+        width_offset = 0
+        height_offset += all_line_max_height[l]
+        l += 1
+
+    ##save it on disc
+    final_image.save(final_image_name)
