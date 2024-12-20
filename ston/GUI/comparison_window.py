@@ -86,16 +86,16 @@ class CompareWindow(QWidget):
 
         self.plot1, self.fig1, self.axs1, self.toolbar1 = plots.create_plot(toolbar=True)
         self.change_image(self.images[0], 1)
-        grid.addWidget(self.plot1, row, 0, 2, 4)
+        grid.addWidget(self.plot1, row, 0, 2, 8)
         row += 2
-        grid.addWidget(self.toolbar1, row, 2, 1, 2)
+        grid.addWidget(self.toolbar1, row, 6, 1, 2)
         row += 1
         
         self.plot2, self.fig2, self.axs2, self.toolbar2 = plots.create_plot(toolbar=True)
         self.change_image(self.images[1], 2)
-        grid.addWidget(self.plot2, row, 0, 2, 4)
+        grid.addWidget(self.plot2, row, 0, 2, 8)
         row += 2 
-        grid.addWidget(self.toolbar2, row, 2, 1, 2)
+        grid.addWidget(self.toolbar2, row, 6, 1, 2)
 
         ###Label for common zoom
         common_zoom = QLabel('Common zoom?')
@@ -105,6 +105,16 @@ class CompareWindow(QWidget):
         self.choice = QComboBox()
         self.choice.addItems(['No', 'Yes'])
         grid.addWidget(self.choice, row, 1, 1, 1)
+
+        ###Label for common zoom
+        primary_plot = QLabel('Primary plot?')
+        grid.addWidget(primary_plot, row, 2, 1, 1)
+
+        ###Choice yes or no
+        self.primary = QComboBox()
+        self.primary.addItems(['Top', 'Bottom'])
+        grid.addWidget(self.primary, row, 3, 1, 1)
+
 
         
         ###Connect events
