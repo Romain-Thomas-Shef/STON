@@ -35,7 +35,8 @@ def default_conf(platform):
     conf_default = os.path.join(dir_path, 'example.conf')
 
     ##load it
-    config, msg = load_conf(conf_default, platform)    
+    config, msg = load_conf(conf_default, platform)
+    del msg
 
     ###projet
     config['Project_info']['directory'] = os.path.join(Path.home(), 'Documents')
@@ -103,7 +104,7 @@ def load_conf(file, platform):
             config['Meta_image_options'][i] = int(config['Meta_image_options'][i])
         else:
             if config['Meta_image_options'][i].lower() == 'yes':
-                config['Meta_image_options'][i] = True 
+                config['Meta_image_options'][i] = True
             else:
                 config['Meta_image_options'][i] = False
 

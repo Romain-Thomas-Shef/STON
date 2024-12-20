@@ -4,13 +4,8 @@ It creates the main window
 
 
 Author: R. Thomas
-Place: U. of Sheffield
+Place: U. of Sheffield, RSE team
 Year: 2024-2025
-version: 0.1
-
-changelog:
-----------
-0.1: RTh - Create the file
 """
 
 ####Standard Library
@@ -459,8 +454,10 @@ class GUI(QMainWindow):
                 for files in self.conf['files_dict'][folder]:
                     if files == image_name:
                         filepath = os.path.join(folder, image_name)
+
         ###send to zoom window
-        self.zoom_window.change_image(filepath)
+        if filepath:
+            self.zoom_window.change_image(filepath)
 
     def hide_zoom_window(self):
         '''

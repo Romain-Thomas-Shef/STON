@@ -190,7 +190,7 @@ class ClusterWindow(QWidget):
         final_image_name, _ = QFileDialog.getSaveFileName(caption='Save File',
                                                           dir=self.conf['Project_info']['directory'])
         if final_image_name:
-            image_processing.create_meta_image(self.images_with_path, final_image_name, self.conf) 
+            image_processing.create_meta_image(self.images_with_path, final_image_name, self.conf)
 
 
 
