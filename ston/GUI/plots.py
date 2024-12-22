@@ -1,6 +1,7 @@
 """
 This file is part of the STON project (P.I. E. Dammer)
-It creates a plot in to be embedded within a window
+It creates a plot to be embedded within a window
+It also customize slightly the toolbar
 
 Author: R. Thomas
 Place: U. of Sheffield, RSE team
@@ -16,7 +17,23 @@ from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as Navigatio
 
 def create_plot(toolbar=False):
     '''
-    This initialize the image plot
+    This create the plot.
+    
+    Parameters
+    ----------
+    toolbar     :   Bool
+                    if use a toolbar. by default is false
+
+    Return
+    ------
+    canvas      : FigureCanvasQT
+                  area onto which the figure is drawn
+    fig         : Figure
+                  where the axes are draw
+    axs         : Axes
+                  the actualy plot
+    toolbar     : NavigationToolbar2QT
+                  the toolbar
     '''
     #Create a matplotliub figure and axes isntance, witth the plotting parameters
     fig, axs = plt.subplots(1, 1, dpi=100)
@@ -26,7 +43,7 @@ def create_plot(toolbar=False):
 
     ##if we use a toolbar
     if toolbar:
-        toolbar = NavigationToolbar(canvas)
+        toolbar = NavigationToolbarCustom(canvas)
     else:
         toolbar = None
 
@@ -35,3 +52,12 @@ def create_plot(toolbar=False):
     canvas.updateGeometry()
 
     return canvas, fig, axs, toolbar
+
+
+class NavigationToolbarCustom(NavigationToolbar):
+    '''
+    This class creates a custom toolbar
+    '''
+    # only display the buttons we need
+    toolitems = [t for t in NavigationToolbar.toolitems if
+                 t[0] in ('Home', 'Pan', 'Zoom')]
