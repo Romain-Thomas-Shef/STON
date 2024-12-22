@@ -94,6 +94,9 @@ class GUI(QMainWindow):
                  'https://romain-thomas-shef.github.io/STON/build/html/index.html\n'
         self.printinlog('Info', credit)
 
+        cluster = comparison_window.CompareWindow(self.conf, ['Documents/STON_data/CNP28(1).tif', 'Documents/STON_data/CNP28(1).tif'], ['1', '2'])
+        cluster.show()
+
 
     def make_layout(self):
         '''
