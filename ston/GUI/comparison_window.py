@@ -18,13 +18,9 @@ from functools import partial
 
 ####python third party
 import numpy
-from PySide6.QtWidgets import QWidget, QGridLayout, QSizePolicy, QPushButton, QLabel,\
-                              QComboBox
+from PySide6.QtWidgets import QWidget, QGridLayout, QLabel, QComboBox
 
 from PIL import Image
-import matplotlib.pyplot as plt
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 
 ##Local imports
 from . import plots
@@ -56,17 +52,22 @@ class CompareWindow(QWidget):
         '''
         super().__init__()
 
-        ###
+        ###adjust the window
         self.resize(config['Conf']['compare_window_width'], config['Conf']['compare_window_height'])
         self.move(400,400)
+
+        ###create some attributes
         self.images = images_with_path
         self.setWindowTitle('STON: Comparison: ' +
                            f'{images_without_path[0]} and {images_without_path[1]}')
         self.data1 = None
         self.data2 = None
-        self.updated_axes = False
-        self.parent()
+
+        ###add all the widgets
         self.make_layout()
+
+        ###set up zoom and primary plot
+        self.setup_common_zoom_and_primary_plot()
 
     def make_layout(self):
         '''
@@ -90,11 +91,11 @@ class CompareWindow(QWidget):
         row += 2
         grid.addWidget(self.toolbar1, row, 6, 1, 2)
         row += 1
-        
+
         self.plot2, self.fig2, self.axs2, self.toolbar2 = plots.create_plot(toolbar=True)
         self.change_image(self.images[1], 2)
         grid.addWidget(self.plot2, row, 0, 2, 8)
-        row += 2 
+        row += 2
         grid.addWidget(self.toolbar2, row, 6, 1, 2)
 
         ###Label for common zoom
@@ -103,58 +104,136 @@ class CompareWindow(QWidget):
 
         ###Choice yes or no
         self.choice = QComboBox()
-        self.choice.addItems(['No', 'Yes'])
+        self.choice.addItems(['Yes', 'No'])
         grid.addWidget(self.choice, row, 1, 1, 1)
 
-        ###Label for common zoom
+        ###Label for primary plot
         primary_plot = QLabel('Primary plot?')
         grid.addWidget(primary_plot, row, 2, 1, 1)
 
-        ###Choice yes or no
+        ###Choice of primary plot
         self.primary = QComboBox()
         self.primary.addItems(['Top', 'Bottom'])
         grid.addWidget(self.primary, row, 3, 1, 1)
 
-
-        
         ###Connect events
-        self.plot1.mpl_connect('motion_notify_event', partial(self.crosshair))
-        self.plot2.mpl_connect('motion_notify_event', partial(self.crosshair))
-        self.axs1.callbacks.connect('xlim_changed', partial(self.change_limits, 'plot1'))
-        self.axs1.callbacks.connect('ylim_changed', partial(self.change_limits, 'plot1'))
-        #self.axs2.callbacks.connect('xlim_changed', partial(self.change_limits, 'plot2'))
-        #self.axs2.callbacks.connect('ylim_changed', partial(self.change_limits, 'plot2'))
+        self.plot1.mpl_connect('motion_notify_event', partial(self.crosshair)) ###Crosshair on plot
+        self.plot2.mpl_connect('motion_notify_event', partial(self.crosshair)) ###Crosshair on plot
+        self.choice.currentTextChanged.connect(self.setup_common_zoom_and_primary_plot)
+        self.primary.currentTextChanged.connect(self.setup_common_zoom_and_primary_plot)
 
-    def change_limits(self, plotID, axs):
+    def setup_common_zoom_and_primary_plot(self):
         '''
-        test
+        Select the plot that controls the zoom on both plots 
+
+        Parameters
+        ----------
+        None
+
+        Return
+        ------
+        None
+        '''
+        ###check if we do a common zoom
+        if self.choice.currentText() == 'Yes':
+
+            ###if yes we check what plot is primary
+            if self.primary.currentText() == 'Top':
+                ###if it is the top one we must track the changes on the top one
+                ###And disconnect the bottom one
+                if hasattr(self, 'callback_y_bottom'):
+                    self.axs2.callbacks.disconnect(self.callback_x_bottom)
+                    self.axs2.callbacks.disconnect(self.callback_y_bottom)
+                    delattr(self, 'callback_y_bottom')
+                    delattr(self, 'callback_x_bottom')
+
+                ###and then create the connect the axis to the function
+                self.callback_x_top = \
+                        self.axs1.callbacks.connect('xlim_changed',
+                                                    partial(self.change_limits, 'Top'))
+
+                self.callback_y_top = \
+                        self.axs1.callbacks.connect('ylim_changed',
+                                                    partial(self.change_limits, 'Top'))
+
+            else:
+                ###Same if it is the bottom on
+                if hasattr(self, 'callback_y_top'):
+                    self.axs1.callbacks.disconnect(self.callback_x_top)
+                    self.axs1.callbacks.disconnect(self.callback_y_top)
+                    delattr(self, 'callback_y_top')
+                    delattr(self, 'callback_x_top')
+
+                self.callback_x_bottom = \
+                        self.axs2.callbacks.connect('xlim_changed',
+                                                    partial(self.change_limits, 'Bottom'))
+
+                self.callback_y_bottom = \
+                        self.axs2.callbacks.connect('ylim_changed',
+                                                    partial(self.change_limits, 'Bottom'))
+
+        else: ###<---If the common zoom is set to 'No'
+
+            ###Disconnect the events
+            if hasattr(self, 'callback_y_bottom'):
+                self.axs2.callbacks.disconnect(self.callback_x_bottom)
+                self.axs2.callbacks.disconnect(self.callback_y_bottom)
+
+            if hasattr(self, 'callback_y_top'):
+                self.axs1.callbacks.disconnect(self.callback_x_top)
+                self.axs1.callbacks.disconnect(self.callback_y_top)
+
+
+    def change_limits(self, plot_id, axs):
+        '''
+        When the limits on a plot are changed, we changed the limis of the
+        other plots accordingly. This happens only if the common zoom option
+        is used.
+
+        Parameters
+        ----------
+        plotID      str
+                    name of the plot it comes from
+        axs         matplotlib axes
+                    plot where the changes has been made
+
+        Return
+        ------
+        None
         '''
         ##get the x and y limits
-        new_x_min, new_x_max = self.axs1.get_xlim()
-        new_y_min, new_y_max = self.axs1.get_ylim()
-        print(plotID, self.updated_axes) 
-        ###Check what plots we changed
-        if plotID == 'plot1':
+        new_x_min, new_x_max = axs.get_xlim()
+        new_y_min, new_y_max = axs.get_ylim()
+
+        if plot_id == 'Top':
             ###check we are ok wrt plot2 limits
-            if  new_x_max  < self.data2.shape[1] and new_y_max < self.data2.shape[0] and self.updated_axes is False:
+            if  new_x_max  < self.data2.shape[1] and new_y_max < self.data2.shape[0]:
                 self.axs2.set_xlim((new_x_min, new_x_max))
                 self.axs2.set_ylim((new_y_min, new_y_max))
                 self.fig2.tight_layout()
                 self.plot2.draw()
 
         ###Check what plots we changed
-        if plotID == 'plot2':
+        if plot_id == 'Bottom':
             ###check we are ok wrt plot1 limits
-            if  new_x_max  < self.data1.shape[1] and new_y_max < self.data1.shape[0] and self.updated_axes is False:
+            if  new_x_max  < self.data1.shape[1] and new_y_max < self.data1.shape[0]:
                 self.axs1.set_xlim((new_x_min, new_x_max))
                 self.axs1.set_ylim((new_y_min, new_y_max))
                 self.fig1.tight_layout()
                 self.plot1.draw()
-                self.updated_axes = True
 
     def crosshair(self, event):
         '''
-        This method draw the crosshair on both plot
+        This method draws the crosshair on both plot
+
+        Parameters
+        ----------
+        event   :   matplotlib MouseEvent
+                    holds the position of the mouse on the plot            
+
+        Return
+        ------
+        None
         '''
         ##check that some coordinate are available.
         if event.xdata is not None and event.ydata is not None:
@@ -165,7 +244,7 @@ class CompareWindow(QWidget):
             if len(self.axs2.lines) > 0:
                 self.axs2.lines[-1].remove()
                 self.axs2.lines[-1].remove()
-        
+
             ##get the position of the cursor
             x = float(event.xdata)
             y = float(event.ydata)
@@ -174,14 +253,14 @@ class CompareWindow(QWidget):
             crosshair_color = 'red'
 
             ####if coordinate inside the image we draw
-            if 0 < x < self.data1.shape[1] and 0 < y < self.data1.shape[0]:                       
+            if 0 < x < self.data1.shape[1] and 0 < y < self.data1.shape[0]:
                 self.axs1.axhline(y, lw=0.8, color=crosshair_color)
                 self.axs1.axvline(x, lw=0.8, color=crosshair_color)
                 self.fig1.tight_layout()
                 self.plot1.draw()
 
             ####same for second plot
-            if 0 < x < self.data2.shape[1] and 0 < y < self.data2.shape[0]:                       
+            if 0 < x < self.data2.shape[1] and 0 < y < self.data2.shape[0]:
                 self.axs2.axhline(y, lw=0.8, color=crosshair_color)
                 self.axs2.axvline(x, lw=0.8, color=crosshair_color)
                 self.fig2.tight_layout()
