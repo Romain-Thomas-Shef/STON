@@ -3,14 +3,9 @@ This file is part of the STON project (P.I. E. Dammer)
 It creates the cluster window
 
 
-Author: R. Thomas
+Author: R. Thomas, E. Dammer
 Place: U. of Sheffield
 Year: 2024-2025
-version: 0.1
-
-changelog:
-----------
-0.1: RTh - Create the file
 """
 
 ####Standard Library
@@ -93,7 +88,7 @@ class ClusterWindow(QWidget):
         ###add button to create a list with file names of image clusters
         export_button = QPushButton('Export Cluster List')
         grid.addWidget(export_button, row, 1, 1, 1)
-        
+
         ###load the images
         self.load_images()
 
@@ -129,13 +124,14 @@ class ClusterWindow(QWidget):
         ''' 
         Save names of all clustered images to a text file
         '''
-        save_path, _ = QFileDialog.getSaveFileName(self, "Export Cluster List", "new_cluster_list.txt", "Text Files, (*.txt)")
+        save_path, _ = QFileDialog.getSaveFileName(self, "Export Cluster List",
+                                                   "new_cluster_list.txt",
+                                                   "Text Files, (*.txt)")
         if save_path:
             with open(save_path, 'w') as file:
                 for image_index in range(self.image_list.count()):
-                    file.write(self.image_list.item(image_index).text() + '\n'
+                    file.write(self.image_list.item(image_index).text() + '\n')
             print(f"File names saved to {save_path}")
-            
 
     def send_to_zoom(self):
         '''
@@ -153,7 +149,8 @@ class ClusterWindow(QWidget):
                         filepath = os.path.join(folder, image_name)
 
         ###send to zoom window
-        self.zoom_window.change_image(filepath)
+        if filepath:
+            self.zoom_window.change_image(filepath)
 
     def mashup_dialog(self):
         '''
