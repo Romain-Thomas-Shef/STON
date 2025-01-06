@@ -17,7 +17,7 @@
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="_static/documentation_options.js?v=2709fde1"></script>
-        <script src="_static/doctools.js?v=9bcbadda"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -109,13 +109,12 @@
 <h2>Source code flow<a class="headerlink" href="#source-code-flow" title="Link to this heading"></a></h2>
 <p>To understand a bit how the structure of the code works you can look at the picture below.</p>
 <figure class="align-center" id="id1">
-<a class="reference internal image-reference" href="_images/STON.png"><img alt="_images/STON.png" src="_images/STON.png" style="width: 600px;" />
-</a>
+<a class="reference internal image-reference" href="_images/STON.png"><img alt="_images/STON.png" src="_images/STON.png" style="width: 600px;" /></a>
 <figcaption>
 <p><span class="caption-text">Source code flow</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
 </figcaption>
 </figure>
-<p>The <em>pyproject.toml</em> file includes the <code class="docutils literal notranslate"><span class="pre">[project.gui-scripts]</span></code> section with <code class="docutils literal notranslate"><span class="pre">ston=&quot;ston.main:main&quot;</span></code>. This means that when you start STON with the <code class="docutils literal notranslate"><span class="pre">ston</span></code> command it will go directly in the <em>main.py</em> file starting the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function.
+<p>The <em>pyproject.toml</em> file includes the <code class="docutils literal notranslate"><span class="pre">[project.scripts]</span></code> section with <code class="docutils literal notranslate"><span class="pre">ston=&quot;ston.main:main&quot;</span></code>. This means that when you start STON with the <code class="docutils literal notranslate"><span class="pre">ston</span></code> command it will go directly in the <em>main.py</em> file starting the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function.
 This function is parsing the command line interface argument that were given by the user. Depending on these, STON will do multiple actions:</p>
 <ul class="simple">
 <li><p>Create an empty configuration file (<code class="docutils literal notranslate"><span class="pre">makeconfig</span></code>). This is done directly in the <em>main.py</em> function.</p></li>
@@ -141,20 +140,26 @@ This function is parsing the command line interface argument that were given by 
 </ul>
 <p>The content of <code class="docutils literal notranslate"><span class="pre">ston/</span></code> is visible below:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ston
-├──<span class="w"> </span>cli.py
-├──<span class="w"> </span>cluster_window.py
-├──<span class="w"> </span>comparison_window.py
-├──<span class="w"> </span>conf.py
-├──<span class="w"> </span>example.conf
-├──<span class="w"> </span>explore_files.py
-├──<span class="w"> </span>image_processing.py
+├──<span class="w"> </span>GUI
+│<span class="w">   </span>├──<span class="w"> </span>cluster_window.py
+│<span class="w">   </span>├──<span class="w"> </span>comparison_window.py
+│<span class="w">   </span>├──<span class="w"> </span>logo
+│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>logo.jpeg
+│<span class="w">   </span>├──<span class="w"> </span>main_window.py
+│<span class="w">   </span>└──<span class="w"> </span>zoom_window.py
 ├──<span class="w"> </span>__init__.py
 ├──<span class="w"> </span>main.py
-├──<span class="w"> </span>main_window.py
-├──<span class="w"> </span>__pycache__/
+├──<span class="w"> </span>processing
+│<span class="w">   </span>├──<span class="w"> </span>explore_files.py
+│<span class="w">   </span>└──<span class="w"> </span>image_processing.py
 ├──<span class="w"> </span>pylintrc
 ├──<span class="w"> </span>template_file
-└──<span class="w"> </span>zoom_window.py
+├──<span class="w"> </span>tests
+└──<span class="w"> </span>utils
+<span class="w">    </span>├──<span class="w"> </span>cli.py
+<span class="w">    </span>├──<span class="w"> </span>conf.py
+<span class="w">    </span>├──<span class="w"> </span>example.conf
+<span class="w">    </span>└──<span class="w"> </span>__init__.py
 </pre></div>
 </div>
 <p>You can see that extra files/directories are available:</p>
@@ -162,7 +167,6 @@ This function is parsing the command line interface argument that were given by 
 <li><p><em>pylintrc</em>: this is the pylint configuration file for STON.</p></li>
 <li><p><em>template_file</em>: This is a file with just a header. To start a new source code file.</p></li>
 <li><p><em>example.conf</em>: This is the generic configuration file used by the <code class="docutils literal notranslate"><span class="pre">--makeconfig</span></code> argument.</p></li>
-<li><p><strong>__pycache__</strong>: Where the compiled python code is stored (this is NOT to be touched).</p></li>
 </ul>
 </section>
 <section id="documentation">
