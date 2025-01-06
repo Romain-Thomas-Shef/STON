@@ -296,6 +296,8 @@ def most_contrasted_color(rgb):
 
     # Choose black or white based on brightness
     if brightness > 128:
-        return (0, 0, 0)  # Black
+        font_color = (0, 0, 0)  # Black
+    else:
+        font_color = (255, 255, 255) #white
 
-    return (255, 255, 255)  # White
+    return font_color
