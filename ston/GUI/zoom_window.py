@@ -52,7 +52,7 @@ class DetailWindow(QWidget):
         self.brightness = False
         self.sharpness = False
         self.contrast = False
-        
+
         ##Make the layout
         self.make_layout()
 
@@ -107,7 +107,7 @@ class DetailWindow(QWidget):
         grid.addWidget(QLabel('Contrast:'), 3, 3, 1, 1)
         grid.addWidget(QLabel('Brightness:'), 3, 5, 1, 1)
         grid.addWidget(QLabel('Sharpness:'), 3, 7, 1, 1)
-       
+
         ##Enhancers sliders
         self.slider_color = slider.Slider()
         grid.addWidget(self.slider_color, 3, 2, 1, 1)
@@ -307,7 +307,7 @@ class DetailWindow(QWidget):
             if self.sharpness is True:
                 print('update sharpness')
 
-        ##slider for brightness 
+        ##slider for brightness
         elif slider_name == 'br':
             self.brightness = True
             ##update the brightness of the image
@@ -342,18 +342,18 @@ class DetailWindow(QWidget):
         This method reset all the slider to zero and reload the original
         image
         '''
-        
+
         ##Reset the change states
         self.color = False
         self.brightness = False
         self.sharpness = False
         self.contrast = False
-        
+
         ##put everything to zero
         self.slider_color.setValue(0)
         self.slider_contrast.setValue(0)
         self.slider_brightness.setValue(0)
         self.slider_sharpness.setValue(0)
-  
+
         ##reload the original image
         self.change_image(self.file)
