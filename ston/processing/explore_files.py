@@ -4,13 +4,8 @@ It contains the functions related to file exploration
 
 
 Author: R. Thomas
-Place: U. of Sheffield
+Place: U. of Sheffield, RSE team
 Year: 2024-2025
-version: 0.1
-
-changelog:
-----------
-0.1 : RTh - Creation
 """
 
 ####Standard Library

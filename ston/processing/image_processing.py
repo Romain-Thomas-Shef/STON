@@ -4,19 +4,16 @@ It contains the functions related to file exploration
 
 
 Author: R. Thomas
-Place: U. of Sheffield
+Place: U. of Sheffield, RSE team
 Year: 2024-2025
-version: 0.1
-
-changelog:
-----------
-0.1 : RTh - Creation
 """
 ###standard library
 import os
 
 ###Third party library
-from PIL import Image
+from matplotlib import font_manager
+import numpy
+from PIL import Image, ImageDraw, ImageFont
 from PySide6 import QtGui
 
 def create_icon(data, image, item):
@@ -164,10 +161,13 @@ def create_meta_image(image_list, final_image_name, conf):
     '''
     ##Get the number of columns in the configuration file
     ##We substract one because counters start at 0 in python
-    columns = conf['Options']['Ncol_meta_image'] - 1
+    columns = conf['Meta_image_options']['ncol_meta_image'] - 1
 
     ##we also downgrade the quality to avoid to heave final image
-    downgrade_factor = conf['Options']['Downgrade_factor']
+    downgrade_factor = conf['Meta_image_options']['downgrade_factor']
+
+    ##get the fontsize of the image
+    fontsize = conf['Meta_image_options']['meta_txt_fontsize']
 
     ###In a single loop compute the number of lines and
     ###the height and width of each row
@@ -175,7 +175,6 @@ def create_meta_image(image_list, final_image_name, conf):
     line = 0
     layout = {}
     for n,image in enumerate(image_list):
-
         del n ##we don't need it
 
         #update the dictionaries if we are on a newline
@@ -186,8 +185,19 @@ def create_meta_image(image_list, final_image_name, conf):
         im = Image.open(image)
         im.thumbnail((im.width/downgrade_factor, im.height/downgrade_factor))
 
+        if conf['Meta_image_options']['name_on_images'] is True:
+            ###Find an available font and create the final font
+            font = font_manager.FontProperties(family='sans-serif', weight='bold')
+            file = font_manager.findfont(font)
+            pilfont = ImageFont.truetype(file, fontsize)
+
+            ##Add the image name to the image
+            draw = ImageDraw.Draw(im)
+            draw.text((0,0), os.path.basename(image), most_contrasted_color(compute_avg_color(numpy.array(im))), font=pilfont)
+
+
         ##Fill up the dictionries
-        layout[f'{line}'][f'{colindiv}'] = {'name': image, 'data': im}
+        layout[f'{line}'][f'{colindiv}'] = {'data': im}
 
         ###if we are at the last column we need to change line
         ###and reinitialise the column counter
@@ -200,7 +210,7 @@ def create_meta_image(image_list, final_image_name, conf):
 
     ###create the final width and height of each line
     ###between each image we add a space of 100 pix gap
-    gap = 20
+    gap = 10
     all_line_sum_width = [] ##we will keep the width of each full line
     all_line_max_height = [] ##and the max height of each full line
 
@@ -246,3 +256,51 @@ def create_meta_image(image_list, final_image_name, conf):
 
     ##save it on disc
     final_image.save(final_image_name)
+
+
+def compute_avg_color(data):
+    '''
+    This function computes the average color of an image
+    
+    Parameters
+    ----------
+    data    :   numpy array
+                image data
+
+    Return
+    ------
+    RGB     :   tuple
+                R, G, B average color
+    '''
+    avg_color = data.mean(axis=(0,1))
+    rgb = tuple(map(int, avg_color))
+
+    return rgb
+
+
+
+def most_contrasted_color(RGB):
+    """
+    Find the most contrasted color (black or white) for the given RGBA color.
+    
+    Parameters
+    ----------
+    RGB     tuple
+            Input color as (R, G, B), where each value is in [0, 255].
+    
+    Returns
+    -------
+    font_color  : tuple
+                  The most contrasted color as (R, G, B).
+    """
+    ##unpack the color
+    r, g, b = RGB
+
+    # Calculate the perceived brightness (source: https://www.w3.org/TR/AERT/#color-contrast)
+    brightness = 0.299 * r + 0.587 * g + 0.114 * b
+
+    # Choose black or white based on brightness
+    if brightness > 128:
+        return (0, 0, 0)  # Black 
+    else:
+        return (255, 255, 255)  # White 
