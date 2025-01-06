@@ -25,7 +25,7 @@ import numpy
 
 ####Local imports
 from . import slider
-
+from ..processing import enhancers
 
 class DetailWindow(QWidget):
     """
@@ -294,27 +294,35 @@ class DetailWindow(QWidget):
         elif slider_name == 'sh':
             self.sharpness = True
 
+        ########################
+        ###Apply then changes###
+        ########################
+
+        ##image opening
+        im = Image.open(self.file)
+        
+
         ##Applied color change
         if self.color is True:
-            color_im = []
+            color_im = enhancers.color(im, self.slider_color.value())
         else:
             color_im = im
 
         ##Apply contrast
         if self.contrast is True:
-            contrast_im = []
+            contrast_im = enhancers.contrast(color_im, self.slider_contrast.value())
         else:
             contrast_im = color_im
 
         ##Apply brightness
         if self.brightness is True:
-            brightness_im = []
+            brightness_im = enhancers.brightness(color_im, self.slider_brightness.value())
         else:
             brightness_im = contrast_im
 
         ##Apply sharpness
         if self.sharpness is True:
-            sharpness_im = []
+            sharpness_im = enhancers.sharpness(color_im, self.slider_sharpness.value())
         else:
             sharpness_im = brightness_im
 
