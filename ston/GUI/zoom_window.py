@@ -346,10 +346,10 @@ class DetailWindow(QWidget):
         self.contrast = False
 
         ##put everything to zero
-        self.slider_color.setValue(0)
-        self.slider_contrast.setValue(0)
-        self.slider_brightness.setValue(0)
-        self.slider_sharpness.setValue(0)
+        self.slider_color.setValue(100)
+        self.slider_contrast.setValue(100)
+        self.slider_brightness.setValue(100)
+        self.slider_sharpness.setValue(100)
 
         ##reload the original image
         self.change_image(self.file)

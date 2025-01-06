@@ -27,4 +27,5 @@ class Slider(QSlider):
         super().__init__()
         self.setOrientation(QtCore.Qt.Horizontal)
         self.setMinimum(0)
-        self.setMaximum(100)
+        self.setMaximum(500)
+        self.setValue(100)

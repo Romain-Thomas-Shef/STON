@@ -38,7 +38,7 @@ def color(image_data, factor):
     ##Create the enhancer
     enhancer = ImageEnhance.Color(image_data)
 
-    if factor <= 100 and factor >= 0:
+    if factor <= 500 and factor >= 0:
         ##Applied the factor (to be divided by 100 because
         ##values of the slider are between 0 and 100)
         modified_data = enhancer.enhance(factor/100)
@@ -67,7 +67,7 @@ def contrast(image_data, factor):
     ##Create the enhancer
     enhancer = ImageEnhance.Contrast(image_data)
 
-    if factor <= 100 and factor >= 0:
+    if factor <= 500 and factor >= 0:
         ##Applied the factor (to be divided by 100 because
         ##values of the slider are between 0 and 100)
         modified_data = enhancer.enhance(factor/100)
@@ -95,7 +95,7 @@ def sharpness(image_data, factor):
     ##Create the enhancer
     enhancer = ImageEnhance.Sharpness(image_data)
 
-    if factor <= 100 and factor >= 0:
+    if factor <= 500 and factor >= 0:
         ##Applied the factor (to be divided by 100 because
         ##values of the slider are between 0 and 100)
         modified_data = enhancer.enhance(factor/100)
@@ -123,7 +123,7 @@ def brightness(image_data, factor):
     ##Create the enhancer
     enhancer = ImageEnhance.Brightness(image_data)
 
-    if factor <= 100 and factor >= 0:
+    if factor <= 500 and factor >= 0:
         ##Applied the factor (to be divided by 100 because
         ##values of the slider are between 0 and 100)
         modified_data = enhancer.enhance(factor/100)
