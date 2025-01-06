@@ -282,60 +282,48 @@ class DetailWindow(QWidget):
         ##slider for color
         if slider_name == 'col':
             self.color = True
-            ##update the color of the image
-            print('update color')
-            ##if the other sliders have been changed we adjust
-            ##the image based on them too
-            if self.contrast is True:
-                print('update contrast')
-            if self.brightness is True:
-                print('update brightness')
-            if self.sharpness is True:
-                print('update sharpness')
 
-        ##slider for contrast
         elif slider_name == 'con':
             self.contrast = True
-            ##update the contrast of the image
-            print('update con')
-            ##if the other sliders have been changed we adjust
-            ##the image based on them too
-            if self.color is True:
-                print('update color')
-            if self.brightness is True:
-                print('update brightness')
-            if self.sharpness is True:
-                print('update sharpness')
 
         ##slider for brightness
         elif slider_name == 'br':
             self.brightness = True
-            ##update the brightness of the image
-            print('update brightness')
-            ##if the other sliders have been changed we adjust
-            ##the image based on them too
-            if self.contrast is True:
-                print('update contrast')
-            if self.color is True:
-                print('update color')
-            if self.sharpness is True:
-                print('update sharpness')
-
 
         ##slider for sharpness
         elif slider_name == 'sh':
             self.sharpness = True
-            ##update the shaprness of the image
-            print('update sharpness')
-            ##if the other sliders have been changed we adjust
-            ##the image based on them too
-            if self.contrast is True:
-                print('update contrast')
-            if self.brightness is True:
-                print('update brightness')
-            if self.color is True:
-                print('update color')
 
+        ##Applied color change
+        if self.color is True:
+            color_im = []
+        else:
+            color_im = im
+
+        ##Apply contrast
+        if self.contrast is True:
+            contrast_im = []
+        else:
+            contrast_im = color_im
+
+        ##Apply brightness
+        if self.brightness is True:
+            brightness_im = []
+        else:
+            brightness_im = contrast_im
+
+        ##Apply sharpness
+        if self.sharpness is True:
+            sharpness_im = []
+        else:
+            sharpness_im = brightness_im
+
+        ###update the image
+        self.axs.imshow(sharpness_im)
+
+        ##redraw
+        self.fig.tight_layout()
+        self.plot.draw()
 
     def reset_sliders(self):
         '''
