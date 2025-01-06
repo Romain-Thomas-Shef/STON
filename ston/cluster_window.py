@@ -90,10 +90,9 @@ class ClusterWindow(QWidget):
         mashup = QPushButton('Create Mash-up')
         grid.addWidget(mashup, row, 0, 1, 1)
 
-        ###add button to a list with file names of image clusters
+        ###add button to create a list with file names of image clusters
         export_button = QPushButton('Export Cluster List')
         grid.addWidget(export_button, row, 1, 1, 1)
-        export_button.clicked.connect(self.export_cluster_list)
         
         ###load the images
         self.load_images()
@@ -101,6 +100,7 @@ class ClusterWindow(QWidget):
         ##connect events
         self.image_list.itemDoubleClicked.connect(self.send_to_zoom)
         mashup.clicked.connect(self.mashup_dialog)
+        export_button.clicked.connect(self.export_cluster_list)
 
     def load_images(self):
         '''
@@ -131,13 +131,11 @@ class ClusterWindow(QWidget):
         '''
         save_path, _ = QFileDialog.getSaveFileName(self, "Export Cluster List", "new_cluster_list.txt", "Text Files, (*.txt)")
         if save_path:
-            try:
-                with open(save_path, 'w') as file:
-                    for image_index in range(self.image_list.count()):
-                        file.write(self.image_list.item(image_index).text() + '\n')
-                print(f"File names saved to {save_path}")
-            except Exception as e:
-                print(f"Error saving file: {e}")
+            with open(save_path, 'w') as file:
+                for image_index in range(self.image_list.count()):
+                    file.write(self.image_list.item(image_index).text() + '\n'
+            print(f"File names saved to {save_path}")
+            
 
     def send_to_zoom(self):
         '''
