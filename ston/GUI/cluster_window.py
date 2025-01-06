@@ -13,7 +13,6 @@ import os
 from functools import partial
 
 ####python third party
-from PySide6 import QtCore
 from PySide6.QtWidgets import QWidget, QListWidget, QListWidgetItem, QGridLayout,\
                               QScrollArea, QHBoxLayout, QListView, QAbstractItemView,\
                               QApplication, QPushButton, QDialog, QDialogButtonBox,\
