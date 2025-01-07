@@ -25,7 +25,10 @@ The main window is composed of three main areas:
 Image tree and display area
 ---------------------------
 
-The **Image tree** has two levels: section and files. Sections are names of directories where images were found and files are image names.
+.. figure:: /images/GUI/screenshot_image_tree.png
+   :align: left
+
+The **Image tree** has two levels: sections and files (see image on the left). Sections are names of directories where images were found and files are image names.
 The image tree only displays images whose extension match the ones given in the configuration file and located in the directory given as well in the configuration file. It is worth mentioning that STON will recursively look as well at all the subdirectories. If files with matching extension are found, a new section in the tree is created with the subdirectory name. For example:
 
 * If the directory given in the configuration file only contains images with matching extensions, a single section with the directory name will be created.
