@@ -185,7 +185,7 @@ class ClusterWindow(QWidget):
     def create_cluster_image(self):
         '''
         This method creates the cluster image. It takes all the images in the cluster
-        and create a final meta image with all the individual ones.
+        and creates a final meta image with all the individual ones.
         '''
 
         final_image_name, _ = QFileDialog.getSaveFileName(caption='Save File',
