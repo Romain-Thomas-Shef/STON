@@ -316,13 +316,13 @@ class DetailWindow(QWidget):
 
         ##Apply brightness
         if self.brightness is True:
-            brightness_im = enhancers.brightness(color_im, self.slider_brightness.value())
+            brightness_im = enhancers.brightness(contrast_im, self.slider_brightness.value())
         else:
             brightness_im = contrast_im
 
         ##Apply sharpness
         if self.sharpness is True:
-            sharpness_im = enhancers.sharpness(color_im, self.slider_sharpness.value())
+            sharpness_im = enhancers.sharpness(brightness_im, self.slider_sharpness.value())
         else:
             sharpness_im = brightness_im
 
