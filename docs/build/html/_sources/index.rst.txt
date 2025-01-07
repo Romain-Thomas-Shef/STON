@@ -3,11 +3,11 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to STON: SofTware for petrOgraphic visualisatioN
-========================================================
+STON: SofTware for petrOgraphic visualisatioN
+=============================================
 
 .. figure :: images/logo/logo.png
-    :align: right
+    :align: left
     :width: 200
 
 .. image:: https://img.shields.io/badge/License-GPLv3-blue.svg
@@ -15,22 +15,33 @@ Welcome to STON: SofTware for petrOgraphic visualisatioN
 .. image:: https://img.shields.io/badge/linting-pylint-yellowgreen
 
 
-.. toctree::
-   :maxdepth: 1
-   :caption: Contents:
 
-   installation
-   usage
-   dev_notes
-   CHANGELOG
+What is STON?
+=============
 
+Welcome to the documenation of STON. STON is a visualisation tool aiming that allows you to get a better look at petrogrpahic images taken from microscopes. Supporting multiple image format, it allows you to zoom, to compare images side by side, to cluster images together etc... 
+
+.. figure:: /images/frontpage/screenshot_main_window.png
+   :width: 400
+   :align: right
+
+   Main window of STON
+
+
+How to navigate the documentation?
+==================================
+
+If you are new to STON and would like to install the software you can look at the dedicated page on :doc:`installation`. To understand how to start STON and configure the software, please have a look at :doc:`get_started`. Finally, if you want to have a look at the documentation for the different windows you can have a look at :doc:`main_window`, :doc:`zoom_window`, :doc:`cluster_window` and :doc:`comparison_window`.  
 
 
 ----
 
-STON is a visualisation tool aiming to allow you to get a better loook at petrogrpahic images. It allows zoom, image comparison, clustering of images and header exploration. 
+**Contribute:**
+If you find a bug or would like to propose a new feature, we would appreciate if you could write an issue in the `github <https://github.com/Romain-Thomas-Shef/STON>`_ repository.
+We also welcome anyone who wants to contribute to the development. If this is your case please have a look at the :doc:`dev_notes` and if you have any question you can write to E. Dammer () and R.Thomas (romain.thomas@sheffield.ac.uk).  
 
-----
+
+
 
 .. warning::
 
