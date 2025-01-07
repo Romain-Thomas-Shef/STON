@@ -5,16 +5,12 @@ if no configuration was given, it will load an empty one
 if one was given it will extract configuration from it.
 
 Author: R. Thomas
-Place: U. of Sheffield
+Place: U. of Sheffield, RSE team
 Year: 2024-2025
-version: 0.1
-
-changelog:
-----------
-0.1 : RTh - Creation
 """
 
 ###Python standard library
+import os
 import configparser
 from pathlib import Path
 
@@ -33,31 +29,20 @@ def default_conf(platform):
                 configuration
     '''
     config = {}
-    ###projet
-    config['Project_info'] = {}
-    config['Project_info']['Name'] = 'New project'
-    #config['Project_info']['Project_directory'] ='/home/romain/Documents/STON_data' #Path.home()
-    config['Project_info']['Directory'] = Path.home()
+
+    ###get the default configuration file
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    conf_default = os.path.join(dir_path, 'example.conf')
+
+    ##load it
+    config, msg = load_conf(conf_default, platform)
+    del msg
+
+    ###project
+    config['Project_info']['directory'] = os.path.join(Path.home(), 'Documents')
 
     ###tool
-    config['Conf'] = {}
-    config['Conf']['main_window_width'] = 1550
-    config['Conf']['main_window_height'] = 900
-    config['Conf']['cluster_window_width'] = 700
-    config['Conf']['cluster_window_height'] = 400
-    config['Conf']['zoom_window_width'] = 700
-    config['Conf']['zoom_window_height'] = 400
-    config['Conf']['zoom_insert_pix_size'] = 50
-    config['Conf']['compare_window_width'] = 700
-    config['Conf']['compare_window_height'] = 400
-
     config['Conf']['OS'] = get_os(platform)
-
-    ###options
-    config['Options'] = {}
-    config['Options']['Image_width'] = 100  ###assumed to be squared
-    config['Options']['Downgrade_factor'] = 10
-    config['Options']['Extensions'] = ['.tif', '.jpeg', '.JPEG', '.png', '.jpg', '.JPG']
 
     return config
 
@@ -94,32 +79,34 @@ def load_conf(file, platform):
     ###And read the file
     loadconf.read(file)
 
-    ##Extract the conf and organise it
-    config['Project_info'] = {}
-    config['Project_info']['Name'] = loadconf['Project_info']['Name']
-    config['Project_info']['Directory'] = loadconf['Project_info']['Directory']
+    ##extract the full configuration
+    for section in loadconf.sections():
+        config[section] = dict(loadconf[section])
 
-    ###tool
-    config['Conf'] = {}
-    config['Conf']['main_window_width'] = int(loadconf['Conf']['main_window_width'])
-    config['Conf']['main_window_height'] = int(loadconf['Conf']['main_window_height'])
-    config['Conf']['zoom_window_width'] = int(loadconf['Conf']['zoom_window_width'])
-    config['Conf']['zoom_window_height'] = int(loadconf['Conf']['zoom_window_height'])
-    config['Conf']['zoom_insert_pix_size'] = int(loadconf['Conf']['zoom_insert_pix_size'])
-    config['Conf']['cluster_window_width'] = int(loadconf['Conf']['cluster_window_width'])
-    config['Conf']['cluster_window_height'] = int(loadconf['Conf']['cluster_window_height'])
-    config['Conf']['compare_window_width'] = int(loadconf['Conf']['compare_window_width'])
-    config['Conf']['compare_window_height'] = int(loadconf['Conf']['compare_window_height'])
+    ###Modify extension from str to list
+    extensions = loadconf['Project_info']['extensions'].split(';')
+    config['Project_info']['extensions'] = ['*'+i for i in extensions]
 
+    ##All elements in the 'Conf' section are ints
+    for i in config['Conf']:
+        config['Conf'][i] = int(config['Conf'][i])
+
+    ###Add extra elements
     config['Conf']['OS'] = get_os(platform)
 
-    ###options
-    config['Options'] = {}
-    config['Options']['Image_width'] = int(loadconf['Options']['Image_width'])
-    config['Options']['Downgrade_factor'] = int(loadconf['Options']['Downgrade_factor'])
-    extensions = loadconf['Options']['Extensions'].split(';')
+    ##All elements in the 'Option' section are ints
+    for i in config['General_image_display']:
+        config['General_image_display'][i] = int(config['General_image_display'][i])
 
-    config['Options']['Extensions'] = ['*'+i for i in extensions]
+    ###All elements in the 'Meta' section are ints
+    for i in config['Meta_image_options']:
+        if i not in ['name_on_images']:
+            config['Meta_image_options'][i] = int(config['Meta_image_options'][i])
+        else:
+            if config['Meta_image_options'][i].lower() == 'yes':
+                config['Meta_image_options'][i] = True
+            else:
+                config['Meta_image_options'][i] = False
 
     return config, 'Configuration file found'
 

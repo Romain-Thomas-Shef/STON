@@ -74,7 +74,7 @@ class ClusterWindow(QWidget):
         ####place where image will be displayed
         self.image_list = QListWidget(
             viewMode=QListView.ViewMode.IconMode,
-            iconSize= self.conf['Options']['Image_width'] * QtCore.QSize(1, 1),
+            iconSize= self.conf['General_image_display']['image_width'] * QtCore.QSize(1, 1),
             resizeMode=QListView.ResizeMode.Adjust)
         self.image_list.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
         #self.image_list.setDragDropMode(QAbstractItemView.DragDropMode.InternalMove)
@@ -89,6 +89,10 @@ class ClusterWindow(QWidget):
         export_button = QPushButton('Export Cluster List')
         grid.addWidget(export_button, row, 1, 1, 1)
 
+		###Add button for 'screenshot'
+        cluster_image = QPushButton('Create cluster image')
+        grid.addWidget(cluster_image, row, 2, 1, 1)
+
         ###load the images
         self.load_images()
 
@@ -96,6 +100,7 @@ class ClusterWindow(QWidget):
         self.image_list.itemDoubleClicked.connect(self.send_to_zoom)
         mashup.clicked.connect(self.mashup_dialog)
         export_button.clicked.connect(self.export_cluster_list)
+        cluster_image.clicked.connect(self.create_cluster_image)
 
     def load_images(self):
         '''
@@ -110,7 +115,7 @@ class ClusterWindow(QWidget):
             ##process image
             data, image = \
                 image_processing.make_thumbnail_from_image(nameandpath,
-                                                           self.conf['Options']['Downgrade_factor'])
+                                                           self.conf['General_image_display']['downgrade_factor'])
             ##create the icon
             item_with_icon = image_processing.create_icon(data, image, newitem)
 
@@ -164,7 +169,7 @@ class ClusterWindow(QWidget):
             filelist.append(self.image_list.item(image_index).text())
 
         ##dialog
-        dialog = MashupDialog(filelist, self.conf['Project_info']['Directory'])
+        dialog = MashupDialog(filelist, self.conf['Project_info']['directory'])
         if dialog.exec():
             ###if the user clicked 'ok' on the mashup dialog we retrieve the configuration and
             ###send it to the mashup maker
@@ -175,6 +180,19 @@ class ClusterWindow(QWidget):
         else:
             ####if the user clicked on 'cancel', or pressed escape
             print("Cancel!")
+
+
+    def create_cluster_image(self):
+        '''
+        This method creates the cluster image. It takes all the images in the cluster
+        and creates a final meta image with all the individual ones.
+        '''
+
+        final_image_name, _ = QFileDialog.getSaveFileName(caption='Save File',
+                                                          dir=self.conf['Project_info']['directory'])
+        if final_image_name:
+            image_processing.create_meta_image(self.images_with_path, final_image_name, self.conf)
+
 
 
 class MashupDialog(QDialog):

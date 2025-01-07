@@ -4,13 +4,8 @@ It creates the main window
 
 
 Author: R. Thomas
-Place: U. of Sheffield
+Place: U. of Sheffield, RSE team
 Year: 2024-2025
-version: 0.1
-
-changelog:
-----------
-0.1: RTh - Create the file
 """
 
 ####Standard Library
@@ -60,13 +55,13 @@ class GUI(QMainWindow):
 
         ##get all files
         self.conf['files_dict'] = \
-                explore_files.get_dir_and_files(self.conf['Project_info']['Directory'],\
-                                                self.conf['Options']['Extensions'])
+                explore_files.get_dir_and_files(self.conf['Project_info']['directory'],\
+                                                self.conf['Project_info']['extensions'])
 
         ###set the size and title of the window
         self.resize(self.conf['Conf']['main_window_width'], self.conf['Conf']['main_window_height'])
         self.setWindowTitle('STON: SofTware for petrOgraphic visualisatioN'+
-                            f" - {self.conf['Project_info']['Name']} - By R. Thomas and E. Dammer")
+                            f" - {self.conf['Project_info']['name']} - By R. Thomas and E. Dammer")
 
         ###add the logo
         dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -180,7 +175,7 @@ class GUI(QMainWindow):
         ####place where image will be displayed
         self.image_list = QListWidget(
             viewMode=QListView.ViewMode.IconMode,
-            iconSize= self.conf['Options']['Image_width'] * QtCore.QSize(1, 1),
+            iconSize= self.conf['General_image_display']['image_width'] * QtCore.QSize(1, 1),
             resizeMode=QListView.ResizeMode.Adjust)
         self.image_list.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
         #self.image_list.setDragDropMode(QAbstractItemView.DragDropMode.InternalMove)
@@ -316,7 +311,7 @@ class GUI(QMainWindow):
                     ##process image
                     data, image = \
                        image_processing.make_thumbnail_from_image(nameandpath,
-                                                                  self.conf['Options']['Downgrade_factor'])
+                                                                  self.conf['General_image_display']['downgrade_factor'])
 
                     ##create the icon
                     item_with_icon = image_processing.create_icon(data, image, newitem)
@@ -457,8 +452,10 @@ class GUI(QMainWindow):
                 for files in self.conf['files_dict'][folder]:
                     if files == image_name:
                         filepath = os.path.join(folder, image_name)
+
         ###send to zoom window
-        self.zoom_window.change_image(filepath)
+        if filepath:
+            self.zoom_window.change_image(filepath)
 
     def hide_zoom_window(self):
         '''
@@ -511,14 +508,14 @@ class GUI(QMainWindow):
 
                 ##update the files dict
                 self.conf['files_dict'] = \
-                        explore_files.get_dir_and_files(self.conf['Project_info']['Directory'],\
-                                                        self.conf['Options']['Extensions'])
+                        explore_files.get_dir_and_files(self.conf['Project_info']['directory'],\
+                                                        self.conf['Project_info']['extensions'])
 
                 ##and repopulate the file tree
                 self.populate_tree()
 
                 ###and update the image size in the displayer area
-                self.image_list.setIconSize(self.conf['Options']['Image_width'] * \
+                self.image_list.setIconSize(self.conf['General_image_display']['image_width'] * \
                                             QtCore.QSize(1, 1))
 
                 self.printinlog('Info', f'Configuration from {file} loaded')
