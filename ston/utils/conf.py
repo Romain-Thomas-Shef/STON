@@ -38,7 +38,7 @@ def default_conf(platform):
     config, msg = load_conf(conf_default, platform)
     del msg
 
-    ###projet
+    ###project
     config['Project_info']['directory'] = os.path.join(Path.home(), 'Documents')
 
     ###tool
