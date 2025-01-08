@@ -37,7 +37,7 @@ If you are new to STON and would like to install the software you can look at th
 
 **Contribute:**
 If you find a bug or would like to propose a new feature, we would appreciate if you could write an issue in the `github <https://github.com/Romain-Thomas-Shef/STON>`_ repository.
-We also welcome anyone who wants to contribute to the development. If this is your case please have a look at the :doc:`dev_notes` and if you have any question you can write to E. Dammer () and R.Thomas (romain.thomas@sheffield.ac.uk).  
+We also welcome anyone who wants to contribute to the development. If this is your case please have a look at the :doc:`dev_notes` and if you have any question you can write to E. Dammer (dammer.evgenia@gmail.com) and R.Thomas (romain.thomas@sheffield.ac.uk).  
 
 
 
