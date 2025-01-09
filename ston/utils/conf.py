@@ -112,7 +112,7 @@ def load_conf(file, platform):
 
 def get_os(platform):
     '''
-    SImple function that gets the right OS
+    Simple function that gets the right OS
     Parameters
     ----------
     None
