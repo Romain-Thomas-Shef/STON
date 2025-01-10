@@ -23,6 +23,7 @@ from PySide6.QtWidgets import QApplication, QMessageBox
 ####Local imports
 from .utils import cli, conf
 from .GUI import main_window
+from .tests import general
 
 def main():
     '''
@@ -34,8 +35,16 @@ def main():
     args = cli.command_line_interface(sys.argv[1:])
 
 
-    if args['test']:
-        print('Testing Ston started')
+    if args['tests']:
+        tests = input('What test do you want to run? \n'+\
+                      '[utils/processing/GUI, just press enter for all]: ')
+        if tests:
+            if tests not in ['utils', 'processing', 'GUI']:
+                print('Tests requested are not recognized, try again...exit..')
+            else:
+                general.run_tests(tests)
+        else:
+            general.run_tests('all')
         sys.exit()
 
     if args['makeconfig']:

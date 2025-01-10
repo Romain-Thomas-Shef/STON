@@ -10,6 +10,8 @@ Year: 2024-2025
 
 ####Standard Library
 import os
+import glob
+from collections import Counter
 
 def get_dir_and_files(root, extensions):
     '''
@@ -27,36 +29,42 @@ def get_dir_and_files(root, extensions):
 
     return
     ------
-    tree    :   nested dictionary
-                hierarchical tree of files and directories
+    files_dict    :   dictionary
+                      with key=directory
+                           value=list of files in that directory
     '''
 
-    tree = {}
-    files_only = []
+    file_dict = {}
+    all_files = []
 
     ##Remove stars from extension
     extensions = [i.lstrip('*') for i in extensions]
 
-    for stuff in os.listdir(root):
-        ##extract name extension
-        _, extension = os.path.splitext(stuff)
+    ##Get all files, recusrively
+    for ext in extensions:
+        all_files_for_that_extension = glob.glob(os.path.join(root, f'**/*{ext}'), 
+                                                 recursive=True)
+        
+        all_files += all_files_for_that_extension 
 
-        ###check if it is a file
-        if os.path.isfile(os.path.join(root, stuff)) and extension in extensions:
-            files_only.append(stuff)
+    ##Extract directory names
+    all_dir = []
+    for file in all_files:
+        all_dir.append(os.path.dirname(file))
 
-        ###check if it is a directory
-        if os.path.isdir(os.path.join(root, stuff)):
-            ##if it is we call the current function on that dictionary
-            dictionary = get_dir_and_files(os.path.join(root, stuff), extensions)
-            if dictionary:
-                tree[list(dictionary.keys())[0]] = dictionary[list(dictionary.keys())[0]]
+    ###Using Counter with are counting the number of time each directory
+    ###Appears. We don't care about the number but just the list of
+    ###directories. With them we create the entries in the final dictionary
+    for directory in Counter(all_dir):
+        file_dict[directory] = []
 
-    ###add to dictionary
-    if files_only:
-        tree[root] = files_only
-
-    return tree
+    ###And fill up the dictionary
+    for file in all_files:
+        for directory in file_dict:
+            if os.path.dirname(file) == directory:
+                file_dict[directory].append(os.path.basename(file))
+                
+    return file_dict
 
 
 def get_files_and_path(filelist_selected, original_file_dict, ignorefiles):

@@ -1,0 +1,39 @@
+'''
+This file gather all the tests to be run
+
+It is called via the command --test on the cli
+'''
+####Standard library
+import unittest
+
+####Third party
+
+
+###Local imports
+from . import test_utils_explore_files
+
+
+def run_tests(tests='all'):
+    '''
+    This function run the tests of STON
+
+    Parameters
+    ----------
+    tests   :   str
+                default=all and run all the tests
+                other options are available:
+                utils
+                processing
+                GUI
+
+    Return
+    ------
+    None 
+    '''
+    print(50*'-'+'start testing\n\n')
+    if tests in ['all', 'utils']:
+        print(50*'-')
+        print('We run the tests for the modules under ston/utils')
+        print(50*'-')
+        suite = unittest.TestLoader().loadTestsFromModule(test_utils_explore_files)
+        unittest.TextTestRunner(verbosity=2).run(suite)

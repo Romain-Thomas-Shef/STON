@@ -3,15 +3,9 @@ This file is part of the STON project (P.I. E. Dammer)
 It codes the command line interface
 
 
-[change what's below]
 Author: R. Thomas
-Place: U. of Sheffield
+Place: U. of Sheffield, RSE Team
 Year: 2024-2025
-version: 0.1
-
-changelog:
-----------
-0.1: RTh - Creation
 """
 
 ###Python standard library
@@ -48,7 +42,7 @@ def command_line_interface(args):
                                          default='default')
     parser.add_argument('--makeconfig', help='This command will create blank configuration'+\
                                              ' file in the current directory', action='store_true')
-    parser.add_argument('--test', action='store_true', help='Run ston tests')
+    parser.add_argument('--tests', action='store_true', help='Run ston tests')
     parser.add_argument('--version', action='version', version='0.1')
 
     ###analyse the arguments
