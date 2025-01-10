@@ -11,6 +11,7 @@ import unittest
 
 ###Local imports
 from . import test_utils_explore_files
+from . import test_utils_conf
 
 
 def run_tests(tests='all'):
@@ -35,5 +36,12 @@ def run_tests(tests='all'):
         print(50*'-')
         print('We run the tests for the modules under ston/utils')
         print(50*'-')
+
+        ####ston/utils/explore_files.py
         suite = unittest.TestLoader().loadTestsFromModule(test_utils_explore_files)
         unittest.TextTestRunner(verbosity=2).run(suite)
+        ####ston/utils/conf.py
+        print('\n')
+        suite = unittest.TestLoader().loadTestsFromModule(test_utils_conf)
+        unittest.TextTestRunner(verbosity=2).run(suite)
+        
