@@ -1,5 +1,5 @@
 '''
-This file contains the tests for STON/ston/utils/explore_files.py
+This file contains the tests for STON/ston/utils/conf.py
 '''
 
 ###standard library
