@@ -207,20 +207,18 @@ class CompareWindow(QWidget):
 
         if plot_id == 'Top':
             ###check we are ok wrt plot2 limits
-            if  new_x_max  < self.data2.shape[1] and new_y_max < self.data2.shape[0]:
-                self.axs2.set_xlim((new_x_min, new_x_max))
-                self.axs2.set_ylim((new_y_min, new_y_max))
-                self.fig2.tight_layout()
-                self.plot2.draw()
+            self.axs2.set_xlim((new_x_min, new_x_max))
+            self.axs2.set_ylim((new_y_min, new_y_max))
+            self.fig2.tight_layout()
+            self.plot2.draw()
 
         ###Check what plots we changed
         if plot_id == 'Bottom':
             ###check we are ok wrt plot1 limits
-            if  new_x_max  < self.data1.shape[1] and new_y_max < self.data1.shape[0]:
-                self.axs1.set_xlim((new_x_min, new_x_max))
-                self.axs1.set_ylim((new_y_min, new_y_max))
-                self.fig1.tight_layout()
-                self.plot1.draw()
+            self.axs1.set_xlim((new_x_min, new_x_max))
+            self.axs1.set_ylim((new_y_min, new_y_max))
+            self.fig1.tight_layout()
+            self.plot1.draw()
 
     def crosshair(self, event):
         '''
@@ -294,7 +292,7 @@ class CompareWindow(QWidget):
 
             ##display it
             self.data1 = numpy.array(image)
-            self.axs1.imshow(self.data1, origin='lower')
+            self.axs1.imshow(self.data1)
 
             ##display the name of the image:
             self.axs1.text(0, 0, f'{file}', transform=self.axs1.transAxes)
@@ -312,7 +310,7 @@ class CompareWindow(QWidget):
 
             ##display it
             self.data2 = numpy.array(image)
-            self.axs2.imshow(self.data2, origin='lower')
+            self.axs2.imshow(self.data2)
 
             ##display the name of the image:
             self.axs2.text(0, 0, f'{file}', transform=self.axs2.transAxes)
