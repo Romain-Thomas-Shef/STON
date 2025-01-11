@@ -82,7 +82,6 @@ class GUI(QMainWindow):
 
         ###create detail window (hidden)
         self.zoom_window = zoom_window.DetailWindow(self.logo, self.conf)
-        self.zoom_window.change_image('/Users/romainthomas/Documents/STON_data/CNP23.tif')
         self.zoom_window.show()
 
         ###Start up is done, give info in log
