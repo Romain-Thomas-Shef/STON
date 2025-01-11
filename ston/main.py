@@ -62,10 +62,10 @@ def main():
     if args['config']:
         if args['config'] == 'default': ##no argument passed
             ##In that case we load the default
-            configuration = conf.default_conf(sys.platform)
+            configuration = conf.default_conf()
         else:
             ##in that case we extract the configuration from the file
-            configuration, msg = conf.load_conf(args['config'], sys.platform)
+            configuration, msg = conf.load_conf(args['config'])
             if msg == 'no file':
                 print(f'Configuration file does not exist. {args["config"]}')
                 sys.exit()
