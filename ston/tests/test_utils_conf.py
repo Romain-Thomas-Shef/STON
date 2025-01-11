@@ -17,7 +17,7 @@ from ston.utils import conf
 data_directory = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
                               'test_data')
 
-class conf_get_default_conf(unittest.TestCase):
+class TestGetDefaultConf(unittest.TestCase):
     '''
     This is the class where the tests are defined
     for the function 'default_conf'
@@ -29,7 +29,7 @@ class conf_get_default_conf(unittest.TestCase):
         ##Call the function
         default = conf.default_conf()
 
-        #Check the default configuration 
+        #Check the default configuration
         self.assertEqual(default['Project_info']['name'], 'to_be_changed')
         self.assertEqual(default['Project_info']['extensions'],\
                         ['*.tif', '*.png', '*.jpeg', '*.JPG', '*.JPEG', '*.jpg'])
@@ -54,16 +54,16 @@ class conf_get_default_conf(unittest.TestCase):
         self.assertEqual(default['Meta_image_options']['meta_txt_fontsize'], 25)
         self.assertTrue(default['Meta_image_options']['name_on_images'])
 
-class conf_get_load_conf(unittest.TestCase):
+class TestConfGetLoadConf(unittest.TestCase):
     '''
     This is the class where the tests are defined
     for the function 'load_conf'. The previous class
     where we test the default conf is already calling
     that function so we 'only' going to test what is modified
     'manually' by the code.
-    ''' 
+    '''
 
-    test_conf = os.path.join(data_directory, 'test.conf') 
+    test_conf = os.path.join(data_directory, 'test.conf')
 
     def test_a_check_sections(self):
         '''
@@ -77,7 +77,7 @@ class conf_get_load_conf(unittest.TestCase):
         expected = ['Project_info', 'Conf', 'General_image_display',
                     'Meta_image_options']
         retrieved = list(loaded.keys())
-        
+
         self.assertCountEqual(expected, retrieved)
 
     def test_b_test_extension_list(self):
@@ -92,8 +92,5 @@ class conf_get_load_conf(unittest.TestCase):
 
         ####Test some things we changed
         self.assertEqual(loaded['Project_info']['name'], 'test_conf')
-        self.assertCountEqual(loaded['Project_info']['extensions'], ['*.tif', '*.fits', '*.jpeg'])  
+        self.assertCountEqual(loaded['Project_info']['extensions'], ['*.tif', '*.fits', '*.jpeg'])
         self.assertFalse(loaded['Meta_image_options']['name_on_images'])
-        
-
-   

@@ -51,4 +51,3 @@ def run_tests(tests='all'):
         print('\n')
         suite = unittest.TestLoader().loadTestsFromModule(test_utils_cli)
         unittest.TextTestRunner(verbosity=2).run(suite)
-        

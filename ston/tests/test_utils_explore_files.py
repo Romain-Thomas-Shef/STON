@@ -19,7 +19,7 @@ data_directory = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(_
 extensions = ['.tif', '.jpg', '.png']
 
 
-class explore_get_dir_and_files(unittest.TestCase):
+class ExploreGetDirAndFiles(unittest.TestCase):
     '''
     This is the class where the tests are defined
     for the function 'get_dir_and_files'
@@ -31,7 +31,7 @@ class explore_get_dir_and_files(unittest.TestCase):
         '''
         ##Call the function
         file_dict = explore_files.get_dir_and_files(data_directory, extensions)
-        
+
         ##Expected list of directories with files
         expected = ['cluster1_1sthalf', 'cluster1_2ndhalf',
                     '3rd_level', 'cluster2', 'singletif'] 
@@ -39,7 +39,7 @@ class explore_get_dir_and_files(unittest.TestCase):
 
         ###Make a bit of cleanup
         received = []
-        for key, values in file_dict.items():
+        for key, _ in file_dict.items():
             received.append(os.path.basename(key))
 
         ###Check that expected and received is the same
@@ -52,12 +52,12 @@ class explore_get_dir_and_files(unittest.TestCase):
         '''
         ##Call the function
         file_dict = explore_files.get_dir_and_files(data_directory, extensions)
-        
+
         ##Expected files in some directories with files
         expected_cluster1_1sthalf = ['1-ker-ppl.jpg', '2-ker-ppl.jpg', '3-ker-ppl.jpg',
                                      '4-ker-ppl.jpg', '5-ker-ppl.jpg']
         corresponding_dir = os.path.join(data_directory, 'cluster1_1sthalf')
-        
+
         ###and test
         self.assertCountEqual(file_dict[corresponding_dir], expected_cluster1_1sthalf)
 
@@ -79,7 +79,7 @@ class explore_get_dir_and_files(unittest.TestCase):
 
         ###And check that it is correct
         self.assertEqual(os.path.basename(list(file_dict.keys())[0]), 'singletif')
- 
+
     def test_4_directory_single_ext(self):
         '''
         Try with only one extension (in that case .jpg)
@@ -115,50 +115,55 @@ class explore_get_dir_and_files(unittest.TestCase):
 
         ###check that we have an empty dict
         self.assertFalse(file_dict)
-        
-        
 
-class Test_get_files_and_path(unittest.TestCase):
+class TestGetFilesAndPath(unittest.TestCase):
     '''
     This is the class where the tests are defined
     for the function 'get_files_and_path'
     '''
-    ###prepare the file_dict 
+    ###prepare the file_dict
     file_dict = explore_files.get_dir_and_files(data_directory, extensions)
 
-    def test_A_noignore_singlefile(self):
+    def test_a_noignore_singlefile(self):
         '''
         No ignore files, simple list of 1 file
         '''
         ##prepare expected output
         expected_file_no_path = ['TS-ceramic.tif']
-        expected_file_with_path = [os.path.join(data_directory, 'nested/2nd_level/3rd_level/singletif/TS-ceramic.tif')]
+        relative_path = 'nested/2nd_level/3rd_level/singletif/TS-ceramic.tif'
+        expected_file_with_path = [os.path.join(data_directory, relative_path)]
 
         ##call the function
-        file_with_path, file_no_path = explore_files.get_files_and_path(['TS-ceramic.tif'], self.file_dict, [])
+        file_with_path,\
+                file_no_path = explore_files.get_files_and_path(['TS-ceramic.tif'],
+                                                                self.file_dict, [])
 
         ##And check
         self.assertCountEqual(expected_file_no_path, file_no_path)
         self.assertCountEqual(expected_file_with_path, file_with_path)
-        
-    def test_B_noignore_2files_indifdirectory(self):
+
+    def test_b_noignore_2files_indifdirectory(self):
         '''
         Same as before but with two files located in different directories
-        ''' 
-        
+        '''
+
         ##prepare expected output
         expected_file_no_path = ['TS-ceramic.tif', '5-ker-ppl.jpg']
-        expected_file_with_path = [os.path.join(data_directory, 'nested/2nd_level/3rd_level/singletif/TS-ceramic.tif'),
-                                   os.path.join(data_directory, 'cluster1_1sthalf/5-ker-ppl.jpg')]
+        relative_path = 'nested/2nd_level/3rd_level/singletif/TS-ceramic.tif'
+        relative_path2 = 'cluster1_1sthalf/5-ker-ppl.jpg'
+        expected_file_with_path = [os.path.join(data_directory, relative_path),
+                                   os.path.join(data_directory, relative_path2)]
 
         ##call the function
-        file_with_path, file_no_path = explore_files.get_files_and_path(['TS-ceramic.tif', '5-ker-ppl.jpg'], self.file_dict, [])
+        file_with_path,\
+            file_no_path = explore_files.get_files_and_path(['TS-ceramic.tif', '5-ker-ppl.jpg'],
+                                                            self.file_dict, [])
 
         ##And check
         self.assertCountEqual(expected_file_no_path, file_no_path)
-        self.assertCountEqual(expected_file_with_path, file_with_path) 
+        self.assertCountEqual(expected_file_with_path, file_with_path)
 
-    def test_C_no_files_selected(self):
+    def test_c_no_files_selected(self):
         '''
         test that when no files are selected we get two empty lists
         '''
@@ -171,22 +176,24 @@ class Test_get_files_and_path(unittest.TestCase):
 
         ##And check
         self.assertCountEqual(expected_file_no_path, file_no_path)
-        self.assertCountEqual(expected_file_with_path, file_with_path) 
+        self.assertCountEqual(expected_file_with_path, file_with_path)
 
 
 
-    def test_D_with_ignore_files(self):
+    def test_d_with_ignore_files(self):
         '''
         Same as test 8 but we ask to ignore one of the file
         '''
         ##prepare expected output
         expected_file_no_path = ['TS-ceramic.tif']
-        expected_file_with_path = [os.path.join(data_directory, 'nested/2nd_level/3rd_level/singletif/TS-ceramic.tif')]
+        relative_path = 'nested/2nd_level/3rd_level/singletif/TS-ceramic.tif'
+        expected_file_with_path = [os.path.join(data_directory, relative_path)]
 
         ##call the function
-        file_with_path, file_no_path = explore_files.get_files_and_path(['TS-ceramic.tif', '5-ker-ppl.jpg'],
-                                                                         self.file_dict, ['5-ker-ppl.jpg'])
+        file_with_path,\
+            file_no_path = explore_files.get_files_and_path(['TS-ceramic.tif', '5-ker-ppl.jpg'],
+                                                             self.file_dict, ['5-ker-ppl.jpg'])
 
         ##And check
         self.assertCountEqual(expected_file_no_path, file_no_path)
-        self.assertCountEqual(expected_file_with_path, file_with_path) 
+        self.assertCountEqual(expected_file_with_path, file_with_path)
