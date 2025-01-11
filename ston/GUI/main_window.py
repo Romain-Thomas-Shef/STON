@@ -502,7 +502,7 @@ class GUI(QMainWindow):
             self.printinlog('Warning', f'Attempt to load configuation from {file}')
             try:
                 ###load conf
-                configuration, _ = conf.load_conf(file, self.conf['Conf']['OS'])
+                configuration, _ = conf.load_conf(file)
                 self.conf = configuration
 
                 ###clear displayer
