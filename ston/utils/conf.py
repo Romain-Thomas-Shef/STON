@@ -70,7 +70,7 @@ def load_conf(file, platform):
     if not my_file.is_file():
         return {}, 'no file'
 
-    ##Create empty dictionaty
+    ##Create empty dictionary
     config = {}
 
     ###create the config object
@@ -112,7 +112,7 @@ def load_conf(file, platform):
 
 def get_os(platform):
     '''
-    SImple function that gets the right OS
+    Simple function that gets the right OS
     Parameters
     ----------
     None
