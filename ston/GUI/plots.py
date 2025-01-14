@@ -1,7 +1,7 @@
 """
 This file is part of the STON project (P.I. E. Dammer)
 It creates a plot to be embedded within a window
-It also customize slightly the toolbar
+It also customizes slightly the toolbar
 
 Author: R. Thomas
 Place: U. of Sheffield, RSE team
@@ -17,7 +17,7 @@ from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as Navigatio
 
 def create_plot(toolbar=False):
     '''
-    This create the plot.
+    This creates the plot.
     
     Parameters
     ----------
@@ -29,13 +29,13 @@ def create_plot(toolbar=False):
     canvas      : FigureCanvasQT
                   area onto which the figure is drawn
     fig         : Figure
-                  where the axes are draw
+                  where the axes are drawn
     axs         : Axes
-                  the actualy plot
+                  the actual plot
     toolbar     : NavigationToolbar2QT
                   the toolbar
     '''
-    #Create a matplotliub figure and axes isntance, witth the plotting parameters
+    #Create a matplotlib figure and axes instance, with the plotting parameters
     fig, axs = plt.subplots(1, 1, dpi=100)
 
     #Create the Matplotlib canvas widget, and add to parent layout
