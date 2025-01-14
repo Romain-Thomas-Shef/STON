@@ -157,7 +157,7 @@ class CompareWindow(QWidget):
                                                     partial(self.change_limits, 'Top'))
 
             else:
-                ###Same if it is the bottom on
+                ###Same if it is the bottom one
                 if hasattr(self, 'callback_y_top'):
                     self.axs1.callbacks.disconnect(self.callback_x_top)
                     self.axs1.callbacks.disconnect(self.callback_y_top)
