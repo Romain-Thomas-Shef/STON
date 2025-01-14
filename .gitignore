@@ -1,3 +1,3 @@
-ston/__pycache__/
-ston/*/__pycache/
+ston/__pycache__/*pyc
+ston/*/__pycache/*pyc
 *.pyc
