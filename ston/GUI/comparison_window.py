@@ -4,17 +4,13 @@ It creates the side by side comparison window
 
 
 Author: R. Thomas
-Place: U. of Sheffield
+Place: U. of Sheffield, RSE team
 Year: 2024-2025
-version: 0.1
-
-changelog:
-----------
-0.1: RTh - Create the file
 """
 
 ####Standard Library
 from functools import partial
+import os
 
 ####python third party
 import numpy
@@ -295,7 +291,8 @@ class CompareWindow(QWidget):
             self.axs1.imshow(self.data1)
 
             ##display the name of the image:
-            self.axs1.text(0, 0, f'{file}', transform=self.axs1.transAxes)
+            name = os.path.basename(file)
+            self.axs1.text(0, 0, f'{name}', transform=self.axs1.transAxes, color='w')
 
             ##redraw
             self.fig1.tight_layout()
@@ -313,7 +310,8 @@ class CompareWindow(QWidget):
             self.axs2.imshow(self.data2)
 
             ##display the name of the image:
-            self.axs2.text(0, 0, f'{file}', transform=self.axs2.transAxes)
+            name = os.path.basename(file)
+            self.axs2.text(0, 0, f'{name}', transform=self.axs2.transAxes, color='w')
 
             ##redraw
             self.fig2.tight_layout()
