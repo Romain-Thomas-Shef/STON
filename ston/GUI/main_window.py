@@ -82,6 +82,7 @@ class GUI(QMainWindow):
 
         ###create detail window (hidden)
         self.zoom_window = zoom_window.DetailWindow(self.logo, self.conf)
+        self.zoom_window.show()
 
         ###Start up is done, give info in log
         self.printinlog('startup', 'Welcome to STON!')

@@ -6,18 +6,15 @@ It creates the main window
 Author: R. Thomas
 Place: U. of Sheffield
 Year: 2024-2025
-version: 0.1
-
-changelog:
-----------
-0.1: RTh - Create the file
 """
 
 ####Standard Library
 import os
+from functools import partial
 
 ####python third party
-from PySide6.QtWidgets import QWidget, QGridLayout, QLabel, QPlainTextEdit, QSizePolicy
+from PySide6.QtWidgets import QWidget, QGridLayout, QLabel, QPlainTextEdit,\
+                              QSizePolicy, QPushButton
 
 from PIL import Image
 from PIL.TiffTags import TAGS
@@ -27,7 +24,8 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import numpy
 
 ####Local imports
-
+from . import slider
+from ..processing import enhancers
 
 class DetailWindow(QWidget):
     """
@@ -45,34 +43,44 @@ class DetailWindow(QWidget):
         self.resize(self.conf['zoom_window_width'], self.conf['zoom_window_height'])
         self.setWindowTitle('STON: Detail window')
         self.logo = logo
+
+        ###File
+        self.file = None
+
+        ###enhancers change states
+        self.color = False
+        self.brightness = False
+        self.sharpness = False
+        self.contrast = False
+
+        ##Make the layout
         self.make_layout()
 
     def make_layout(self):
         '''
         Add widget to the window
         '''
-        left_grid = QGridLayout()
-        self.setLayout(left_grid)
+        grid = QGridLayout()
+        self.setLayout(grid)
 
         row = 0
         ###Qlabel for header
         header_label = QLabel('Header:')
-        left_grid.addWidget(header_label, row, 0, 1, 1)
+        grid.addWidget(header_label, row, 0, 1, 1)
         row += 1
 
         ##PlainTextEdit for header
         self.header = QPlainTextEdit('Image header:')
         self.header.setReadOnly(True)
         self.header.setFixedWidth(250)
-        #header.setFixedHeight(300)
         self.header.setLineWrapMode(QPlainTextEdit.NoWrap)
-        left_grid.addWidget(self.header, row, 0, 1, 1)
+        grid.addWidget(self.header, row, 0, 1, 1)
         row += 1
 
         ##Plot
         self.plot, self.fig, self.axs = self.create_plot()
         self.change_image(self.logo)
-        left_grid.addWidget(self.plot, 0, 1, 3, 2)
+        grid.addWidget(self.plot, 0, 1, 3, 8)
         self.connect_cursor_click()
 
 
@@ -82,7 +90,8 @@ class DetailWindow(QWidget):
         #self.change_image(self.logo)
         self.plot_zoom.setFixedWidth(250)
         self.plot_zoom.setFixedHeight(250)
-        left_grid.addWidget(self.plot_zoom, row, 0, 1, 1)
+        grid.addWidget(self.plot_zoom, row, 0, 1, 1)
+        row += 1
 
         ##QLabel for zoom
         #self.zoom = QLabel()
@@ -93,8 +102,34 @@ class DetailWindow(QWidget):
         #Track the motion of the cursor in the original 2D image
         self.setMouseTracking(True)
 
+        ##Enhancers labels
+        grid.addWidget(QLabel('Color:'), 3, 1, 1, 1)
+        grid.addWidget(QLabel('Contrast:'), 3, 3, 1, 1)
+        grid.addWidget(QLabel('Brightness:'), 3, 5, 1, 1)
+        grid.addWidget(QLabel('Sharpness:'), 3, 7, 1, 1)
+
+        ##Enhancers sliders
+        self.slider_color = slider.Slider()
+        grid.addWidget(self.slider_color, 3, 2, 1, 1)
+
+        self.slider_contrast = slider.Slider()
+        grid.addWidget(self.slider_contrast, 3, 4, 1, 1)
+
+        self.slider_brightness = slider.Slider()
+        grid.addWidget(self.slider_brightness, 3, 6, 1, 1)
+
+        self.slider_sharpness = slider.Slider()
+        grid.addWidget(self.slider_sharpness, 3, 8, 1, 1)
+
+        self.button_reset_enhancers = QPushButton('Reset Properties')
+        grid.addWidget(self.button_reset_enhancers, row, 0, 1, 1)
 
         ###connect event
+        self.slider_color.sliderReleased.connect(partial(self.slider_change, 'col'))
+        self.slider_contrast.sliderReleased.connect(partial(self.slider_change, 'con'))
+        self.slider_brightness.sliderReleased.connect(partial(self.slider_change, 'br'))
+        self.slider_sharpness.sliderReleased.connect(partial(self.slider_change, 'sh'))
+        self.button_reset_enhancers.clicked.connect(self.reset_sliders)
         self.fig.canvas.mpl_connect('motion_notify_event', self.move_in_image)
 
     def create_plot(self):
@@ -125,6 +160,9 @@ class DetailWindow(QWidget):
         ------
         None
         '''
+        #update the file attribute
+        self.file = file
+
         ##open image
         image = Image.open(file)
 
@@ -228,3 +266,90 @@ class DetailWindow(QWidget):
         self.zoom_axs.set_ylim(ymax, ymin)
         self.zoom_axs.axis('off')
         self.zoom_fig.canvas.draw()
+
+    def slider_change(self, slider_name):
+        '''
+        This method process the enhancer valuesand process
+        the images
+
+        Parameters
+        ----------
+        slider_name :   str
+                        name of the slider
+        value       :   int
+                        value of the slider that has moved 
+        '''
+        ##slider for color
+        if slider_name == 'col':
+            self.color = True
+
+        elif slider_name == 'con':
+            self.contrast = True
+
+        ##slider for brightness
+        elif slider_name == 'br':
+            self.brightness = True
+
+        ##slider for sharpness
+        elif slider_name == 'sh':
+            self.sharpness = True
+
+        ########################
+        ###Apply then changes###
+        ########################
+
+        ##image opening
+        im = Image.open(self.file)
+        
+
+        ##Applied color change
+        if self.color is True:
+            color_im = enhancers.color(im, self.slider_color.value())
+        else:
+            color_im = im
+
+        ##Apply contrast
+        if self.contrast is True:
+            contrast_im = enhancers.contrast(color_im, self.slider_contrast.value())
+        else:
+            contrast_im = color_im
+
+        ##Apply brightness
+        if self.brightness is True:
+            brightness_im = enhancers.brightness(contrast_im, self.slider_brightness.value())
+        else:
+            brightness_im = contrast_im
+
+        ##Apply sharpness
+        if self.sharpness is True:
+            sharpness_im = enhancers.sharpness(brightness_im, self.slider_sharpness.value())
+        else:
+            sharpness_im = brightness_im
+
+        ###update the image
+        self.axs.imshow(sharpness_im)
+
+        ##redraw
+        self.fig.tight_layout()
+        self.plot.draw()
+
+    def reset_sliders(self):
+        '''
+        This method reset all the slider to zero and reload the original
+        image
+        '''
+
+        ##Reset the change states
+        self.color = False
+        self.brightness = False
+        self.sharpness = False
+        self.contrast = False
+
+        ##put everything to zero
+        self.slider_color.setValue(100)
+        self.slider_contrast.setValue(100)
+        self.slider_brightness.setValue(100)
+        self.slider_sharpness.setValue(100)
+
+        ##reload the original image
+        self.change_image(self.file)
