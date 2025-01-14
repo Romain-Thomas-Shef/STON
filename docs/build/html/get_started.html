@@ -21,7 +21,9 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Main window" href="main_window.html" />
-    <link rel="prev" title="Installation" href="installation.html" /> 
+    <link rel="prev" title="Installation" href="installation.html" />
+    <link href="_static/my_theme.css" rel="stylesheet" type="text/css">
+
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -165,14 +167,14 @@
 </section>
 <section id="default-configuration">
 <h3>Default configuration<a class="headerlink" href="#default-configuration" title="Link to this heading"></a></h3>
-<p>The default configuration is the same as the one given above. The only difference is that the directory (in section Project_info) is given as the output of the command following python command:</p>
+<p>The default configuration is the same as the one given above. The only difference is that the directory (in section Project_info) is given as the output of following python command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="n">directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">(),</span> <span class="s1">&#39;Documents&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>If you use the default configuration, all the images under <code class="docutils literal notranslate"><span class="pre">Documents</span></code> AND its subdirectories will be available from STON. This might look for a lot of images. We advise to use a personal configuration file to make sure that STON goes into the right directory.</p>
+<p>If you use the default configuration, all the images under <code class="docutils literal notranslate"><span class="pre">Documents</span></code> <strong>AND</strong> its subdirectories will be available from STON. This might look for a lot of images. We advise to use a personal configuration file to make sure that STON goes into the right directory.</p>
 </div>
 </section>
 </section>

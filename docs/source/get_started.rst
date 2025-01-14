@@ -92,7 +92,7 @@ It is composed of 4 sections which are all related to a different thing to confi
 Default configuration
 ^^^^^^^^^^^^^^^^^^^^^
 
-The default configuration is the same as the one given above. The only difference is that the directory (in section Project_info) is given as the output of the command following python command::
+The default configuration is the same as the one given above. The only difference is that the directory (in section Project_info) is given as the output of following python command::
 
 
     from pathlib import Path
@@ -101,4 +101,4 @@ The default configuration is the same as the one given above. The only differenc
 
 .. warning::
     
-    If you use the default configuration, all the images under ``Documents`` AND its subdirectories will be available from STON. This might look for a lot of images. We advise to use a personal configuration file to make sure that STON goes into the right directory.
+    If you use the default configuration, all the images under ``Documents`` **AND** its subdirectories will be available from STON. This might look for a lot of images. We advise to use a personal configuration file to make sure that STON goes into the right directory.
