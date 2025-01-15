@@ -80,7 +80,7 @@ class GUI(QMainWindow):
         ###and display it
         self.show()
 
-        ###create detail window (hidden)
+        ###create detail window
         self.zoom_window = zoom_window.DetailWindow(self.logo, self.conf)
         self.zoom_window.show()
 

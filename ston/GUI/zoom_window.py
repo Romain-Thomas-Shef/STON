@@ -25,6 +25,7 @@ import numpy
 
 ####Local imports
 from . import slider
+from ..utils import open_save_files
 from ..processing import enhancers
 
 class DetailWindow(QWidget):
@@ -79,28 +80,23 @@ class DetailWindow(QWidget):
 
         ##Plot
         self.plot, self.fig, self.axs = self.create_plot()
-        self.change_image(self.logo)
         grid.addWidget(self.plot, 0, 1, 3, 8)
-        self.connect_cursor_click()
-
 
         ##live zoom Plot
         self.plot_zoom, self.zoom_fig, self.zoom_axs = self.create_plot()
         self.zoom_axs.axis('off')
-        #self.change_image(self.logo)
         self.plot_zoom.setFixedWidth(250)
         self.plot_zoom.setFixedHeight(250)
         grid.addWidget(self.plot_zoom, row, 0, 1, 1)
         row += 1
-
-        ##QLabel for zoom
-        #self.zoom = QLabel()
-        #pixmap = QtGui.QPixmap(self.logo)
-        #scaled = pixmap.scaled(200, 200, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
-        #self.zoom.setPixmap(scaled)
-        #left_grid.addWidget(self.zoom, row, 0, 1, 1, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
-        #Track the motion of the cursor in the original 2D image
         self.setMouseTracking(True)
+
+        ##Notepad
+        grid.addWidget(QLabel('Notes for this image:'), 0, 9, 1, 1)
+        self.notepad = QPlainTextEdit()
+        grid.addWidget(self.notepad, 1, 9, 2, 1)
+        self.button_save_notes = QPushButton('Save Notes')
+        grid.addWidget(self.button_save_notes, 3, 9, 1, 1)
 
         ##Enhancers labels
         grid.addWidget(QLabel('Color:'), 3, 1, 1, 1)
@@ -130,7 +126,11 @@ class DetailWindow(QWidget):
         self.slider_brightness.sliderReleased.connect(partial(self.slider_change, 'br'))
         self.slider_sharpness.sliderReleased.connect(partial(self.slider_change, 'sh'))
         self.button_reset_enhancers.clicked.connect(self.reset_sliders)
+        self.button_save_notes.clicked.connect(self.save_notes)
         self.fig.canvas.mpl_connect('motion_notify_event', self.move_in_image)
+
+        ##At startup, add the logo
+        self.change_image(self.logo)
 
     def create_plot(self):
         '''
@@ -142,7 +142,6 @@ class DetailWindow(QWidget):
         #Create the Matplotlib canvas widget, and add to parent layout
         canvas = FigureCanvas(fig)
 
-        #SOme widget resizing code, not sure what it does but was in a tutorial... TO be removed?
         canvas.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         canvas.updateGeometry()
         return canvas, fig, axs
@@ -194,16 +193,24 @@ class DetailWindow(QWidget):
         self.fig.tight_layout()
         self.plot.draw()
 
-    def connect_cursor_click(self):
-        '''
-        Start the event handler for cursor left click.
-        Returns
-        -------
+        ##Update Notes
+        ##clear the notepad
+        self.notepad.clear()
 
-        '''
+        #Make the note file name ('image_name.notes')
+        image_name = os.path.basename(file)
+        note_file_name = image_name.split('.')[0] + '_ston_notes.txt'
+        #Find the directory where the image is
+        directory = os.path.dirname(file)
+        ##Assemble final note name
+        self.final_notes = os.path.join(directory, note_file_name)
 
-        # Start the event handler for cursor motion in the original 2D image
-
+        ###Check if it is there:
+        if os.path.isfile(self.final_notes):
+            ##Extract the text
+            txt = open_save_files.open_txt_file(self.final_notes)
+            ##add the notes
+            self.notepad.setPlainText(txt)
 
     def move_in_image(self, event):
         '''
@@ -300,7 +307,6 @@ class DetailWindow(QWidget):
 
         ##image opening
         im = Image.open(self.file)
-        
 
         ##Applied color change
         if self.color is True:
@@ -353,3 +359,18 @@ class DetailWindow(QWidget):
 
         ##reload the original image
         self.change_image(self.file)
+
+    def save_notes(self):
+        '''
+        This method saves the notes in a file
+        Parameters
+        ----------
+        None
+
+        Return
+        ------
+        None
+        '''
+        ##If we have some text to save
+        if self.notepad.toPlainText():
+            open_save_files.save_txt_to_file(self.final_notes, self.notepad.toPlainText())
