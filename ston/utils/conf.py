@@ -87,6 +87,10 @@ def load_conf(file, platform):
     extensions = loadconf['Project_info']['extensions'].split(';')
     config['Project_info']['extensions'] = ['*'+i for i in extensions]
 
+    ##zoom
+    config['Zoom_window']['closeup_window_size'] = \
+                int(config['Zoom_window']['closeup_window_size'])
+
     ##All elements in the 'Conf' section are ints
     for i in config['Conf']:
         config['Conf'][i] = int(config['Conf'][i])
