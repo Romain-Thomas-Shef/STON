@@ -52,6 +52,7 @@
 <li class="toctree-l1"><a class="reference internal" href="main_window.html">Main window</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Individual image visualisation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#description-of-the-window">Description of the window</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#notepad">Notepad</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#image-enhancers">Image Enhancers</a></li>
 </ul>
 </li>
@@ -88,9 +89,43 @@
 <h1>Individual image visualisation<a class="headerlink" href="#individual-image-visualisation" title="Link to this heading"></a></h1>
 <section id="description-of-the-window">
 <h2>Description of the window<a class="headerlink" href="#description-of-the-window" title="Link to this heading"></a></h2>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="_images/Screenshot_with_annotation.png"><img alt="_images/Screenshot_with_annotation.png" src="_images/Screenshot_with_annotation.png" style="width: 700px;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Detailed image window of STON</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>This image allows you to have a detailed view of an image. When you double click on an image in the <a class="reference internal" href="main_window.html"><span class="doc">Main window</span></a>, it will then be displayed at the center of this window. From top-left to bottom right, this image shows:</p>
+<ul class="simple">
+<li><p>The <strong>header</strong> display: This <em>only</em> works for <em>.tif</em> images. Pngs, jpegs or jpg are not supported.</p></li>
+<li><p>Below the header, you can see the <strong>close up image</strong>.  This image shows a subset of the loaded images. To control the section of the image that is displayed in the close up box, just move the mouse over the loaded image at the center of the window. Two parameters control what you see in the box and they can be modified in the configuration file (see <a class="reference internal" href="get_started.html"><span class="doc">Getting started</span></a>):</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">closeup_window</span></code>: if set to <em>original</em>, this box will always display the original image. If set to <em>enhanced</em>, it will display the image as controlled by the enhancers (see below).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">closeup_window_size</span></code>: This control the size (in pixel) of the box (the box is a square).</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p>At the center of the window: the loaded image</p></li>
+<li><p>Below the loaded image are the <strong>enhancers</strong> controlling some image properties (see last section below).</p></li>
+<li><p>On the right of the window you can find the <strong>notepad</strong> and the <strong>Save Notes</strong> button (see next section).</p></li>
+</ul>
+</section>
+<section id="notepad">
+<h2>Notepad<a class="headerlink" href="#notepad" title="Link to this heading"></a></h2>
+<p>The right part of the window is the <strong>notepad</strong>. This is where you can take notes about the image you are seeing.
+If you want to save these notes you must hit the <strong>Save Notes</strong> button. If you do that, a new file will be created on disk. Assuming the loaded image is named <em>image.tif</em>, a note file will be created in the same directory with the name <em>image_ston_notes.txt</em>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is important to note that if, for a given image, a note file exists next to the image file, it will be automatically loaded in the notepad. This will allow you to continue your notes.</p>
+</div>
 </section>
 <section id="image-enhancers">
 <h2>Image Enhancers<a class="headerlink" href="#image-enhancers" title="Link to this heading"></a></h2>
+<p>At the bottom of the window, four <strong>enhancers</strong> are available. They allow you to modify the image adjusting the <em>color</em>, <em>contrast</em>, <em>brightness</em> and <em>sharpness</em>.</p>
+<p>To reset the image to its original state you must use the button <strong>Reset Properties</strong>, on the bottom left.</p>
 </section>
 </section>
 
