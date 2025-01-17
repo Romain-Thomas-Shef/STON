@@ -40,8 +40,9 @@ class DetailWindow(QWidget):
         super().__init__()
         self.hidden = True
         self.move(200,200)
-        self.conf = config['Conf']
-        self.resize(self.conf['zoom_window_width'], self.conf['zoom_window_height'])
+        self.conf = config
+        self.resize(self.conf['Conf']['zoom_window_width'],
+                    self.conf['Conf']['zoom_window_height'])
         self.setWindowTitle('STON: Detail window')
         self.logo = logo
 
@@ -200,8 +201,10 @@ class DetailWindow(QWidget):
         #Make the note file name ('image_name.notes')
         image_name = os.path.basename(file)
         note_file_name = image_name.split('.')[0] + '_ston_notes.txt'
+
         #Find the directory where the image is
         directory = os.path.dirname(file)
+
         ##Assemble final note name
         self.final_notes = os.path.join(directory, note_file_name)
 
@@ -249,7 +252,7 @@ class DetailWindow(QWidget):
         self.maxy = self.data.shape[1]
         self.zoom_axs.imshow(self.data, rasterized=True, origin='lower')
 
-        self.winsize = self.conf['zoom_insert_pix_size']
+        self.winsize = self.conf['Zoom_window']['closeup_window_size']
         #Zoom-in on original 2D image data according to size obtained from the sliding bar
         xmin, xmax = self.xcursorloc - 0.5 * self.winsize, self.xcursorloc + 0.5 * self.winsize
         ymin, ymax = self.ycursorloc - 0.5 * self.winsize, self.ycursorloc + 0.5 * self.winsize
@@ -334,15 +337,31 @@ class DetailWindow(QWidget):
 
         ###update the image
         self.axs.imshow(sharpness_im)
+        
+        ###Adjust the closeup window (bottom left)
+        if self.conf['Zoom_window']['closeup_window'] != 'original':
+            self.data = numpy.array(sharpness_im)
 
         ##redraw
         self.fig.tight_layout()
         self.plot.draw()
 
-    def reset_sliders(self):
+    def reset_sliders(self, reload=True):
         '''
         This method reset all the slider to zero and reload the original
         image
+
+        Parameters
+        ----------
+        reload  : bool
+                  to know if we reload the image
+                  by default is True
+                  Use False to just change the sliders
+                  without touching the image
+        
+        Return
+        ------
+        None
         '''
 
         ##Reset the change states
@@ -358,7 +377,8 @@ class DetailWindow(QWidget):
         self.slider_sharpness.setValue(100)
 
         ##reload the original image
-        self.change_image(self.file)
+        if reload is True:
+            self.change_image(self.file)
 
     def save_notes(self):
         '''

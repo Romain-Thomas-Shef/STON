@@ -156,6 +156,7 @@ class ClusterWindow(QWidget):
         ###send to zoom window
         if filepath:
             self.zoom_window.change_image(filepath)
+            self.zoom_window.reset_sliders(False)
 
     def mashup_dialog(self):
         '''
@@ -176,6 +177,7 @@ class ClusterWindow(QWidget):
             configmashup = dialog.get_mashup_config()
             final_image = image_processing.make_mashup(configmashup, self.images_with_path)
             self.zoom_window.change_image(final_image)
+            self.zoom_window.reset_sliders(False)
 
         else:
             ####if the user clicked on 'cancel', or pressed escape

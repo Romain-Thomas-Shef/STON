@@ -457,6 +457,7 @@ class GUI(QMainWindow):
         ###send to zoom window
         if filepath:
             self.zoom_window.change_image(filepath)
+            self.zoom_window.reset_sliders(False)
 
     def hide_zoom_window(self):
         '''
