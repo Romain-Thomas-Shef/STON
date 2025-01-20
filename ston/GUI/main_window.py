@@ -80,7 +80,7 @@ class GUI(QMainWindow):
         ###and display it
         self.show()
 
-        ###create detail window (hidden)
+        ###create detail window
         self.zoom_window = zoom_window.DetailWindow(self.logo, self.conf)
         self.zoom_window.show()
 
@@ -457,6 +457,7 @@ class GUI(QMainWindow):
         ###send to zoom window
         if filepath:
             self.zoom_window.change_image(filepath)
+            self.zoom_window.reset_sliders(False)
 
     def hide_zoom_window(self):
         '''
