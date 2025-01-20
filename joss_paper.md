@@ -18,7 +18,7 @@ affiliations:
  - name:
    index: 2
 date: 20 January 2025
-bibliography: paper.bib
+bibliography: joss_paper.bib
 
 ---
 
