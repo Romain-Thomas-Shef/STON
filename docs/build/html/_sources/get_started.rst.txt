@@ -97,7 +97,7 @@ It is composed of 4 sections which are all related to a different thing to confi
 Default configuration
 ^^^^^^^^^^^^^^^^^^^^^
 
-The default configuration is the same as the one given above. The only difference is that the directory (in section Project_info) is given as the output of following python command::
+The default configuration is the same as the one given above. The only difference is that the directory (in section Project_info) is given as the output of the following python command::
 
 
     from pathlib import Path
