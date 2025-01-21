@@ -13,7 +13,7 @@ authors:
     equal-contrib: true # (This is how you can denote equal contributions between multiple authors)
     affiliation: 2
 affiliations:
- - name: RSE team, The University of Sheffield, Regent Court, The University of, 211 Portobello St, Sheffield S1 4DP 
+ - name: RSE team, The University of Sheffield, Regent Court, The University of Sheffield, 211 Portobello St, Sheffield S1 4DP 
    index: 1
  - name:
    index: 2
