@@ -24,7 +24,17 @@ bibliography: joss_paper.bib
 
 # Summary
 
+
+
 # Statement of need
+
+--> Evgenia 
+
+# The graphical user interface
+
+## Main window and configuration 
+
+## Secondary windows
 
 
 # Citations
