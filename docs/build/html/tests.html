@@ -52,7 +52,11 @@
 <li class="toctree-l1"><a class="reference internal" href="zoom_window.html">Individual image visualisation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cluster_window.html">Grouping images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="comparison_window.html">Compare images</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Testing STON</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Testing STON</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#back-end-functions">Back-end functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#graphical-interface">Graphical Interface</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -81,6 +85,32 @@
              
   <section id="testing-ston">
 <h1>Testing STON<a class="headerlink" href="#testing-ston" title="Link to this heading"></a></h1>
+<p>STON is fully testable. STON development fully separated the GUI from the back-end functions.
+You can test both separately.</p>
+<section id="back-end-functions">
+<h2>Back-end functions<a class="headerlink" href="#back-end-functions" title="Link to this heading"></a></h2>
+<p>To test the backend part of STON you need to use the terminal and the command line interface (see <a class="reference internal" href="get_started.html"><span class="doc">Getting started</span></a>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">me</span><span class="nd">@mymachine</span><span class="p">]:</span> <span class="n">ston</span> <span class="o">--</span><span class="n">test</span>
+</pre></div>
+</div>
+<p>Here it will ask you what you want to test:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[me@mymachine]: ston --test
+What test do you want to run?
+[utils/processing, just press enter for all]:
+</pre></div>
+</div>
+<p>You can either press enter for the full test suite or write <cite>utils</cite> or <cite>processing</cite> to test some parts only.
+This part of the testing uses the <code class="docutils literal notranslate"><span class="pre">unittest</span></code> module, part of the standard library.</p>
+<p>You can also use <code class="docutils literal notranslate"><span class="pre">pytest</span></code>. For this you must go to the installation directory of STON and run <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">ston/tests/</span></code>.</p>
+<p>A few details:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">utils</span></code>: This will test everything that deals with finding files, saving/opening txt files, reading configuration. So far there are <strong>21</strong> tests implemented.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">processing</span></code>: This will test everything that deal with images.</p></li>
+</ul>
+</section>
+<section id="graphical-interface">
+<h2>Graphical Interface<a class="headerlink" href="#graphical-interface" title="Link to this heading"></a></h2>
+</section>
 </section>
 
 
