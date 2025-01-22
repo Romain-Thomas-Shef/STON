@@ -29,11 +29,11 @@ Designed to be user friendly, STON is fully customizable. It is developed in Pyt
 
 # Statement of need
 
---> Evgenia 
+--> Evgenia you should write the Statement of need :)  
 
 # The graphical user interface
 
-## Main window and configuration 
+## GUI: Main window
 
 ## Secondary windows
 
