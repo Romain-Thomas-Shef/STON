@@ -1,3 +1,4 @@
 ston/__pycache__/*pyc
 ston/*/__pycache/*pyc
 *.pyc
+STON.egg-info
