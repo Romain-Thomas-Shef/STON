@@ -17,6 +17,7 @@ Full documentation is available [here](https://romain-thomas-shef.github.io/STON
 
 
 ## What is STON?
+STON (SofTware for petrOgraphic visualisatioN) is a graphical user interface that you can use if you want to get better look at images taken from microscopes. It has been developed in the framework of petrography, with images of minerals but you can use it for whatever images. 
 
 
 ## Installation
