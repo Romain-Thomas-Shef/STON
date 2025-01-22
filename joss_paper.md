@@ -24,7 +24,7 @@ bibliography: joss_paper.bib
 
 # Summary
 
-
+STON (SofTware for petrOgraphic visualisatioN) is a graphical user interface developed with the objective to ease the inspection of images taken from microscopes. It has been developed in the framework of petrography, with images of minerals but it can be used for whatever images. This tool allows you the user to inspect image in detail, modify image parameters (contrast, brightness, sharpness), compare images side by side, combine images, etc. Designed to be user friendly, STON is developed in Python using the PySide6 library for the GUI, Pillow and matplotlib for image display and operation and scikit analysis for deeper image processing. 
 
 # Statement of need
 
