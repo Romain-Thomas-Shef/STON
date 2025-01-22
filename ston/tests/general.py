@@ -13,6 +13,7 @@ import unittest
 from . import test_utils_explore_files
 from . import test_utils_conf
 from . import test_utils_cli
+from . import test_open_save_files
 
 
 def run_tests(tests='all'):
@@ -51,3 +52,10 @@ def run_tests(tests='all'):
         print('\n')
         suite = unittest.TestLoader().loadTestsFromModule(test_utils_cli)
         unittest.TextTestRunner(verbosity=2).run(suite)
+
+        ####ston/utils/open_saves_file.py
+        print('\n')
+        suite = unittest.TestLoader().loadTestsFromModule(test_open_save_files)
+        unittest.TextTestRunner(verbosity=2).run(suite)
+
+

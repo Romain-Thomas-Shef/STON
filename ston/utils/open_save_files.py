@@ -7,6 +7,7 @@ Place: U. of Sheffield
 Year: 2024-2025
 """
 ###Python standard library
+import os
 
 ##Third party
 
@@ -24,9 +25,25 @@ def save_txt_to_file(file, txt):
     txt         :   str
                     text to save
     
+    Return
+    ------
+    status      :  str
+                   message
     '''
-    with open(file, 'w', encoding="utf-8") as filetosave:
-        filetosave.write(txt)
+    if txt:
+        if os.path.isdir(os.path.dirname(file)):
+            with open(file, 'w', encoding="utf-8") as filetosave:
+                filetosave.write(txt)
+            status = f'File {file} was saved on disk' 
+
+        else:
+            status = f'Directory {os.path.dirname(file)} does not exist'+\
+                      '...File not saved'
+
+    else:
+        status = 'No text was passed....we did not save a file'
+
+    return status
 
 def open_txt_file(file):
     '''
@@ -44,7 +61,11 @@ def open_txt_file(file):
                 text from file
     '''
 
-    with open(file, 'r', encoding="utf-8") as filetoread:
-        txt = filetoread.read()
+    if os.path.isfile(file):    
+        with open(file, 'r', encoding="utf-8") as filetoread:
+            txt = filetoread.read()
+
+    else:
+        txt = 'The file was not found'
 
     return txt
