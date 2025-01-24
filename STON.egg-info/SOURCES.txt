@@ -12,11 +12,13 @@ ston/__init__.py
 ston/main.py
 ston/pylintrc
 ston/template_file
+ston/GUI/__init__.py
 ston/GUI/cluster_window.py
 ston/GUI/comparison_window.py
 ston/GUI/main_window.py
 ston/GUI/zoom_window.py
 ston/GUI/logo/logo.jpeg
+ston/processing/__init__.py
 ston/processing/explore_files.py
 ston/processing/image_processing.py
 ston/utils/__init__.py

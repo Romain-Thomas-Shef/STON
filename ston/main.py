@@ -23,6 +23,7 @@ from PySide6.QtWidgets import QApplication, QMessageBox
 ####Local imports
 from .utils import cli, conf
 from .GUI import main_window
+from .tests import general
 
 def main():
     '''
@@ -34,8 +35,16 @@ def main():
     args = cli.command_line_interface(sys.argv[1:])
 
 
-    if args['test']:
-        print('Testing Ston started')
+    if args['tests']:
+        tests = input('What test do you want to run? \n'+\
+                      '[utils/processing/GUI, just press enter for all]: ')
+        if tests:
+            if tests not in ['utils', 'processing', 'GUI']:
+                print('Tests requested are not recognized, try again...exit..')
+            else:
+                general.run_tests(tests)
+        else:
+            general.run_tests('all')
         sys.exit()
 
     if args['makeconfig']:
@@ -53,10 +62,10 @@ def main():
     if args['config']:
         if args['config'] == 'default': ##no argument passed
             ##In that case we load the default
-            configuration = conf.default_conf(sys.platform)
+            configuration = conf.default_conf()
         else:
             ##in that case we extract the configuration from the file
-            configuration, msg = conf.load_conf(args['config'], sys.platform)
+            configuration, msg = conf.load_conf(args['config'])
             if msg == 'no file':
                 print(f'Configuration file does not exist. {args["config"]}')
                 sys.exit()

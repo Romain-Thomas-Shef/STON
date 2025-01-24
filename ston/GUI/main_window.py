@@ -24,8 +24,8 @@ from PySide6.QtWidgets import QMainWindow, QSplitter, QWidget, QGridLayout,\
 
 
 ####local impors
-from ..processing import explore_files, image_processing
-from ..utils import conf
+from ..processing import image_processing
+from ..utils import conf, explore_files
 from . import zoom_window
 from . import cluster_window
 from . import comparison_window
@@ -502,7 +502,7 @@ class GUI(QMainWindow):
             self.printinlog('Warning', f'Attempt to load configuation from {file}')
             try:
                 ###load conf
-                configuration, _ = conf.load_conf(file, self.conf['Conf']['OS'])
+                configuration, _ = conf.load_conf(file)
                 self.conf = configuration
 
                 ###clear displayer

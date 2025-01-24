@@ -14,14 +14,13 @@ import os
 import configparser
 from pathlib import Path
 
-def default_conf(platform):
+def default_conf():
     '''
     This function creates an default configuration
     It takes no parameters but returns a dictionary
     Parameters
     ----------
-    platform    : str
-                  sys.platform
+    None
 
     Returns
     -------
@@ -35,19 +34,16 @@ def default_conf(platform):
     conf_default = os.path.join(dir_path, 'example.conf')
 
     ##load it
-    config, msg = load_conf(conf_default, platform)
+    config, msg = load_conf(conf_default)
     del msg
 
     ###project
     config['Project_info']['directory'] = os.path.join(Path.home(), 'Documents')
 
-    ###tool
-    config['Conf']['OS'] = get_os(platform)
-
     return config
 
 
-def load_conf(file, platform):
+def load_conf(file):
     '''
     This function loads a configuration file given to the command line interface
     
@@ -55,9 +51,6 @@ def load_conf(file, platform):
     ---------
     file	: str
 		  configuration file (with path)
-    platform    : str
-                  sys.platform
-
 
     Return
     ------
@@ -95,9 +88,6 @@ def load_conf(file, platform):
     for i in config['Conf']:
         config['Conf'][i] = int(config['Conf'][i])
 
-    ###Add extra elements
-    config['Conf']['OS'] = get_os(platform)
-
     ##All elements in the 'Option' section are ints
     for i in config['General_image_display']:
         config['General_image_display'][i] = int(config['General_image_display'][i])
@@ -113,25 +103,3 @@ def load_conf(file, platform):
                 config['Meta_image_options'][i] = False
 
     return config, 'Configuration file found'
-
-def get_os(platform):
-    '''
-    Simple function that gets the right OS
-    Parameters
-    ----------
-    None
-
-    Return
-    ------
-    OS	:	str
-                Name of the OS
-    '''
-    ###general info
-    if 'linux' in platform:
-        op_sys = 'Linux'
-    elif 'darwin' in platform:
-        op_sys = 'OSX'
-    else:
-        op_sys = 'Windows'
-
-    return op_sys
