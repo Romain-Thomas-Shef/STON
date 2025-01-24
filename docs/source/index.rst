@@ -70,3 +70,4 @@ Table of content
  cluster_window
  comparison_window
  tests
+ dev_notes

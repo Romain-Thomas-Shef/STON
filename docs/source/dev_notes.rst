@@ -26,7 +26,6 @@ STON is stored in `github <https://github.com/Romain-Thomas-Shef/STON>`_. The st
 
 If you want to edit the source code you must go in the subdirectory called **ston**. The documentation can be edited under **docs/source**.
 
-
 Source code flow
 ----------------
 
@@ -71,19 +70,28 @@ The content of ``ston/`` is visible below:
         │   ├── logo
         │   │   └── logo.jpeg
         │   ├── main_window.py
+        │   ├── plots.py
+        │   ├── slider.py
         │   └── zoom_window.py
         ├── __init__.py
         ├── main.py
         ├── processing
-        │   ├── explore_files.py
+        │   ├── enhancers.py
         │   └── image_processing.py
         ├── pylintrc
         ├── template_file
         ├── tests
+        │   ├── general.py
+        │   ├── test_open_save_files.py
+        │   ├── test_utils_cli.py
+        │   ├── test_utils_conf.py
+        │   └── test_utils_explore_files.py
         └── utils
             ├── cli.py
             ├── conf.py
             ├── example.conf
+            ├── explore_files.py
+            ├── epen_save_files.py
             └── __init__.py
 
 You can see that extra files/directories are available:

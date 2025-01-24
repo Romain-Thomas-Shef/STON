@@ -20,6 +20,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Testing STON" href="tests.html" />
     <link href="_static/my_theme.css" rel="stylesheet" type="text/css">
 
 </head>
@@ -44,7 +45,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="get_started.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="main_window.html">Main window</a></li>
@@ -52,6 +53,13 @@
 <li class="toctree-l1"><a class="reference internal" href="cluster_window.html">Grouping images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="comparison_window.html">Compare images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests.html">Testing STON</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Development corner</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#git-repo-structure">Git repo structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#source-code-flow">Source code flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#linting">Linting</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -141,19 +149,28 @@ This function is parsing the command line interface argument that were given by 
 │<span class="w">   </span>├──<span class="w"> </span>logo
 │<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>logo.jpeg
 │<span class="w">   </span>├──<span class="w"> </span>main_window.py
+│<span class="w">   </span>├──<span class="w"> </span>plots.py
+│<span class="w">   </span>├──<span class="w"> </span>slider.py
 │<span class="w">   </span>└──<span class="w"> </span>zoom_window.py
 ├──<span class="w"> </span>__init__.py
 ├──<span class="w"> </span>main.py
 ├──<span class="w"> </span>processing
-│<span class="w">   </span>├──<span class="w"> </span>explore_files.py
+│<span class="w">   </span>├──<span class="w"> </span>enhancers.py
 │<span class="w">   </span>└──<span class="w"> </span>image_processing.py
 ├──<span class="w"> </span>pylintrc
 ├──<span class="w"> </span>template_file
 ├──<span class="w"> </span>tests
+│<span class="w">   </span>├──<span class="w"> </span>general.py
+│<span class="w">   </span>├──<span class="w"> </span>test_open_save_files.py
+│<span class="w">   </span>├──<span class="w"> </span>test_utils_cli.py
+│<span class="w">   </span>├──<span class="w"> </span>test_utils_conf.py
+│<span class="w">   </span>└──<span class="w"> </span>test_utils_explore_files.py
 └──<span class="w"> </span>utils
 <span class="w">    </span>├──<span class="w"> </span>cli.py
 <span class="w">    </span>├──<span class="w"> </span>conf.py
 <span class="w">    </span>├──<span class="w"> </span>example.conf
+<span class="w">    </span>├──<span class="w"> </span>explore_files.py
+<span class="w">    </span>├──<span class="w"> </span>epen_save_files.py
 <span class="w">    </span>└──<span class="w"> </span>__init__.py
 </pre></div>
 </div>
@@ -191,7 +208,9 @@ This function is parsing the command line interface argument that were given by 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tests.html" class="btn btn-neutral float-left" title="Testing STON" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
 
   <hr/>
 
