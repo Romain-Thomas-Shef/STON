@@ -10,6 +10,7 @@ Year: 2024-2025
 ####Standard Library
 
 ####python third party
+<<<<<<< HEAD
 import numpy
 from PySide6.QtWidgets import QWidget, QGridLayout, QLabel, QPlainTextEdit,\
                               QPushButton, QSpinBox, QTabWidget, QFileDialog
@@ -20,6 +21,11 @@ from . import plots
 from ..utils import open_save_files
 from ..processing import enhancers
 from ..processing import segmentation_regions
+from PySide6.QtWidgets import QWidget, QGridLayout, QLabel, QPlainTextEdit,\
+                              QPushButton
+
+####Local imports
+from . import plots
 
 class AnalysisWindow(QWidget):
     """
@@ -331,7 +337,8 @@ class Plot(QTabWidget):
     '''
     This class codes a simple panel with a plot inside
     '''
-    def __init__(self, explorer=False, allregions=False, results_box_write=False, conversion=False):
+    def __init__(self, explorer=False, allregions=False, results_box_write=False,\
+                 conversion=False):
         '''
         Class initialization
         Paramaeters
