@@ -14,6 +14,7 @@ Year: 2025-
 
 #Third party
 from PIL import ImageEnhance
+from skimage import filters
 
 
 #Local import
@@ -38,7 +39,7 @@ def color(image_data, factor):
     ##Create the enhancer
     enhancer = ImageEnhance.Color(image_data)
 
-    if factor <= 500 and factor >= 0:
+    if  0 <= factor <= 500:
         ##Applied the factor (to be divided by 100 because
         ##values of the slider are between 0 and 100)
         modified_data = enhancer.enhance(factor/100)
@@ -67,7 +68,7 @@ def contrast(image_data, factor):
     ##Create the enhancer
     enhancer = ImageEnhance.Contrast(image_data)
 
-    if factor <= 500 and factor >= 0:
+    if 0 <= factor <= 500:
         ##Applied the factor (to be divided by 100 because
         ##values of the slider are between 0 and 100)
         modified_data = enhancer.enhance(factor/100)
@@ -95,7 +96,7 @@ def sharpness(image_data, factor):
     ##Create the enhancer
     enhancer = ImageEnhance.Sharpness(image_data)
 
-    if factor <= 500 and factor >= 0:
+    if 0 <= factor <= 500:
         ##Applied the factor (to be divided by 100 because
         ##values of the slider are between 0 and 100)
         modified_data = enhancer.enhance(factor/100)
@@ -123,7 +124,7 @@ def brightness(image_data, factor):
     ##Create the enhancer
     enhancer = ImageEnhance.Brightness(image_data)
 
-    if factor <= 500 and factor >= 0:
+    if 0 <= factor <= 500:
         ##Applied the factor (to be divided by 100 because
         ##values of the slider are between 0 and 100)
         modified_data = enhancer.enhance(factor/100)
@@ -131,3 +132,26 @@ def brightness(image_data, factor):
         modified_data = image_data
 
     return modified_data
+
+
+def gaussian_filter(image_data, sigma):
+    '''
+    This function applies an image filter
+
+    Parameter
+    ---------
+    image_data :    numpy array
+                    data image
+
+    sigma       :   float
+                    sigma of the gaussian filter
+    
+    Return
+    ------
+    filtered    :   numpy array
+                    image with gaussian filter applied
+
+    '''
+    filtered = filters.gaussian(image_data, sigma=sigma)
+
+    return filtered
