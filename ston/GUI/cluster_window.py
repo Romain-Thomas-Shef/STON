@@ -21,6 +21,7 @@ from PySide6.QtWidgets import QWidget, QListWidget, QListWidgetItem, QGridLayout
 
 ####local impors
 from ..processing import image_processing
+from . import image_qt_display
 
 class ClusterWindow(QWidget):
     """
@@ -114,10 +115,10 @@ class ClusterWindow(QWidget):
 
             ##process image
             data, image = \
-                image_processing.make_thumbnail_from_image(nameandpath,
+                image_qt_display.make_thumbnail_from_image(nameandpath,
                                                            self.conf['General_image_display']['downgrade_factor'])
             ##create the icon
-            item_with_icon = image_processing.create_icon(data, image, newitem)
+            item_with_icon = image_qt_display.create_icon(data, image, newitem)
 
             ##and add it to the display area
             self.image_list.addItem(item_with_icon)
