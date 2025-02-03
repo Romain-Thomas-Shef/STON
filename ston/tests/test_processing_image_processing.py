@@ -202,7 +202,7 @@ class META(unittest.TestCase):
         conf = {}
         conf['Meta_image_options'] = {}
         conf['Meta_image_options']['downgrade_factor'] = 10
-        conf['Meta_image_options']['name_on_images'] = False
+        conf['Meta_image_options']['name_on_images'] = True
         conf['Meta_image_options']['ncol_meta_image'] = 1
         conf['Meta_image_options']['meta_txt_fontsize'] = 10
 
@@ -219,14 +219,13 @@ class META(unittest.TestCase):
         test_image = Image.open(os.path.join(data_directory,
                                              'test_meta_1image_with_text.png'))
 
-
-        print(final_image.size, test_image.size, numpy.where(numpy.array(final_image)-numpy.array(test_image) != 0))
+        print(numpy.where(numpy.array(final_image)-numpy.array(test_image) != 0))
         ##Check both image are the same
         self.assertTrue(numpy.array_equal(numpy.array(final_image),
                                           numpy.array(test_image)))
 
         ##remove the created image
-        os.remove(final_image_name)
+        #os.remove(final_image_name)
 
     def test_meta_b_single_image_noname(self):
         '''
@@ -262,7 +261,7 @@ class META(unittest.TestCase):
                                           numpy.array(test_image)))
 
         ##remove the created image
-        os.remove(final_image_name)
+        #os.remove(final_image_name)
 
     def test_meta_c_three_image_2_columns(self):
         '''
@@ -302,4 +301,4 @@ class META(unittest.TestCase):
                                           numpy.array(test_image)))
 
         ##remove the created image
-        os.remove(final_image_name)
+        #os.remove(final_image_name)

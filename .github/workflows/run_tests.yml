@@ -21,3 +21,8 @@ jobs:
       run: pip install .
     - name: Test with pytest
       run: pytest -vvv -s ston/tests/test*
+    - name: Upload
+      uses: actions/upload-artifact@v4
+      with:
+        name: image
+        path: meta_image_three_image_2column.png
