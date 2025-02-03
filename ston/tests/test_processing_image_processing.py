@@ -86,7 +86,7 @@ class TestContrastAndAverageColor(unittest.TestCase):
 
 
 class MASHUP(unittest.TestCase):
-    '''This class tests the function 'make_mashup' and 'create_meta_image'
+    '''This class tests the function 'make_mashup'
     '''
 
     def test_a_single_image_mashup(self):
@@ -184,3 +184,48 @@ class MASHUP(unittest.TestCase):
 
         ##remove the created image
         os.remove(conf['name'])
+
+
+class META(unittest.TestCase):
+    '''This class tests the function 'create_meta_image'
+    '''
+
+    def test_a_single_image_meta_image(self): 
+        '''
+        A meta image of a single image is just the image
+        with its name on top of it
+        '''
+        ##Get an image
+        image = os.path.join(data_directory, 'cluster1_1sthalf/1-ker-ppl.jpg')
+
+        ##Create a configuration
+        conf = {}
+        conf['Meta_image_options'] = {}
+        conf['Meta_image_options']['downgrade_factor'] = 10
+        conf['Meta_image_options']['name_on_images'] = True
+        conf['Meta_image_options']['ncol_meta_image'] = 1
+        conf['Meta_image_options']['meta_txt_fontsize'] = 10
+        conf['name'] = 'testmashup.png'
+        
+        ##final image name
+        final_image_name = 'meta_image_single_image.png'
+
+        ###make the meta image
+        image_processing.create_meta_image([image], final_image_name, conf)
+
+        ###open it back
+        final_image = numpy.array(Image.open(final_image_name))
+
+        ###open the test image
+        test_image = numpy.array(Image.open(os.path.join(data_directory, 
+                                                         'test_meta_1image_with_text.png')))
+
+        print(test_image.shape, final_image.shape)
+
+        ##Check both image are the same
+        self.assertTrue(numpy.array_equal(final_image, test_image))
+
+
+        
+
+
