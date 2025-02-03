@@ -78,12 +78,16 @@ class AnalysisWindow(QWidget):
         self.filtersigma = QSpinBox()
         grid.addWidget(self.filtersigma, row, 4, 1, 1)
 
-
         ##Run region labelling
         self.run_region_label = QPushButton('Run Region identification')
         grid.addWidget(self.run_region_label, row, 9, 1, 2)
 
         row += 1
+
+        ##Run region labelling
+        self.run_region_label = QPushButton('Run Region identification')
+        grid.addWidget(self.run_region_label, row, 9, 1, 2)
+ 
 
         ##create the place for each instrument tab
         self.tabbox = QTabWidget()
@@ -313,7 +317,6 @@ class AnalysisWindow(QWidget):
         ##Update plots
         self.region_plot.display_data(labeled_image, cmap='gray', clear=True)
 
-
         self.indiv_region_plot.display_data(self.data_from_zoom_window, cmap='gray', clear=True)
         self.indiv_region_plot.draw_single_region(properties=self.results)
         self.indiv_region_plot.regioncounter.setMinimum(1)
@@ -420,7 +423,6 @@ class Plot(QTabWidget):
         ###Display
         if datatype == 'image':
             self.ondisplay = self.axs.imshow(data, cmap=cmap)
-
             ###Remove axis
             self.axs.axes.set_axis_off()
 

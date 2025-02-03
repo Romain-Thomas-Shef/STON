@@ -12,13 +12,31 @@ Year: 2025-
 
 #Third party
 import numpy
+from skimage import filters, segmentation, measure
+
+#Local import
+
+"""
+This file is part of the STON project (P.I. E. Dammer)
+It contains the code for segmentation and region identification
+
+Author: R. Thomas
+Place: U. of Sheffield
+Year: 2025-
+"""
+
+#Standard Library
+
+
+#Third party
+import numpy
 from skimage import filters, segmentation, measure, color
 
 
 #Local import
 
 
-def find_regions(image_data, conf):
+def find_regions(image_data):
     '''
     This method uses the label function from skimage
     to find connected region
@@ -27,16 +45,6 @@ def find_regions(image_data, conf):
     ----------
     image_data  :   numpy array
                     data of the image
-
-    conf        :   dict
-                    configuration of STON
-
-    return
-    ------
-    labeled     :   numpy array
-                    segmented images
-    result      :   dict
-                    with results
     '''
 
     #Convert to grayscale 
@@ -59,7 +67,7 @@ def find_regions(image_data, conf):
     region_bbox = []
  
     for region in properties:
-        if region.area > conf['Analysis']['minimum_size']:
+        if region.area > 1:
             x, y = region.centroid
             scatter_x.append(x)
             scatter_y.append(y)
