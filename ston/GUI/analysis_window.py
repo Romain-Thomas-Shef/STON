@@ -13,8 +13,6 @@ Year: 2024-2025
 import numpy
 from PySide6.QtWidgets import QWidget, QGridLayout, QLabel, QPlainTextEdit,\
                               QPushButton, QComboBox, QSpinBox, QTabWidget
-from astropy.visualization import ZScaleInterval
-
 
 ####Local imports
 from . import plots
@@ -70,11 +68,16 @@ class AnalysisWindow(QWidget):
         self.filtersigma = QSpinBox()
         grid.addWidget(self.filtersigma, row, 4, 1, 1)
 
-        ##Run algorithm
-        self.run = QPushButton('Run algorithm')
-        grid.addWidget(self.run, row, 9, 1, 2)
+        ##Run Chan Vese
+        self.run_chan_vese = QPushButton('Run Chan Vese Segmentation')
+        grid.addWidget(self.run_chan_vese, row, 9, 1, 2)
         
         row += 1
+
+        ##Run region labelling
+        self.run_region_label = QPushButton('Run Region identification')
+        grid.addWidget(self.run_region_label, row, 9, 1, 2)
+ 
 
         ##create the place for each instrument tab
         self.tabbox = QTabWidget()
@@ -88,15 +91,17 @@ class AnalysisWindow(QWidget):
         ##display the original image
         self.reset_image()
 
-        ###Colored segmented plot panel
-        self.edges = Plot()
-        self.tabbox.addTab(self.edges, 'Edges')
-
         ###Chan vese segmented
         self.chan_vese = Plot()
         self.tabbox.addTab(self.chan_vese, 'Chan Vese segmentation')
 
+        ###Colored segmented plot panel
+        self.region_plot = Plot()
+        self.tabbox.addTab(self.region_plot, 'Region Plot')
 
+        ###Colored segmented plot panel
+        self.region_hist = Plot()
+        self.tabbox.addTab(self.region_hist, 'Region histogram')
 
         ##Result box
         self.results = QPlainTextEdit()
@@ -122,7 +127,8 @@ class AnalysisWindow(QWidget):
         reset_to_cropped_button.clicked.connect(self.reset_to_cropped)
         gaussian_filter.clicked.connect(self.apply_gaussian_filter)
         clr_txt_button.clicked.connect(self.clear_result_box)
-        self.run.clicked.connect(self.run_algo)
+        self.run_chan_vese.clicked.connect(self.run_chan_vese_seg)
+        self.run_region_label.clicked.connect(self.run_region_id)
 
     def reset_image(self):
         '''
@@ -268,9 +274,34 @@ class AnalysisWindow(QWidget):
         ##get image
         ondisplay = self.primary.ondisplay.get_array()
 
+    def run_chan_vese_seg(self):
+        '''
+        This method runs the Chan Vese segmentation
+        it takes the image in the first panel and send it to
+        the image analysis code
 
+        Parameter
+        ---------
+        None
 
-    def run_algo(self):
+        Return
+        ------
+        None    
+        '''
+        ##get image
+        ondisplay = self.primary.ondisplay.get_array()
+
+        ##Chan Vese segementaiton
+        chan_vese, results = segmentation_regions.apply_chan_vese(ondisplay)
+        self.chan_vese.display_data(chan_vese, cmap='gray')
+
+        ##Text to result box
+        txt = 'Chan Vese Segmentation done (look at corresponfing panel):\n'
+        txt += f"Ratio of black regions: {results['black']}\n"
+        txt += f"Ratio of white regions: {results['white']}\n"
+        self.write_to_result_box(txt)
+ 
+    def run_region_id(self):
         '''
         This method runs the algorithm
         it takes the image in the first panel and send it to
@@ -287,16 +318,18 @@ class AnalysisWindow(QWidget):
         ##get image
         ondisplay = self.primary.ondisplay.get_array()
 
-        ##edge detection with sobel filter
-        sobel = segmentation_regions.apply_sobel(ondisplay)
-        self.edges.display_data(sobel, cmap='gray', zscale=True)
-       
-        ##Chan Vese segementaiton
-        chan_vese = segmentation_regions.apply_chan_vese(ondisplay)
-        self.chan_vese.display_data(chan_vese, cmap='gray')
- 
+        ##Region segementaiton
+        labeled_image, results,\
+                       ratios = segmentation_regions.find_regions(ondisplay)
+        self.region_plot.display_data(labeled_image, cmap='gray')
+        self.region_plot.add_scatter(results, color='r')
 
-         
+        ##Text to result box
+        txt = 'Region identification (look at corresponfing panel):\n'
+        txt += f"Ratio of black regions: {ratios['black']}\n"
+        txt += f"Ratio of white regions: {ratios['white']}\n"
+        self.write_to_result_box(txt)
+ 
 
 
 class Plot(QTabWidget):
@@ -321,9 +354,9 @@ class Plot(QTabWidget):
         self.plot, self.fig, self.axs, self.toolbar = plots.create_plot(toolbar=True)
         self.axs.axis('off')
         grid.addWidget(self.plot, 0, 0, 7, 8)
-        grid.addWidget(self.toolbar, 7, 0, 1, 4)
+        grid.addWidget(self.toolbar, 7, 0, 1, 6)
 
-    def display_data(self, data, zscale=False, cmap=None):
+    def display_data(self, data, cmap=None):
         '''
         Display data in the plot area
 
@@ -331,10 +364,6 @@ class Plot(QTabWidget):
         ---------
         data    :   numpy array
                     data to display
-
-        zscale  :   Bool
-                    to use the zscale algorithm for automatic cuts
-                    (see astropy ZscaleInterval)
 
         Return
         ------
@@ -345,12 +374,7 @@ class Plot(QTabWidget):
         self.axs = self.fig.add_subplot()
 
         ###Display
-        if not zscale:
-            self.ondisplay = self.axs.imshow(data, cmap=cmap)
-        else:
-            z = ZScaleInterval()
-            z1,z2 = z.get_limits(data)
-            self.ondisplay = self.axs.imshow(data, vmin=z1, vmax=z2, cmap=cmap)
+        self.ondisplay = self.axs.imshow(data, cmap=cmap)
 
         ###Remove axis
         self.axs.axes.set_axis_off()
@@ -359,4 +383,23 @@ class Plot(QTabWidget):
         self.plot.draw()
         self.fig.tight_layout()
 
+    def add_scatter(self, scatter, color=None):
+        '''
+        Add a data to self.axs as a scatter plot
+        
+        Parameters
+        ----------
+        scatter :   dict
+                    with 'x' and 'y'
 
+        Return
+        ------
+        None
+        '''
+        ##Add scatter plot
+        self.axs.scatter(scatter['y'], scatter['x'], color=color,
+                         marker='o', facecolors='none')
+
+        ##Draw and adjust layout
+        self.plot.draw()
+        self.fig.tight_layout()
