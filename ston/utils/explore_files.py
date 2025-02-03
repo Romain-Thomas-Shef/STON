@@ -46,10 +46,10 @@ def get_dir_and_files(root, extensions):
 
     ##Get all files, recusrively
     for ext in extensions:
-        all_files_for_that_extension = glob.glob(os.path.join(root, f'**/*{ext}'), 
+        all_files_for_that_extension = glob.glob(os.path.join(root, f'**/*{ext}'),
                                                  recursive=True)
-        
-        all_files += all_files_for_that_extension 
+
+        all_files += all_files_for_that_extension
 
     ##Extract directory names
     all_dir = []
@@ -67,7 +67,7 @@ def get_dir_and_files(root, extensions):
         for directory in file_dict:
             if os.path.dirname(file) == directory:
                 file_dict[directory].append(os.path.basename(file))
-                
+
     return file_dict
 
 

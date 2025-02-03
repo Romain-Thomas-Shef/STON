@@ -34,7 +34,7 @@ def save_txt_to_file(file, txt):
         if os.path.isdir(os.path.dirname(file)):
             with open(file, 'w', encoding="utf-8") as filetosave:
                 filetosave.write(txt)
-            status = f'File {file} was saved on disk' 
+            status = f'File {file} was saved on disk'
 
         else:
             status = f'Directory {os.path.dirname(file)} does not exist'+\
@@ -61,7 +61,7 @@ def open_txt_file(file):
                 text from file
     '''
 
-    if os.path.isfile(file):    
+    if os.path.isfile(file):
         with open(file, 'r', encoding="utf-8") as filetoread:
             txt = filetoread.read()
 

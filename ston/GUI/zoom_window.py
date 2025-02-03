@@ -337,7 +337,7 @@ class DetailWindow(QWidget):
 
         ###update the image
         self.axs.imshow(sharpness_im)
-        
+
         ###Adjust the closeup window (bottom left)
         if self.conf['Zoom_window']['closeup_window'] != 'original':
             self.data = numpy.array(sharpness_im)
