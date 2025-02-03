@@ -16,7 +16,7 @@ from PySide6 import QtGui
 def create_icon(data, image, item):
     '''
     This function creates an icon to be displayed in the main window
-    display area and cluster window dsplay area
+    display area and cluster window display area
 
     Parameters
     ----------
@@ -49,7 +49,7 @@ def create_icon(data, image, item):
 def make_thumbnail_from_image(name_and_path, downgrade_factor):
     '''
     This function open the original image and transform
-    it so a thumbnail
+    it to a thumbnail
 
     Parameters
     ----------

@@ -19,7 +19,7 @@ from PySide6.QtWidgets import QWidget, QListWidget, QListWidgetItem, QGridLayout
                               QApplication, QPushButton, QDialog, QDialogButtonBox,\
                               QLabel, QComboBox, QLineEdit, QFileDialog
 
-####local impors
+####local imports
 from ..processing import image_processing
 from . import image_qt_display
 

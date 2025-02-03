@@ -23,7 +23,7 @@ from PySide6.QtWidgets import QMainWindow, QSplitter, QWidget, QGridLayout,\
                             QFileDialog
 
 
-####local impors
+####local imports
 from ..utils import conf, explore_files
 from . import image_qt_display
 from . import zoom_window
