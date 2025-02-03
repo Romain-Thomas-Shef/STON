@@ -257,11 +257,11 @@ class META(unittest.TestCase):
                                              'test_meta_1image_with_text_noname.png'))
 
         ##Check both image are the same
-        #self.assertTrue(numpy.array_equal(numpy.array(final_image),
-        #                                  numpy.array(test_image)))
+        self.assertTrue(numpy.array_equal(numpy.array(final_image),
+                                          numpy.array(test_image)))
 
         ##remove the created image
-        #os.remove(final_image_name)
+        os.remove(final_image_name)
 
     def test_meta_c_three_image_2_columns(self):
         '''
@@ -295,7 +295,7 @@ class META(unittest.TestCase):
                                              'test_meta_threeimage_2columns.png'))
 
 
-        print(final_image.size, test_image.size, numpy.where(numpy.array(final_image)-numpy.array(test_image) != 0))
+        print(numpy.where(numpy.array(final_image)-numpy.array(test_image) != 0))
         ##Check both image are the same
         #self.assertTrue(numpy.array_equal(numpy.array(final_image),
         #                                  numpy.array(test_image)))
