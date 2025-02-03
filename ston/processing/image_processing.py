@@ -14,7 +14,6 @@ import os
 from matplotlib import font_manager
 import numpy
 from PIL import Image, ImageDraw, ImageFont
-from PySide6 import QtGui
 
 def make_mashup(config, imageswithpath):
     '''
