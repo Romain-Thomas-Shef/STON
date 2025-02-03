@@ -220,8 +220,7 @@ class META(unittest.TestCase):
                                              'test_meta_1image_with_text.png'))
 
 
-        print(final_image.size, test_image.size)
-
+        print(final_image.size, test_image.size, numpy.array(final_image)-numpy.array(test_image))
         ##Check both image are the same
         self.assertTrue(numpy.array_equal(numpy.array(final_image),
                                           numpy.array(test_image)))
@@ -296,7 +295,7 @@ class META(unittest.TestCase):
         test_image = Image.open(os.path.join(data_directory,
                                              'test_meta_threeimage_2columns.png'))
 
-        print(final_image.size, test_image.size)
+        print(final_image.size, test_image.size, numpy.array(final_image)-numpy.array(test_image))
 
         ##Check both image are the same
         self.assertTrue(numpy.array_equal(numpy.array(final_image),
