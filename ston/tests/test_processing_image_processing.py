@@ -202,7 +202,7 @@ class META(unittest.TestCase):
         conf = {}
         conf['Meta_image_options'] = {}
         conf['Meta_image_options']['downgrade_factor'] = 10
-        conf['Meta_image_options']['name_on_images'] = True
+        conf['Meta_image_options']['name_on_images'] = False
         conf['Meta_image_options']['ncol_meta_image'] = 1
         conf['Meta_image_options']['meta_txt_fontsize'] = 10
 
