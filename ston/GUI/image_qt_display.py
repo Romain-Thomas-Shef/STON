@@ -8,12 +8,9 @@ Place: U. of Sheffield, RSE team
 Year: 2024-2025
 """
 ###standard library
-import os
 
 ###Third party library
-from matplotlib import font_manager
-import numpy
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image
 from PySide6 import QtGui
 
 def create_icon(data, image, item):
