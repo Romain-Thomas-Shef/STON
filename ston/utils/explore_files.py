@@ -13,6 +13,10 @@ import os
 import glob
 from collections import Counter
 
+##Third party
+
+##local imports
+
 def get_dir_and_files(root, extensions):
     '''
     This function gets all the files and sub directories
