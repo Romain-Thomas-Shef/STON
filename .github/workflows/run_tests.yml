@@ -1,0 +1,20 @@
+on:
+  push:
+    paths:
+      - ston/**
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.12"]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: pip install pylint==3.0.3 PySide6 pillow matplotlib pytest
+    - name: Test with pytest
+      run: pytest ston/tests/test*
