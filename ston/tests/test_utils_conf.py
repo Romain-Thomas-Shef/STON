@@ -1,5 +1,9 @@
 '''
 This file contains the tests for STON/ston/utils/conf.py
+
+Author: R. Thomas
+Place: U. of Sheffield, RSE team
+Year: 2024-2025
 '''
 
 ###standard library

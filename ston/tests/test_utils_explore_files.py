@@ -1,5 +1,9 @@
 '''
 This file contains the tests for STON/ston/utils/explore_files.py
+
+Author: R. Thomas
+Place: U. of Sheffield, RSE team
+Year: 2024-2025
 '''
 
 ###standard library
@@ -16,7 +20,7 @@ from ston.utils import explore_files
 #####define some variable that we will use everywhere
 data_directory = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
                               'test_data')
-extensions = ['.tif', '.jpg', '.png']
+extensions = ['.tif', '.jpg', '.png', 'FITS']
 
 
 class ExploreGetDirAndFiles(unittest.TestCase):
@@ -34,7 +38,7 @@ class ExploreGetDirAndFiles(unittest.TestCase):
 
         ##Expected list of directories with files
         expected = ['cluster1_1sthalf', 'cluster1_2ndhalf',
-                    '3rd_level', 'cluster2', 'singletif'] 
+                    '3rd_level', 'cluster2', 'singletif', 'test_data'] 
 
 
         ###Make a bit of cleanup
@@ -96,7 +100,7 @@ class ExploreGetDirAndFiles(unittest.TestCase):
         Try with only one extension where no files are available
         '''
         ##Call the function
-        file_dict = explore_files.get_dir_and_files(data_directory, [extensions[2]])
+        file_dict = explore_files.get_dir_and_files(data_directory, [extensions[-1]])
 
         ###Check we get an empty directory
         self.assertFalse(file_dict)

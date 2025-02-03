@@ -23,9 +23,9 @@ from PySide6.QtWidgets import QMainWindow, QSplitter, QWidget, QGridLayout,\
                             QFileDialog
 
 
-####local impors
-from ..processing import image_processing
+####local imports
 from ..utils import conf, explore_files
+from . import image_qt_display
 from . import zoom_window
 from . import cluster_window
 from . import comparison_window
@@ -311,11 +311,11 @@ class GUI(QMainWindow):
 
                     ##process image
                     data, image = \
-                       image_processing.make_thumbnail_from_image(nameandpath,
+                       image_qt_display.make_thumbnail_from_image(nameandpath,
                                                                   self.conf['General_image_display']['downgrade_factor'])
 
                     ##create the icon
-                    item_with_icon = image_processing.create_icon(data, image, newitem)
+                    item_with_icon = image_qt_display.create_icon(data, image, newitem)
 
                     ###And add to the list and print in log
                     self.image_list.addItem(item_with_icon)
