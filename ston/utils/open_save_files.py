@@ -35,7 +35,6 @@ def save_txt_to_file(file, txt):
             with open(file, 'w', encoding="utf-8") as filetosave:
                 filetosave.write(txt)
             status = f'File {file} was saved on disk' 
-            print(os.listdir())
 
         else:
             status = f'Directory {os.path.dirname(file)} does not exist'+\

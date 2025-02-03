@@ -62,7 +62,7 @@ class Save(unittest.TestCase):
     for the function 'open_txt_file'
     '''
     ##The file we will save
-    savefile = os.path.join(Path.home(), 'Documents/testfile_ston.txt')
+    savefile = os.path.join(os.getcwd(), 'testfile_ston.txt')
 
     def test_a_goodfile_and_text(self):
         '''
