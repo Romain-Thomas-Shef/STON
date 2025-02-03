@@ -25,4 +25,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: image
-        path: meta_image_three_image_2column.png
+        path: meta*.png
