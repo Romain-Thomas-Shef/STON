@@ -73,6 +73,7 @@ class Save(unittest.TestCase):
         ##so we are just going to read a conf file
         text = 'Help\nplease\nwe are stuck!!!'
         open_save_files.save_txt_to_file(self.savefile, text)
+        print(os.path.isfile(self.savefile))
 
         ##read it back
         txt_read = open_save_files.open_txt_file(self.savefile)
