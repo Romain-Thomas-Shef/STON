@@ -89,7 +89,7 @@ class MASHUP(unittest.TestCase):
     '''This class tests the function 'make_mashup'
     '''
 
-    def test_a_single_image_mashup(self):
+    def test_mashup_a_single(self):
         '''
         The mashup of a single image is the image itself
         '''
@@ -119,7 +119,7 @@ class MASHUP(unittest.TestCase):
         ##remove the created image
         os.remove(conf['name'])
 
-    def test_b_two_images_mashup(self):
+    def test_mashup_b_two_images(self):
         '''
         The mashup of two images
         '''
@@ -151,7 +151,7 @@ class MASHUP(unittest.TestCase):
         ##remove the created image
         os.remove(conf['name'])
 
-    def test_c_three_images_mashup_difsizes(self):
+    def test_mashup_c_three_images_difsizes(self):
         '''
         The mashup of three images with different sizes
         '''
@@ -190,10 +190,10 @@ class META(unittest.TestCase):
     '''This class tests the function 'create_meta_image'
     '''
 
-    def test_a_single_image_meta_image(self): 
+    def test_meta_a_single_image(self):
         '''
         A meta image of a single image is just the image
-        with its name on top of it
+        with its name on top of it and with the gaps
         '''
         ##Get an image
         image = os.path.join(data_directory, 'cluster1_1sthalf/1-ker-ppl.jpg')
@@ -205,8 +205,7 @@ class META(unittest.TestCase):
         conf['Meta_image_options']['name_on_images'] = True
         conf['Meta_image_options']['ncol_meta_image'] = 1
         conf['Meta_image_options']['meta_txt_fontsize'] = 10
-        conf['name'] = 'testmashup.png'
-        
+
         ##final image name
         final_image_name = 'meta_image_single_image.png'
 
@@ -214,18 +213,89 @@ class META(unittest.TestCase):
         image_processing.create_meta_image([image], final_image_name, conf)
 
         ###open it back
-        final_image = numpy.array(Image.open(final_image_name))
+        final_image = Image.open(final_image_name)
 
         ###open the test image
-        test_image = numpy.array(Image.open(os.path.join(data_directory, 
-                                                         'test_meta_1image_with_text.png')))
-
-        print(test_image.shape, final_image.shape)
+        test_image = Image.open(os.path.join(data_directory,
+                                             'test_meta_1image_with_text.png'))
 
         ##Check both image are the same
-        self.assertTrue(numpy.array_equal(final_image, test_image))
+        self.assertTrue(numpy.array_equal(numpy.array(final_image),
+                                          numpy.array(test_image)))
 
+        ##remove the created image
+        os.remove(final_image_name)
 
-        
+    def test_meta_b_single_image_noname(self):
+        '''
+        A meta image of a single image is just the image
+        Here we do not add the name to the image
+        '''
+        ##Get an image
+        image = os.path.join(data_directory, 'cluster1_1sthalf/1-ker-ppl.jpg')
 
+        ##Create a configuration
+        conf = {}
+        conf['Meta_image_options'] = {}
+        conf['Meta_image_options']['downgrade_factor'] = 10
+        conf['Meta_image_options']['name_on_images'] = False
+        conf['Meta_image_options']['ncol_meta_image'] = 1
+        conf['Meta_image_options']['meta_txt_fontsize'] = 10
 
+        ##final image name
+        final_image_name = 'meta_image_single_image_noname.png'
+
+        ###make the meta image
+        image_processing.create_meta_image([image], final_image_name, conf)
+
+        ###open it back
+        final_image = Image.open(final_image_name)
+
+        ###open the test image
+        test_image = Image.open(os.path.join(data_directory,
+                                             'test_meta_1image_with_text_noname.png'))
+
+        ##Check both image are the same
+        self.assertTrue(numpy.array_equal(numpy.array(final_image),
+                                          numpy.array(test_image)))
+
+        ##remove the created image
+        os.remove(final_image_name)
+
+    def test_meta_c_three_image_2_columns(self):
+        '''
+        A meta image of three images in a column is the two image
+        on the top line and one on the bottom line
+        '''
+        ##Get an image
+        image = os.path.join(data_directory, 'cluster1_1sthalf/1-ker-ppl.jpg')
+        image2 = os.path.join(data_directory, 'nested/2nd_level/3rd_level/singletif/TS-ceramic.tif')
+        image3 = os.path.join(data_directory, 'cluster1_1sthalf/3-ker-ppl.jpg')
+
+        ##Create a configuration
+        conf = {}
+        conf['Meta_image_options'] = {}
+        conf['Meta_image_options']['downgrade_factor'] = 10
+        conf['Meta_image_options']['name_on_images'] = True
+        conf['Meta_image_options']['ncol_meta_image'] = 2
+        conf['Meta_image_options']['meta_txt_fontsize'] = 10
+
+        ##final image name
+        final_image_name = 'meta_image_three_image_2column.png'
+
+        ###make the meta image
+        image_processing.create_meta_image([image, image2, image3],
+                                            final_image_name, conf)
+        ###open it back
+        final_image = Image.open(final_image_name)
+
+        ###open the test image
+        test_image = Image.open(os.path.join(data_directory,
+                                             'test_meta_threeimage_2columns.png'))
+
+        ##Check both image are the same
+        self.assertTrue(numpy.array_equal(numpy.array(final_image),
+                                          numpy.array(test_image)))
+
+        ##remove the created image
+        os.remove(final_image_name)

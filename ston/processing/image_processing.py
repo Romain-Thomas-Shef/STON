@@ -160,12 +160,8 @@ def create_meta_image(image_list, final_image_name, conf):
     final_image_width = max(all_line_sum_width)
     final_image_height = sum(all_line_max_height)
 
-    
     ###prepare the final image
     final_image = Image.new("RGBA", (final_image_width, final_image_height) )
-
-
-    print('ok', final_image.size)
 
     ##create the final image
     width_offset = 0

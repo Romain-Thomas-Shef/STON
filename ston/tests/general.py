@@ -2,6 +2,10 @@
 This file gather all the tests to be run
 
 It is called via the command --test on the cli
+
+Author: R. Thomas
+Place: U. of Sheffield, RSE team
+Year: 2024-2025
 '''
 ####Standard library
 import unittest
@@ -35,7 +39,7 @@ def run_tests(tests='all'):
     '''
     print(50*'-'+'start testing\n\n')
 
-    if tests in ['alli', 'utils']:
+    if tests in ['all', 'utils']:
         print(50*'-')
         print('We run the tests for the modules under ston/utils')
         print(50*'-')
