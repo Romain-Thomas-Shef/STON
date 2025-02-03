@@ -18,7 +18,7 @@ from . import test_utils_explore_files
 from . import test_utils_conf
 from . import test_utils_cli
 from . import test_open_save_files
-from . import test_processing_image_processing 
+from . import test_processing_image_processing
 
 def run_tests(tests='all'):
     '''
@@ -70,5 +70,3 @@ def run_tests(tests='all'):
         print('\n')
         suite = unittest.TestLoader().loadTestsFromModule(test_processing_image_processing)
         unittest.TextTestRunner(verbosity=2).run(suite)
-
-
