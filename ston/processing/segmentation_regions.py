@@ -102,14 +102,17 @@ def find_regions(image_data):
     scatter_x = []
     scatter_y = []
     region_area = []
+    region_bbox = []
  
     for region in properties:
         x, y = region.centroid
         scatter_x.append(x)
         scatter_y.append(y)
         region_area.append(region.area)
-
-    results = {'x': scatter_x, 'y': scatter_y, 'region': region_area}
+        region_bbox.append(region.bbox)
+    
+    results = {'x': scatter_x, 'y': scatter_y, 'region': region_area,
+               'bbox': region_bbox}
 
 
     labeled_image[labeled_image>0] = 1
