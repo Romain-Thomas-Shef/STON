@@ -13,6 +13,7 @@ Year: 2024-2025
 import numpy
 from PySide6.QtWidgets import QWidget, QGridLayout, QLabel, QPlainTextEdit,\
                               QPushButton, QComboBox, QSpinBox, QTabWidget
+import matplotlib.patches as patches
 
 ####Local imports
 from . import plots
@@ -323,6 +324,7 @@ class AnalysisWindow(QWidget):
                        ratios = segmentation_regions.find_regions(ondisplay)
         self.region_plot.display_data(labeled_image, cmap='gray')
         self.region_plot.add_scatter(results, color='r')
+        self.region_plot.add_regions(results)
 
         ##Text to result box
         txt = 'Region identification (look at corresponfing panel):\n'
@@ -383,6 +385,7 @@ class Plot(QTabWidget):
         self.plot.draw()
         self.fig.tight_layout()
 
+
     def add_scatter(self, scatter, color=None):
         '''
         Add a data to self.axs as a scatter plot
@@ -398,7 +401,38 @@ class Plot(QTabWidget):
         '''
         ##Add scatter plot
         self.axs.scatter(scatter['y'], scatter['x'], color=color,
-                         marker='o', facecolors='none')
+                         marker='x', facecolors='none')
+
+        ##Draw and adjust layout
+        self.plot.draw()
+        self.fig.tight_layout()
+
+    def add_regions(self, regions):
+        '''
+        This method adds segmented regions as
+        rectangles
+
+        Parameters
+        ----------
+        regions     : dict
+                      with region information
+
+        Return
+        ------
+        None
+        '''
+        ##Loop over the region 
+        for region in regions['bbox']:
+            ##get the box limits
+            min_row, min_col, max_row, max_col = region
+            ##Define the rectanle
+            rect = patches.Rectangle((min_col, min_row), max_col-min_col,
+                                     max_row - min_row,
+                                     linewidth=1,
+                                     edgecolor='y',
+                                     facecolor='none')
+            ##And draw it
+            self.axs.add_patch(rect)   
 
         ##Draw and adjust layout
         self.plot.draw()
