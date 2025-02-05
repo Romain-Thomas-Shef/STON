@@ -37,9 +37,9 @@ def main():
 
     if args['tests']:
         tests = input('What test do you want to run? \n'+\
-                      '[utils/processing/GUI, just press enter for all]: ')
+                      '[utils/processing/segmentation, just press enter for all]: ')
         if tests:
-            if tests not in ['utils', 'processing', 'GUI']:
+            if tests not in ['utils', 'processing', 'segmentation']:
                 print('Tests requested are not recognized, try again...exit..')
             else:
                 general.run_tests(tests)
@@ -63,6 +63,11 @@ def main():
         if args['config'] == 'default': ##no argument passed
             ##In that case we load the default
             configuration = conf.default_conf()
+
+        elif args['config'] == 'test':
+            ##In that case we load a test configuration
+            ##with test data
+            configuration = conf.test_conf()
         else:
             ##in that case we extract the configuration from the file
             configuration, msg = conf.load_conf(args['config'])
