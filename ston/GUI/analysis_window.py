@@ -69,16 +69,12 @@ class AnalysisWindow(QWidget):
         self.filtersigma = QSpinBox()
         grid.addWidget(self.filtersigma, row, 4, 1, 1)
 
-        ##Run Chan Vese
-        self.run_chan_vese = QPushButton('Run Chan Vese Segmentation')
-        grid.addWidget(self.run_chan_vese, row, 9, 1, 2)
-        
-        row += 1
 
         ##Run region labelling
         self.run_region_label = QPushButton('Run Region identification')
         grid.addWidget(self.run_region_label, row, 9, 1, 2)
  
+        row += 1
 
         ##create the place for each instrument tab
         self.tabbox = QTabWidget()
@@ -92,10 +88,6 @@ class AnalysisWindow(QWidget):
         ##display the original image
         self.reset_image()
 
-        ###Chan vese segmented
-        self.chan_vese = Plot()
-        self.tabbox.addTab(self.chan_vese, 'Chan Vese segmentation')
-
         ###Colored segmented plot panel
         self.region_plot = Plot()
         self.tabbox.addTab(self.region_plot, 'Region Plot')
@@ -105,17 +97,21 @@ class AnalysisWindow(QWidget):
         self.tabbox.addTab(self.region_hist, 'Region histogram')
         self.region_hist.display_data(clear = True, datatype='empty')
 
+        ###Colored segmented plot panel
+        self.indiv_region_plot = Plot()
+        self.tabbox.addTab(self.indiv_region_plot, 'Explore Regions')
+        self.indiv_region_plot.grid.addWidget(QLabel('Choose region:'), 7, 6, 1, 1)
+        self.regioncounter = QSpinBox()
+        self.indiv_region_plot.grid.addWidget(self.regioncounter, 7, 7, 1, 1)
+
+
         ##Result box
         self.results = QPlainTextEdit()
         self.results.setReadOnly(True)
         self.results.setFixedWidth(250)
-        grid.addWidget(self.results, row+1, 9, 6, 2)
+        grid.addWidget(self.results, row, 9, 7, 2)
 
-        ###save image button
-        save_image_button = QPushButton('Save image')
-        grid.addWidget(save_image_button, row+7, 6, 1, 2)
-
-        ###save image button
+        ###save text button
         save_txt_button = QPushButton('Save text')
         grid.addWidget(save_txt_button, row+7, 10, 1, 1)
 
@@ -129,7 +125,6 @@ class AnalysisWindow(QWidget):
         reset_to_cropped_button.clicked.connect(self.reset_to_cropped)
         gaussian_filter.clicked.connect(self.apply_gaussian_filter)
         clr_txt_button.clicked.connect(self.clear_result_box)
-        self.run_chan_vese.clicked.connect(self.run_chan_vese_seg)
         self.run_region_label.clicked.connect(self.run_region_id)
 
     def reset_image(self):
@@ -277,33 +272,6 @@ class AnalysisWindow(QWidget):
         ##get image
         ondisplay = self.primary.ondisplay.get_array()
 
-    def run_chan_vese_seg(self):
-        '''
-        This method runs the Chan Vese segmentation
-        it takes the image in the first panel and send it to
-        the image analysis code
-
-        Parameter
-        ---------
-        None
-
-        Return
-        ------
-        None    
-        '''
-        ##get image
-        ondisplay = self.primary.ondisplay.get_array()
-
-        ##Chan Vese segementaiton
-        chan_vese, results = segmentation_regions.apply_chan_vese(ondisplay)
-        self.chan_vese.display_data(chan_vese, cmap='gray')
-
-        ##Text to result box
-        txt = 'Chan Vese Segmentation done (look at corresponfing panel):\n'
-        txt += f"Ratio of black regions: {results['black']}\n"
-        txt += f"Ratio of white regions: {results['white']}\n"
-        self.write_to_result_box(txt)
- 
     def run_region_id(self):
         '''
         This method runs the algorithm
@@ -325,6 +293,7 @@ class AnalysisWindow(QWidget):
         labeled_image, results,\
                        ratios = segmentation_regions.find_regions(ondisplay)
         self.region_plot.display_data(labeled_image, cmap='gray', clear=True)
+        self.indiv_region_plot.display_data(labeled_image, cmap='gray', clear=True)
         self.region_plot.display_data(results, datatype='scatter')
         self.region_plot.display_data(results, datatype='regions')
         self.region_hist.display_data(results['area'], datatype='hist',clear=True)
@@ -355,14 +324,14 @@ class Plot(QTabWidget):
         QTabWidget.__init__(self)
 
         ##Make the grid
-        grid = QGridLayout()
-        self.setLayout(grid)
+        self.grid = QGridLayout()
+        self.setLayout(self.grid)
 
         ###Add the plot
         self.plot, self.fig, self.axs, self.toolbar = plots.create_plot(toolbar=True)
         self.axs.axis('off')
-        grid.addWidget(self.plot, 0, 0, 7, 8)
-        grid.addWidget(self.toolbar, 7, 0, 1, 6)
+        self.grid.addWidget(self.plot, 0, 0, 7, 8)
+        self.grid.addWidget(self.toolbar, 7, 0, 1, 5)
 
     def display_data(self, data=None, cmap=None, datatype='image', clear=False):
         '''
