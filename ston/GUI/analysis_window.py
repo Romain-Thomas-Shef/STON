@@ -88,6 +88,7 @@ class AnalysisWindow(QWidget):
         self.run_region_label = QPushButton('Run Region identification')
         grid.addWidget(self.run_region_label, row, 9, 1, 2)
  
+        row += 1
 
         ##create the place for each instrument tab
         self.tabbox = QTabWidget()
@@ -122,11 +123,7 @@ class AnalysisWindow(QWidget):
         self.resultsbox.setFixedWidth(250)
         grid.addWidget(self.resultsbox, row, 9, 7, 2)
 
-        ###save image button
-        save_image_button = QPushButton('Save image')
-        grid.addWidget(save_image_button, row+7, 6, 1, 2)
-
-        ###save image button
+        ###save text button
         save_txt_button = QPushButton('Save text')
         grid.addWidget(save_txt_button, row+7, 10, 1, 1)
 
@@ -360,8 +357,8 @@ class Plot(QTabWidget):
         QTabWidget.__init__(self)
 
         ##Make the grid
-        grid = QGridLayout()
-        self.setLayout(grid)
+        self.grid = QGridLayout()
+        self.setLayout(self.grid)
 
         ###Add the plot
         self.plot, self.fig, self.axs, self.toolbar = plots.create_plot(toolbar=True, transparent=True)
