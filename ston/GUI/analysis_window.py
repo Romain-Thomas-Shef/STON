@@ -12,8 +12,8 @@ Year: 2024-2025
 ####python third party
 import numpy
 from PySide6.QtWidgets import QWidget, QGridLayout, QLabel, QPlainTextEdit,\
-                              QPushButton, QComboBox, QSpinBox, QTabWidget
-import matplotlib.patches as patches
+                              QPushButton, QSpinBox, QTabWidget
+from matplotlib import patches
 
 ####Local imports
 from . import plots
@@ -39,6 +39,8 @@ class AnalysisWindow(QWidget):
 
         ##the image data
         self.data_from_zoom_window = data
+        ###An empty results dictionary
+        self.results = {}
 
         ##Make the layout
         self.make_layout()
@@ -73,7 +75,7 @@ class AnalysisWindow(QWidget):
         ##Run region labelling
         self.run_region_label = QPushButton('Run Region identification')
         grid.addWidget(self.run_region_label, row, 9, 1, 2)
- 
+
         row += 1
 
         ##create the place for each instrument tab
@@ -98,18 +100,15 @@ class AnalysisWindow(QWidget):
         self.region_hist.display_data(clear = True, datatype='empty')
 
         ###Colored segmented plot panel
-        self.indiv_region_plot = Plot()
+        self.indiv_region_plot = Plot(explorer=True,
+                                      results_box_write=self.write_to_result_box)
         self.tabbox.addTab(self.indiv_region_plot, 'Explore Regions')
-        self.indiv_region_plot.grid.addWidget(QLabel('Choose region:'), 7, 6, 1, 1)
-        self.regioncounter = QSpinBox()
-        self.indiv_region_plot.grid.addWidget(self.regioncounter, 7, 7, 1, 1)
-
 
         ##Result box
-        self.results = QPlainTextEdit()
-        self.results.setReadOnly(True)
-        self.results.setFixedWidth(250)
-        grid.addWidget(self.results, row, 9, 7, 2)
+        self.resultsbox = QPlainTextEdit()
+        self.resultsbox.setReadOnly(True)
+        self.resultsbox.setFixedWidth(250)
+        grid.addWidget(self.resultsbox, row, 9, 7, 2)
 
         ###save text button
         save_txt_button = QPushButton('Save text')
@@ -240,7 +239,7 @@ class AnalysisWindow(QWidget):
         None
         '''
         ###We always break a line at the end.
-        self.results.appendPlainText(text + '\n')
+        self.resultsbox.appendPlainText(text + '\n')
 
     def clear_result_box(self):
         '''
@@ -254,23 +253,7 @@ class AnalysisWindow(QWidget):
         ------
         None
         '''
-        self.results.clear()
-
-    def save_image(self, tab):
-        '''
-        This method saves the currently displayed image
-
-        Parameter
-        ---------
-        None
-
-        Return
-        ------
-        None
-        '''
-
-        ##get image
-        ondisplay = self.primary.ondisplay.get_array()
+        self.resultsbox.clear()
 
     def run_region_id(self):
         '''
@@ -290,48 +273,76 @@ class AnalysisWindow(QWidget):
         ondisplay = self.primary.ondisplay.get_array()
 
         ##Region segementaiton
-        labeled_image, results,\
-                       ratios = segmentation_regions.find_regions(ondisplay)
+        labeled_image, self.results = segmentation_regions.find_regions(ondisplay)
+
+        ##Update plots
         self.region_plot.display_data(labeled_image, cmap='gray', clear=True)
+
+
         self.indiv_region_plot.display_data(labeled_image, cmap='gray', clear=True)
-        self.region_plot.display_data(results, datatype='scatter')
-        self.region_plot.display_data(results, datatype='regions')
-        self.region_hist.display_data(results['area'], datatype='hist',clear=True)
+        self.indiv_region_plot.draw_single_region(properties=self.results)
+        self.indiv_region_plot.regioncounter.setMinimum(1)
+        self.indiv_region_plot.regioncounter.setMaximum(len(self.results['area']))
+
+        self.region_plot.display_data(self.results, datatype='scatter')
+        self.region_plot.display_data(self.results, datatype='regions')
+        self.region_hist.display_data(self.results['area'], datatype='hist',clear=True)
 
         ##Text to result box
         txt = 'Region identification (look at corresponfing panel):\n'
-        txt += f"Ratio of black regions: {ratios['black']}\n"
-        txt += f"Ratio of white regions: {ratios['white']}\n"
-        txt += f"Number of regions identified: {len(results['area'])}\n"
-        txt += f"Smallest region: {min(results['area'])} pixels\n"
-        txt += f"Largest region: {max(results['area'])} pixels"
+        txt += f"Ratio of black regions: {self.results['black_ratio']}\n"
+        txt += f"Ratio of white regions: {self.results['white_ratio']}\n"
+        txt += f"Number of regions identified: {len(self.results['area'])}\n"
+        txt += f"Smallest region: {min(self.results['area'])} pixels\n"
+        txt += f"Largest region: {max(self.results['area'])} pixels"
         self.write_to_result_box(txt)
- 
-
 
 class Plot(QTabWidget):
     '''
     This class codes a simple panel with a plot inside
     '''
-    def __init__(self):
+    def __init__(self, explorer=False, results_box_write = False):
         '''
         Class initialization
         Paramaeters
         -----------
-        None
+        explorer:   bool
+                    if True, some more widget are displayed for
+                    individual region exploration
+
+        results_box:    method (function)
+                        the method to write in the result box
         '''
         ###create the tab
         QTabWidget.__init__(self)
 
         ##Make the grid
-        self.grid = QGridLayout()
-        self.setLayout(self.grid)
+        grid = QGridLayout()
+        self.setLayout(grid)
 
         ###Add the plot
         self.plot, self.fig, self.axs, self.toolbar = plots.create_plot(toolbar=True)
         self.axs.axis('off')
-        self.grid.addWidget(self.plot, 0, 0, 7, 8)
-        self.grid.addWidget(self.toolbar, 7, 0, 1, 5)
+        grid.addWidget(self.plot, 0, 0, 7, 8)
+        grid.addWidget(self.toolbar, 7, 0, 1, 4)
+
+        ##results box writing
+        if results_box_write is not False:
+            self.results_box_write = results_box_write
+
+        ##if explorer, we had a few widgets
+        if explorer is True:
+            grid.addWidget(QLabel('Choose region:'), 7, 6, 1, 1)
+            self.regioncounter = QSpinBox()
+            grid.addWidget(self.regioncounter, 7, 7, 1, 1)
+            self.print_properties = QPushButton('Print region prop')
+            grid.addWidget(self.print_properties, 7, 5, 1, 1)
+
+            ###events
+            self.regioncounter.valueChanged.connect(self.draw_single_region)
+            self.print_properties.clicked.connect(self.write_to_box_in_analysis_window)
+
+
 
     def display_data(self, data=None, cmap=None, datatype='image', clear=False):
         '''
@@ -352,6 +363,11 @@ class Plot(QTabWidget):
             self.fig.clf()
             self.axs = self.fig.add_subplot()
 
+            ###remove the previous patch and center
+            if hasattr(self, 'region_indiv'):
+                del self.region_indiv
+                del self.region_center
+
         ###Display
         if datatype == 'image':
             self.ondisplay = self.axs.imshow(data, cmap=cmap)
@@ -370,7 +386,7 @@ class Plot(QTabWidget):
             self.axs.axes.set_axis_on()
 
         elif datatype == 'regions':
-            self.add_regions(data)    
+            self.add_regions(data)
 
         elif datatype == 'scatter':
             ##Add scatter plot
@@ -395,7 +411,7 @@ class Plot(QTabWidget):
         ------
         None
         '''
-        ##Loop over the region 
+        ##Loop over the region
         for region in regions['bbox']:
             ##get the box limits
             min_row, min_col, max_row, max_col = region
@@ -406,4 +422,74 @@ class Plot(QTabWidget):
                                      edgecolor='y',
                                      facecolor='none')
             ##And draw it
-            self.axs.add_patch(rect)   
+            self.axs.add_patch(rect)
+
+    def draw_single_region(self, properties = None):
+        '''
+        This draws a single region on the plot
+        if one is already there, we remove it before
+        the new one is identified
+
+        Parameters
+        ----------
+        region_number   : int
+                          label of the region
+
+        properties      :  dict
+                           with all regions properties
+
+        Return
+        ------
+        None
+        '''
+        ###remove the previous patch and center
+        if hasattr(self, 'region_indiv'):
+            self.region_indiv.remove()
+            self.region_center.remove()
+
+        ###if no results where passed before we made them an attribute
+        if not hasattr(self, 'results'):
+            self.results = properties
+
+        if hasattr(self, 'results') and properties is not None:
+
+            ##region number
+            region_number = self.regioncounter.value()
+
+            ##Get region bbox
+            min_row, min_col, max_row, max_col = self.results['bbox'][region_number-1]
+            center_x = self.results['x'][region_number-1]
+            center_y = self.results['y'][region_number-1]
+
+            ##Create the rectangle
+            self.region_indiv = patches.Rectangle((min_col, min_row), max_col-min_col,
+                                                  max_row - min_row,
+                                                  linewidth=2,
+                                                  edgecolor='y',
+                                                  facecolor='none')
+            ##And draw it
+            self.axs.add_patch(self.region_indiv)
+
+            ##ANd the center
+            self.region_center = self.axs.scatter([center_y], [center_x],
+                                                  color='y', marker='x')
+
+            ##Draw and adjust layout
+            self.plot.draw()
+            self.fig.tight_layout()
+
+    def write_to_box_in_analysis_window(self):
+        '''
+        This method uses the 
+        '''
+        ##region counter and extract properties
+        region_number = self.regioncounter.value()
+        min_row, min_col, max_row, max_col = self.results['bbox'][region_number-1]
+        area = self.results['area'][region_number-1]
+        area_box = (max_col-min_col)*(max_row-min_row)
+
+        ##Prepare text
+        txt = f'Region #{region_number}:\n'
+        txt += f"Area = {int(area)}\n"
+        txt += f"Area_box = {int(area_box)}"
+        self.results_box_write(txt)
