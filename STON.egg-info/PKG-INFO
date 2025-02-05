@@ -11,3 +11,4 @@ License-File: LICENCE.txt
 Requires-Dist: PySide6>=6.7.1
 Requires-Dist: pillow>=10.3
 Requires-Dist: matplotlib>=3.0
+Requires-Dist: numpy>=2.2.1
