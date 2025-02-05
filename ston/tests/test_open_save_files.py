@@ -42,7 +42,7 @@ class Open(unittest.TestCase):
 
         ##check a few lines:
         firstline = '#This is an example of configuration file'
-        lastline = 'name_on_images = No'
+        lastline = 'compare_window_height = 400'
 
         ##And test that it is what we extracted with the function
         self.assertEqual(firstline, splittxt[0])

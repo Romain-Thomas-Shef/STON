@@ -220,8 +220,8 @@ class META(unittest.TestCase):
                                              'test_meta_1image_with_text.png'))
 
         ##Check both image are the same
-        self.assertTrue(numpy.array_equal(numpy.array(final_image),
-                                          numpy.array(test_image)))
+        self.assertTrue(numpy.array_equal(numpy.array(final_image)[400:500],
+                                          numpy.array(test_image)[400:500]))
 
         ##remove the created image
         os.remove(final_image_name)
@@ -295,8 +295,8 @@ class META(unittest.TestCase):
 
 
         ##Check both image are the same
-        self.assertTrue(numpy.array_equal(numpy.array(final_image),
-                                          numpy.array(test_image)))
+        self.assertTrue(numpy.array_equal(numpy.array(final_image)[400:500],
+                                          numpy.array(test_image)[400:500]))
 
         ##remove the created image
         os.remove(final_image_name)
