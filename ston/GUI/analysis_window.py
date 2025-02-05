@@ -40,6 +40,8 @@ class AnalysisWindow(QWidget):
 
         ##the image data
         self.data_from_zoom_window = data
+        ###An empty results dictionary
+        self.results = {}
 
         ###An empty results dictionary
         self.results = {}
@@ -87,7 +89,7 @@ class AnalysisWindow(QWidget):
         ##Run region labelling
         self.run_region_label = QPushButton('Run Region identification')
         grid.addWidget(self.run_region_label, row, 9, 1, 2)
- 
+
         row += 1
 
         ##create the place for each instrument tab
@@ -357,8 +359,8 @@ class Plot(QTabWidget):
         QTabWidget.__init__(self)
 
         ##Make the grid
-        self.grid = QGridLayout()
-        self.setLayout(self.grid)
+        grid = QGridLayout()
+        self.setLayout(grid)
 
         ###Add the plot
         self.plot, self.fig, self.axs, self.toolbar = plots.create_plot(toolbar=True, transparent=True)
