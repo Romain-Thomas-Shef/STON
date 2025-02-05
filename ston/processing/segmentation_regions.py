@@ -105,13 +105,14 @@ def find_regions(image_data):
     region_bbox = []
  
     for region in properties:
-        x, y = region.centroid
-        scatter_x.append(x)
-        scatter_y.append(y)
-        region_area.append(region.area)
-        region_bbox.append(region.bbox)
+        if region.area > 1:
+            x, y = region.centroid
+            scatter_x.append(x)
+            scatter_y.append(y)
+            region_area.append(region.area)
+            region_bbox.append(region.bbox)
     
-    results = {'x': scatter_x, 'y': scatter_y, 'region': region_area,
+    results = {'x': scatter_x, 'y': scatter_y, 'area': region_area,
                'bbox': region_bbox}
 
 

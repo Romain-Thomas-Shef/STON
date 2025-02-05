@@ -103,6 +103,7 @@ class AnalysisWindow(QWidget):
         ###Colored segmented plot panel
         self.region_hist = Plot()
         self.tabbox.addTab(self.region_hist, 'Region histogram')
+        self.region_hist.display_data(clear = True, datatype='empty')
 
         ##Result box
         self.results = QPlainTextEdit()
@@ -145,7 +146,7 @@ class AnalysisWindow(QWidget):
         None 
         '''
         ###display the data from zoom window
-        self.primary.display_data(self.data_from_zoom_window)
+        self.primary.display_data(self.data_from_zoom_window, clear=True)
 
     def reset_to_cropped(self):
         '''
@@ -163,7 +164,7 @@ class AnalysisWindow(QWidget):
         ##Check if a cropped image is used
         if hasattr(self, 'cropped_image'):
             ###display the data from zoom window
-            self.primary.display_data(self.cropped_image)
+            self.primary.display_data(self.cropped_image, clear=True)
 
     def crop_image(self):
         '''
@@ -192,12 +193,13 @@ class AnalysisWindow(QWidget):
         self.cropped_image = self.primary.ondisplay.get_array()[int(y0):int(yf), int(x0):int(xf)]
 
         ###display it
-        self.primary.display_data(self.cropped_image)
+        self.primary.display_data(self.cropped_image, clear=True)
 
         ###Write info the result box
         txt = f'Cropping image:\nx0={int(x0)}, xf={int(xf)}; y0={int(y0)}, yf={int(yf)} \n'
-        txt2 = f'New size: x = {int(xf)-int(x0)}; y = {int(yf)-int(y0)}'
-        self.write_to_result_box(txt + txt2)
+        txt += f'New size: x = {int(xf)-int(x0)}; y = {int(yf)-int(y0)}\n'
+        txt += f'Area = {(int(xf)-int(x0))*(int(yf)-int(y0))}'
+        self.write_to_result_box(txt)
 
 
     def apply_gaussian_filter(self):
@@ -221,7 +223,7 @@ class AnalysisWindow(QWidget):
         filtered = enhancers.gaussian_filter(ondisplay, sigma)
 
         ##display it
-        self.primary.display_data(filtered)
+        self.primary.display_data(filtered, clear=True)
 
         ###Write info the result box
         txt = f'Gaussian filter:\nsigma={sigma}'
@@ -322,14 +324,18 @@ class AnalysisWindow(QWidget):
         ##Region segementaiton
         labeled_image, results,\
                        ratios = segmentation_regions.find_regions(ondisplay)
-        self.region_plot.display_data(labeled_image, cmap='gray')
-        self.region_plot.add_scatter(results, color='r')
-        self.region_plot.add_regions(results)
+        self.region_plot.display_data(labeled_image, cmap='gray', clear=True)
+        self.region_plot.display_data(results, datatype='scatter')
+        self.region_plot.display_data(results, datatype='regions')
+        self.region_hist.display_data(results['area'], datatype='hist',clear=True)
 
         ##Text to result box
         txt = 'Region identification (look at corresponfing panel):\n'
         txt += f"Ratio of black regions: {ratios['black']}\n"
         txt += f"Ratio of white regions: {ratios['white']}\n"
+        txt += f"Number of regions identified: {len(results['area'])}\n"
+        txt += f"Smallest region: {min(results['area'])} pixels\n"
+        txt += f"Largest region: {max(results['area'])} pixels"
         self.write_to_result_box(txt)
  
 
@@ -358,7 +364,7 @@ class Plot(QTabWidget):
         grid.addWidget(self.plot, 0, 0, 7, 8)
         grid.addWidget(self.toolbar, 7, 0, 1, 6)
 
-    def display_data(self, data, cmap=None):
+    def display_data(self, data=None, cmap=None, datatype='image', clear=False):
         '''
         Display data in the plot area
 
@@ -371,37 +377,36 @@ class Plot(QTabWidget):
         ------
         None 
         '''
-        ##clear the plot
-        self.fig.clf()
-        self.axs = self.fig.add_subplot()
+        ###do we clear?
+        if clear is True:
+            ##clear the plot
+            self.fig.clf()
+            self.axs = self.fig.add_subplot()
 
         ###Display
-        self.ondisplay = self.axs.imshow(data, cmap=cmap)
+        if datatype == 'image':
+            self.ondisplay = self.axs.imshow(data, cmap=cmap)
 
-        ###Remove axis
-        self.axs.axes.set_axis_off()
+            ###Remove axis
+            self.axs.axes.set_axis_off()
 
-        ##Draw and adjust layout
-        self.plot.draw()
-        self.fig.tight_layout()
+        elif datatype == 'hist':
+            ###Add hist
+            self.axs.hist(data, bins=1000)
+            self.axs.set_xlim(-5, numpy.median(data)+100*numpy.median(data))
+            self.axs.set_xlabel('Size [pixels]')
+            self.axs.set_ylabel('N')
 
+            ###Remove axis
+            self.axs.axes.set_axis_on()
 
-    def add_scatter(self, scatter, color=None):
-        '''
-        Add a data to self.axs as a scatter plot
-        
-        Parameters
-        ----------
-        scatter :   dict
-                    with 'x' and 'y'
+        elif datatype == 'regions':
+            self.add_regions(data)    
 
-        Return
-        ------
-        None
-        '''
-        ##Add scatter plot
-        self.axs.scatter(scatter['y'], scatter['x'], color=color,
-                         marker='x', facecolors='none')
+        elif datatype == 'scatter':
+            ##Add scatter plot
+            self.axs.scatter(data['y'], data['x'], color='r',
+                             marker='x', facecolors='none')
 
         ##Draw and adjust layout
         self.plot.draw()
@@ -433,7 +438,3 @@ class Plot(QTabWidget):
                                      facecolor='none')
             ##And draw it
             self.axs.add_patch(rect)   
-
-        ##Draw and adjust layout
-        self.plot.draw()
-        self.fig.tight_layout()
