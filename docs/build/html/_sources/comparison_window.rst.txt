@@ -1,5 +1,0 @@
-Compare images
-==============
-
-Zoom setup
-----------
