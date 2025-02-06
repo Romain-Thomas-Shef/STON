@@ -12,24 +12,6 @@ Year: 2025-
 
 #Third party
 import numpy
-from skimage import filters, segmentation, measure
-
-#Local import
-
-"""
-This file is part of the STON project (P.I. E. Dammer)
-It contains the code for segmentation and region identification
-
-Author: R. Thomas
-Place: U. of Sheffield
-Year: 2025-
-"""
-
-#Standard Library
-
-
-#Third party
-import numpy
 from skimage import filters, segmentation, measure, color
 
 
@@ -46,7 +28,6 @@ def find_regions(image_data):
     image_data  :   numpy array
                     data of the image
     '''
-
     #Convert to grayscale 
     image_data = color.rgb2gray(image_data)
 
