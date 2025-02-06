@@ -91,7 +91,7 @@ class AnalysisWindow(QWidget):
         self.reset_image()
 
         ###Colored segmented plot panel
-        self.region_plot = Plot()
+        self.region_plot = Plot(allregions=True)
         self.tabbox.addTab(self.region_plot, 'Region Plot')
 
         ###Colored segmented plot panel
@@ -301,7 +301,7 @@ class Plot(QTabWidget):
     '''
     This class codes a simple panel with a plot inside
     '''
-    def __init__(self, explorer=False, results_box_write = False):
+    def __init__(self, explorer=False, allregions=False, results_box_write=False):
         '''
         Class initialization
         Paramaeters
@@ -309,6 +309,10 @@ class Plot(QTabWidget):
         explorer:   bool
                     if True, some more widget are displayed for
                     individual region exploration
+
+        allregions: bool
+                    if True, some more widgets are displayed
+                    for allregion plots
 
         results_box:    method (function)
                         the method to write in the result box
@@ -324,7 +328,7 @@ class Plot(QTabWidget):
         self.plot, self.fig, self.axs, self.toolbar = plots.create_plot(toolbar=True)
         self.axs.axis('off')
         grid.addWidget(self.plot, 0, 0, 7, 8)
-        grid.addWidget(self.toolbar, 7, 0, 1, 4)
+        grid.addWidget(self.toolbar, 7, 0, 1, 5)
 
         ##results box writing
         if results_box_write is not False:
@@ -342,7 +346,10 @@ class Plot(QTabWidget):
             self.regioncounter.valueChanged.connect(self.draw_single_region)
             self.print_properties.clicked.connect(self.write_to_box_in_analysis_window)
 
-
+        elif allregions is True:
+            self.save_properties = QPushButton('Save all regions properties')
+            grid.addWidget(self.save_properties, 7, 7, 1, 1)
+            self.save_properties.clicked.connect(self.save_properties_to_text)
 
     def display_data(self, data=None, cmap=None, datatype='image', clear=False):
         '''
@@ -411,8 +418,11 @@ class Plot(QTabWidget):
         ------
         None
         '''
+        ##make the region an attribute
+        self.results = regions
+
         ##Loop over the region
-        for region in regions['bbox']:
+        for region in self.results['bbox']:
             ##get the box limits
             min_row, min_col, max_row, max_col = region
             ##Define the rectanle
@@ -480,7 +490,8 @@ class Plot(QTabWidget):
 
     def write_to_box_in_analysis_window(self):
         '''
-        This method uses the 
+        This method uses the function passed as argument 
+        to write in the parent window textbox
         '''
         ##region counter and extract properties
         region_number = self.regioncounter.value()
@@ -493,3 +504,19 @@ class Plot(QTabWidget):
         txt += f"Area = {int(area)}\n"
         txt += f"Area_box = {int(area_box)}"
         self.results_box_write(txt)
+
+    def save_properties_to_text(self):
+        '''
+        Save all the properties in a txt file
+
+        Parameters
+        ----------
+        None
+        
+        Return
+        ------
+        None
+        '''
+        for r in self.results:
+           print(r) 
+           ###TBD
