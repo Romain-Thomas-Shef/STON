@@ -53,6 +53,12 @@
 <li class="toctree-l1"><a class="reference internal" href="zoom_window.html">Individual image visualisation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Analysis window</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#description-of-the-window">Description of the window</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cropping-and-gaussian-filtering">Cropping and Gaussian filtering</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cropping">Cropping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gaussian-filtering">Gaussian filtering</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#identifying-region-and-visualisation">Identifying region and visualisation</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cluster_window.html">Grouping images</a></li>
@@ -89,6 +95,49 @@
 <h1>Analysis window<a class="headerlink" href="#analysis-window" title="Link to this heading"></a></h1>
 <section id="description-of-the-window">
 <h2>Description of the window<a class="headerlink" href="#description-of-the-window" title="Link to this heading"></a></h2>
+<p>The analysis window allows you to segment images and identify regions of interest in the image. When opened, it will display the same image as in the <a class="reference internal" href="zoom_window.html"><span class="doc">Individual image visualisation</span></a> window:</p>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="_images/analyse_window_with_annotations.png"><img alt="_images/analyse_window_with_annotations.png" src="_images/analyse_window_with_annotations.png" style="width: 700px;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Analysis window</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>The analysis window is composed of the following areas:
+* Tabs (pink): This is where you will see images. It is always displaying the tab ‘Image to analyse’ at first. The other tabs (region plot, region histogram, explore regions) are all empty. At the bottom of each tab you will see the <em>matplotlib</em> toolbar (in red). This allows you to zoom in/out, save the image.</p>
+<ul class="simple">
+<li><p>The initial image tuning (yellow): A few button to tune what image will be analyse. It can be cropped and a gaussian filter can be applied to the image (see below).</p></li>
+<li><p>The analysis information box (green). Each time something is done in that window, information will be displayed on that box. You can clear it or save the text using the buttons at the bottom.</p></li>
+<li><p>Running the algotirhm (blue): This is the button you need to hit for STON to make the analysis</p></li>
+</ul>
+</section>
+<section id="cropping-and-gaussian-filtering">
+<h2>Cropping and Gaussian filtering<a class="headerlink" href="#cropping-and-gaussian-filtering" title="Link to this heading"></a></h2>
+<section id="cropping">
+<h3>Cropping<a class="headerlink" href="#cropping" title="Link to this heading"></a></h3>
+<p>In some case you might want to remove areas of the image. To make this easy we implemented a cropping option.
+To crop an image you must use the lense button at the bottom of the window (in the ref box in the screenshot), then select an area in the image.
+Once the image has been zoom to this area  you must use the button <em>Crop Image</em>. This will ensure that the image that will be analysed will be the cropped one. To uncrop the image and revert back to the original image, use the <em>Reset to original</em> button.</p>
+</section>
+<section id="gaussian-filtering">
+<h3>Gaussian filtering<a class="headerlink" href="#gaussian-filtering" title="Link to this heading"></a></h3>
+<p>It might be useful, if you want the smallest regions to not be identified, to use a gaussian filter in the image. The spinbox next to the button <em>Gaussian filtering</em> allows you to choose the sigme of the filter. When hitting the button, the filter will be applied to the displayed window:</p>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="_images/gaussian.jpg"><img alt="_images/gaussian.jpg" src="_images/gaussian.jpg" style="width: 900px;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Example of Gaussian filtering</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you use the button while the displayed image is already filtered, the gaussian filter will be applied to that filtered image. Make sure you reload the image with <em>Reset to Original</em> or <em>Reset to cropped</em> before applying again a Gaussian filter.</p>
+</div>
+<p>The gaussian filtering used here is the one of skimage (see <a class="reference external" href="https://scikit-image.org/docs/dev/api/skimage.filters.html#skimage.filters.gaussian">here</a>).</p>
+</section>
+</section>
+<section id="identifying-region-and-visualisation">
+<h2>Identifying region and visualisation<a class="headerlink" href="#identifying-region-and-visualisation" title="Link to this heading"></a></h2>
 </section>
 </section>
 
