@@ -18,61 +18,6 @@ from skimage import filters, segmentation, measure
 #Local import
 
 
-def apply_sobel(image_data):
-    '''
-    This function applies the sobel filter to
-    the input image
-    
-    Parameters
-    ----------
-    image_data  :   numpy array
-                    data of the image
-
-
-    Return
-    ------
-    edges      : numpy array
-                 filtered image   
-    '''
-    edges = filters.sobel(image_data)
-    #edges = segmentation.chan_vese(image_data)
-
-    return edges
-
-def apply_chan_vese(image_data):
-    '''
-    This function applies the chan vese segmentation to
-    the input image
-    
-    Parameters
-    ----------
-    image_data  :   numpy array
-                    data of the image
-
-
-    Return
-    ------
-    segmentation     : numpy array
-                       segmentated image   
-    '''
-    ##grayscale
-    data = image_data[:,:,0] 
-    segm = segmentation.chan_vese(data)
-
-    npix = numpy.shape(data)[0] * numpy.shape(data)[1]
-
-    ##get some data: count the number of white and black pixels
-    black = len(numpy.where(segm == 0)[0])/npix
-    white = len(numpy.where(segm == 1)[0])/npix
-
-    ##result
-    r = {}
-    r['black'] = round(black, 2)
-    r['white'] = round(white, 2)
-
-    return segm, r
-
-
 def find_regions(image_data):
     '''
     This method uses the label function from skimage
@@ -82,11 +27,9 @@ def find_regions(image_data):
     ----------
     image_data  :   numpy array
                     data of the image
-
     '''
     
     image_data = image_data[:,:,0] 
-    npix = numpy.shape(image_data)[0] * numpy.shape(image_data)[1]
 
     ##To find region we need to create a binary_image
     ##we set the threshold at image image
@@ -111,21 +54,33 @@ def find_regions(image_data):
             scatter_y.append(y)
             region_area.append(region.area)
             region_bbox.append(region.bbox)
-    
-    results = {'x': scatter_x, 'y': scatter_y, 'area': region_area,
-               'bbox': region_bbox}
 
+    ##Sort everything from biggest region to smallest
+    #First, transfor to numpy array
+    region_area = numpy.array(region_area)
+    scatter_x = numpy.array(scatter_x)
+    scatter_y = numpy.array(scatter_y)
+    region_bbox = numpy.array(region_bbox)
+
+    #Then sort the area and the rest
+    inds = region_area.argsort()[::-1]
+    sorted_x = scatter_x[inds]
+    sorted_y = scatter_y[inds]
+    sorted_bbox = region_bbox[inds]
+    sorted_area = region_area[inds]
+    
+    
+    results = {'x': sorted_x, 'y': sorted_y, 'area': sorted_area,
+               'bbox': sorted_bbox}
 
     labeled_image[labeled_image>0] = 1
-    #labeled_image = 1 - labeled_image
-
-    ##get some data: count the number of white and black pixels
-    black = len(numpy.where(labeled_image == 0)[0])/npix
-    white = len(numpy.where(labeled_image == 1)[0])/npix
 
     ##result
-    ratios = {}
-    ratios['black'] = round(black, 2)
-    ratios['white'] = round(white, 2)
+    ##number of pixel in the image (to compute ratios after)
+    npix = numpy.shape(image_data)[0] * numpy.shape(image_data)[1]
 
-    return labeled_image, results, ratios
+    ##get some data: count the number of white and black pixels
+    results['black_ratio'] = round(len(numpy.where(labeled_image == 0)[0])/npix, 2)
+    results['white_ratio'] = round(len(numpy.where(labeled_image == 1)[0])/npix, 2)
+
+    return labeled_image, results
