@@ -31,9 +31,13 @@ Cropping
 
 In some case you might want to remove areas of the image. To make this easy we implemented a cropping option. 
 To crop an image you must use the lense button at the bottom of the window (in the ref box in the screenshot), then select an area in the image. 
+<<<<<<< HEAD
 Once the image has been zoomed to this area  you must use the button *Crop Image*. 
 This will ensure that the image that will be analysed will be the cropped one. 
 To uncrop the image and revert back to the original image, use the *Reset to original* button.
+=======
+Once the image has been zoom to this area  you must use the button *Crop Image*. This will ensure that the image that will be analysed will be the cropped one. To uncrop the image and revert back to the original image, use the *Reset to original* button.
+>>>>>>> ae17335 (update doc)
 
 
 
@@ -41,8 +45,7 @@ Gaussian filtering
 ^^^^^^^^^^^^^^^^^^
 
 It might be useful, if you want the smallest regions to not be identified, to use a gaussian filter in the image.
-The spinbox next to the button *Gaussian filtering* allows you to choose the sigme of the filter.
-When hitting the button, the filter will be applied to the displayed window:
+The spinbox next to the button *Gaussian filtering* allows you to choose the sigma of the filter.
 
 .. figure:: images/Analysis/gaussian.jpg
     :width: 900
