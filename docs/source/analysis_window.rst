@@ -1,6 +1,12 @@
 Analysis window
 ================
 
+<<<<<<< HEAD
+=======
+Description of the window
+-------------------------
+
+>>>>>>> 34cec01 (analysis documentation)
 The analysis window allows you to segment images and identify regions of interest in the image. 
 When opened, it will display the same image as in the :doc:`zoom_window` window:
 
@@ -32,12 +38,18 @@ Cropping
 In some case you might want to remove areas of the image. To make this easy we implemented a cropping option. 
 To crop an image you must use the lense button at the bottom of the window (in the ref box in the screenshot), then select an area in the image. 
 <<<<<<< HEAD
+<<<<<<< HEAD
 Once the image has been zoomed to this area  you must use the button *Crop Image*. 
 This will ensure that the image that will be analysed will be the cropped one. 
 To uncrop the image and revert back to the original image, use the *Reset to original* button.
 =======
 Once the image has been zoom to this area  you must use the button *Crop Image*. This will ensure that the image that will be analysed will be the cropped one. To uncrop the image and revert back to the original image, use the *Reset to original* button.
 >>>>>>> ae17335 (update doc)
+=======
+Once the image has been zoom to this area  you must use the button *Crop Image*. 
+This will ensure that the image that will be analysed will be the cropped one. 
+To uncrop the image and revert back to the original image, use the *Reset to original* button.
+>>>>>>> 34cec01 (analysis documentation)
 
 
 
@@ -46,6 +58,7 @@ Gaussian filtering
 
 It might be useful, if you want the smallest regions to not be identified, to use a gaussian filter in the image.
 The spinbox next to the button *Gaussian filtering* allows you to choose the sigma of the filter.
+When hitting the button, the filter will be applied to the displayed window:
 
 .. figure:: images/Analysis/gaussian.jpg
     :width: 900
@@ -60,37 +73,36 @@ The Gaussian filtering used here is the one of skimage (see `here <https://sciki
 Identifying regions and visualisation
 -------------------------------------
 
-
 To analyse the image and identify regions within the image you must use the button *Run Region identification* (in blue, top-right corner).
 This will take the currently displayed image and send it to the identification algorithm. 
-The first step uses the *label* function of the scikit-image `measure module <https://scikit-image.org/docs/stable/api/skimage.measure.html>`_ scikit-image library that will identify regions based on pixels values.
+The first step uses the *label* function of the scikit-image `measure module <https://scikit-image.org/docs/stable/api/skimage.measure.html>`_ scikit-image librarythat will identify regions based on pixels values.
 It works only with images with integer values for each pixel. 
 In order to create such image with create a binary image where each pixel is set to 1 if it is above the average of the image, 0 otherwise. 
 Once this part is done with use the *regionprops* function that extract properties of the regions (e.g. position, areas, etc). 
-Once ran, you will have some information displayed in the result box on the right::
+Once ran, you will some information displayed in the result box on the right::
 
-    Region identification (look at corresponding panel):
-    Ratio of black regions [%]: 66.0
-    Ratio of white regions [%]: 34.0
+    Region identification (look at corresponfing panel):
+    Ratio of black regions: 0.66
+    Ratio of white regions: 0.34
     Number of regions identified: 191
     Smallest region: 2.0 pixels
     Largest region: 186555.0 pixels
 
-This will give you some (hopefully) interesting information about the process. 
+This will give you some (hoepfuly) interesting information about the process. 
 
 .. figure:: images/Analysis/region_plots.jpg
     :width: 900
     :align: center 
 
-    Visualisation of the identified regions in three panels
+    Visualisation of the identified regions
 
-You can visualize the result of the region identification on the three panels (Region plots, Region histogram & Explore Regions):
+You can visualize the result of the region identification on the three panels (Region plots, Region histrogam & Explore Regions):
 
 * **Region plot**: In this panel you will see all the region identified with a rectangle box around them (in yellow). In that panel you can also export the full list of region with their properties to a file.
 
 * **Region histogram**: This is a simple histogram of all the region sizes.
 
-* **Explore Region**: This gives you the opportunity to explore each region one by one (from largest to smallest). For convinience they are displayed on top of the image loaded in the analysis window. You can use the *choose region* spinbox to display the region you want (1 is the biggest and will go to smaller ones as the region number increases). You can also print on the result box information about the displayed region.
+* **Explore Region**: This gives you the opportunity to explore each region one by one (from largest to smallest). You can you the *choose region* sponbox to display the region you want (1 is the biggest and will go to smaller ones as the region number increases). You can also print on the result box information about the displayed region.
 
 
 .. warning:: The default configuration removes the single-pixel area. You can change this in the configuration in the Analysis section with the `minimum_size` parameter. 
