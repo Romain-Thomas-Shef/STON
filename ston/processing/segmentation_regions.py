@@ -12,7 +12,7 @@ Year: 2025-
 
 #Third party
 import numpy
-from skimage import filters, segmentation, measure
+from skimage import filters, segmentation, measure, color
 
 
 #Local import
@@ -28,8 +28,9 @@ def find_regions(image_data):
     image_data  :   numpy array
                     data of the image
     '''
-    
-    image_data = image_data[:,:,0] 
+
+    #Convert to grayscale 
+    image_data = color.rgb2gray(image_data)
 
     ##To find region we need to create a binary_image
     ##we set the threshold at image image
