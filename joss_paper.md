@@ -26,7 +26,7 @@ bibliography: joss_paper.bib
 
 # Summary
 
-STON (SofTware for petrOgraphic visualisatioN) is a graphical user interface developed with the objective to ease the inspection of images taken from microscopes. It has been developed in the framework of petrography, with images of minerals but it can be used for whatever images. This tool allows you the user to inspect image in detail, modify image parameters (contrast, brightness, sharpness), compare images side by side, combine images, etc. 
+STON (SofTware for petrOgraphic visualisatioN) is a tool developed with the objective to ease the inspection of images taken from microscopes. It has been developed in the framework of petrography, with images of minerals but it can be used for whatever images. This tool allows you the user to inspect image in detail, modify image parameters (contrast, brightness, sharpness), compare images side by side, combine images, etc. 
 Designed to be user friendly, STON is fully customizable. It is developed in Python using the (PySide6)[https://wiki.qt.io/Qt_for_Python] library for the GUI, Pillow [@Murray:2025] and matplotlib [@Hunter:2007] for image display and operation and scikit-image [@vanderwalt:2014] for deeper image processing. 
 
 # Statement of need
@@ -39,15 +39,15 @@ While tailored for the specific requirements of petrographic analysis in archaeo
 
 # The graphical user interface
 
+STON is a graphical user interface composed of a main window (see Fig.\autoref{mainwindow}) and multiple sub-windows where specific tasks can be performed. The main window serves as a platform where images are loaded from disk and can be visualised as thumbnails. 
+
 ![Main window of STON.\label{fig:mainwindow}](figures/screenshot_main_window.png)
 
-
-STON was designed to simplify researchers' work by providing powerful tools for image analysis and observation. The main window offers access to several visualization tools, including:
+STON was designed to simplify researchers' work by providing tools for image analysis and observation. From the main window the user can access several visualization tools and analysis tools, including:
 
 - Zoom Window: Enhances image inspection by allowing closer examination and note-taking. It also displays image metadata (currently supported for .tif files only) and provides options to adjust color, sharpness, brightness, and contrast. Additionally, it includes access to the analysis tool (see next section).
 - Side-by-Side Comparison Tool: Enables users to compare images directly.
-- Image Cluster Tool: Facilitates the creation of image mashups—combining multiple images into a single composite, which is particularly useful for merging images of the same material sample. It also supports generating meta-images, where all selected images are combined into one comprehensive view.
-
+- Image Cluster Tool (See Fig.\autoref{cluster}): Facilitates the creation of image mashups—combining multiple images into a single composite, which is particularly useful for merging images of the same material sample. It also supports generating meta-images, where all selected images are combined into one comprehensive view
 
 ![Image grouping. Left: Mashup image, Right: meta-image.\label{fig:cluster}](figures/cluster.png)
 
