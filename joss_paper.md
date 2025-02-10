@@ -45,9 +45,9 @@ STON is a graphical user interface consisting of a main window (see \autoref{fig
 
 Designed to streamline researchers' work, STON provides a suite of tools for image analysis and observation. All these tools are accessible from the main window, allowing users to explore images in greater detail and conduct in-depth analyses:
 
-- Zoom Window: Enhances image inspection by allowing closer examination and note-taking. It also displays image metadata (currently supported for .tif files only) and provides options to adjust color, sharpness, brightness, and contrast. Additionally, it includes access to the analysis tool (see next section).
+- Image detail and note taking window: Enhances image inspection by allowing closer examination and note-taking. It also displays image metadata (currently supported for .tif files only) and provides options to adjust color, sharpness, brightness, and contrast. Additionally, it includes access to the analysis tool (see next section).
 - Side-by-Side Comparison Tool: Enables users to compare images directly.
-- Image Cluster Tool (See Fig.\autoref{fig:cluster}): Facilitates the creation of image mashups—combining multiple images into a single composite, which is particularly useful for merging images of the same material sample. It also supports generating meta-images, where all selected images are combined into one comprehensive view
+- Image Cluster Tool (See \autoref{fig:cluster}): Facilitates the creation of image mashups—combining multiple images into a single composite, which is particularly useful for merging images of the same material sample. It also supports generating meta-images, where all selected images are combined into one comprehensive view
 
 ![Image grouping. Mashup image (left): reconstruction of a complete sample; Meta-image (right): Cluster of images. \label{fig:cluster}](figures/cluster.png)
 
