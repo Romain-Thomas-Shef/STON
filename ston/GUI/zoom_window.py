@@ -85,11 +85,13 @@ class DetailWindow(QWidget):
         row += 1
 
         ##Plot
-        self.plot, self.fig, self.axs, _ = plots.create_plot(toolbar=False, transparent=True)
+        self.plot, self.fig, self.axs, _ = \
+                    plots.create_plot(toolbar=False, transparent=True)
         grid.addWidget(self.plot, 0, 1, 3, 8)
 
         ##live zoom Plot
-        self.plot_zoom, self.zoom_fig, self.zoom_axs, _ = plots.create_plot(toolbar=False, transparent=True)
+        self.plot_zoom, self.zoom_fig, self.zoom_axs, _ = \
+                    plots.create_plot(toolbar=False, transparent=True)
         self.zoom_axs.axis('off')
         self.plot_zoom.setFixedWidth(250)
         self.plot_zoom.setFixedHeight(250)
@@ -145,7 +147,7 @@ class DetailWindow(QWidget):
         ##At startup, add the logo
         self.change_image(self.logo)
 
-    def change_image(self, file):
+    def change_image(self, file, reset_notepad=True):
         '''
         This is triggered when a single image is double clicked on 
 
@@ -195,7 +197,8 @@ class DetailWindow(QWidget):
 
         ##Update Notes
         ##clear the notepad
-        self.notepad.clear()
+        if reset_notepad is True:
+            self.notepad.clear()
 
         #Make the note file name ('image_name.notes')
         image_name = os.path.basename(file)
@@ -307,36 +310,44 @@ class DetailWindow(QWidget):
         elif slider_name == 'sh':
             self.sharpness = True
 
-        ########################
-        ###Apply then changes###
-        ########################
+        #######################
+        ###Apply the changes###
+        #######################
 
         ##image opening
         im = Image.open(self.file)
+        txt = '' #to be displayed
 
         ##Applied color change
         if self.color is True:
             color_im = enhancers.color(im, self.slider_color.value())
+            txt += f'Color Enhancer: {int(self.slider_color.value()/10)}\n'
         else:
             color_im = im
 
         ##Apply contrast
         if self.contrast is True:
             contrast_im = enhancers.contrast(color_im, self.slider_contrast.value())
+            txt += f'Contrast Enhancer: {int(self.slider_contrast.value()/10)}\n'
         else:
             contrast_im = color_im
 
         ##Apply brightness
         if self.brightness is True:
             brightness_im = enhancers.brightness(contrast_im, self.slider_brightness.value())
+            txt += f'Brightness Enhancer: {int(self.slider_brightness.value()/10)}\n'
         else:
             brightness_im = contrast_im
 
         ##Apply sharpness
         if self.sharpness is True:
             sharpness_im = enhancers.sharpness(brightness_im, self.slider_sharpness.value())
+            txt += f'Sharpness Enhancer: {int(self.slider_sharpness.value()/10)}\n'
         else:
             sharpness_im = brightness_im
+
+        ##Add text
+        self.notepad.appendPlainText(txt)
 
         ###update the image
         self.axs.imshow(sharpness_im)
@@ -384,7 +395,7 @@ class DetailWindow(QWidget):
 
         ##reload the original image
         if reload is True:
-            self.change_image(self.file)
+            self.change_image(self.file, reset_notepad=False)
 
     def save_notes(self):
         '''
