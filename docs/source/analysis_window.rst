@@ -1,12 +1,6 @@
 Analysis window
 ================
 
-<<<<<<< HEAD
-=======
-Description of the window
--------------------------
-
->>>>>>> 34cec01 (analysis documentation)
 The analysis window allows you to segment images and identify regions of interest in the image. 
 When opened, it will display the same image as in the :doc:`zoom_window` window:
 
@@ -37,20 +31,9 @@ Cropping
 
 In some case you might want to remove areas of the image. To make this easy we implemented a cropping option. 
 To crop an image you must use the lense button at the bottom of the window (in the ref box in the screenshot), then select an area in the image. 
-<<<<<<< HEAD
-<<<<<<< HEAD
-Once the image has been zoomed to this area  you must use the button *Crop Image*. 
+Once the image has been zoomed to this area you must use the button *Crop Image*. 
 This will ensure that the image that will be analysed will be the cropped one. 
 To uncrop the image and revert back to the original image, use the *Reset to original* button.
-=======
-Once the image has been zoom to this area  you must use the button *Crop Image*. This will ensure that the image that will be analysed will be the cropped one. To uncrop the image and revert back to the original image, use the *Reset to original* button.
->>>>>>> ae17335 (update doc)
-=======
-Once the image has been zoom to this area  you must use the button *Crop Image*. 
-This will ensure that the image that will be analysed will be the cropped one. 
-To uncrop the image and revert back to the original image, use the *Reset to original* button.
->>>>>>> 34cec01 (analysis documentation)
-
 
 
 Gaussian filtering
@@ -94,7 +77,7 @@ This will give you some (hoepfuly) interesting information about the process.
     :width: 900
     :align: center 
 
-    Visualisation of the identified regions
+    Visualisation of the identified regions in three panels
 
 You can visualize the result of the region identification on the three panels (Region plots, Region histrogam & Explore Regions):
 
