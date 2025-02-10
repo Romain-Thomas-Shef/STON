@@ -53,7 +53,9 @@ Designed to streamline researchers' work, STON provides a suite of tools for ima
 
 ## Feature identification
 
-STON provides the user with a quick and easy-to-use analysis tool that will identify regiond of interest in the image. The algorithm used by STON is based on the [measure module](https://scikit-image.org/docs/stable/api/skimage.measure.html) of the skimage library.
+STON offers a fast and intuitive analysis tool for identifying regions of interest within an image. The underlying algorithm is based on the [measure module](https://scikit-image.org/docs/stable/api/skimage.measure.html) from the scikit-image library, defining a region as a group of connected pixels sharing the same value.
+
+To account for pixel-to-pixel variations in the image, STON generates a binary image using a threshold set at the image’s average. Users can then inspect all detected regions simultaneously (see \autoref{fig:regions}) or examine them individually. Additionally, a catalog of region properties can be downloaded for further analysis.
 
 ![Region identification in STON. \label{fig:regions}](figures/allregions.png)
 
