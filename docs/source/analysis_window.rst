@@ -1,9 +1,6 @@
 Analysis window
 ================
 
-Description of the window
--------------------------
-
 The analysis window allows you to segment images and identify regions of interest in the image. 
 When opened, it will display the same image as in the :doc:`zoom_window` window:
 
@@ -82,17 +79,17 @@ This will give you some (hoepfuly) interesting information about the process.
     :width: 900
     :align: center 
 
-    Visualisation of the identified regions
+    Visualisation of the identified regions in three panels
 
 You can visualize the result of the region identification on the three panels (Region plots, Region histrogam & Explore Regions):
 
-* Region plot: In this panel you will see all the region identified with a rectangle box around them (in yellow). In that panel you can also export the full list of region with their properties to a file.
+* **Region plot**: In this panel you will see all the region identified with a rectangle box around them (in yellow). In that panel you can also export the full list of region with their properties to a file.
 
-* Region histogram: This is a simple histogram of all the region sizes.
+* **Region histogram**: This is a simple histogram of all the region sizes.
 
-* Explore Region: This gives you the opportunity to explore each region one by one (from largest to smallest). You can you the *choose region* sponbox to display the region you want (1 is the biggest and will go to smaller ones as the region number increases). You can also print on the result box information about the displayed region.
+* **Explore Region**: This gives you the opportunity to explore each region one by one (from largest to smallest). For convinience they are displayed on top of the image loaded in the analysis window. You can you the *choose region* sponbox to display the region you want (1 is the biggest and will go to smaller ones as the region number increases). You can also print on the result box information about the displayed region.
 
 
-.. warning:: We exclude by default regions of 1 pixel only. 
+.. warning:: We exclude by default single-pixel regions. 
 
 
