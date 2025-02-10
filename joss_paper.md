@@ -39,12 +39,8 @@ While tailored for the specific requirements of petrographic analysis in archaeo
 
 # The graphical user interface
 
-## GUI: Main window
-
 ![Main window of STON.\label{fig:mainwindow}](figures/screenshot_main_window.png)
 
-
-## Secondary windows
 
 STON was designed to simplify researchers' work by providing powerful tools for image analysis and observation. The main window offers access to several visualization tools, including:
 
@@ -52,7 +48,10 @@ STON was designed to simplify researchers' work by providing powerful tools for 
 - Side-by-Side Comparison Tool: Enables users to compare images directly.
 - Image Cluster Tool: Facilitates the creation of image mashups—combining multiple images into a single composite, which is particularly useful for merging images of the same material sample. It also supports generating meta-images, where all selected images are combined into one comprehensive view.
 
-## Image analysis
+
+![Image grouping. Left: Mashup image, Right: meta-image.\label{fig:cluster}](figures/cluster.png)
+
+## Main functionalities
 
 STON provides the user with a quick and easy analysis tool that will identify region of interest in the image it is based on the [measure module](https://scikit-image.org/docs/stable/api/skimage.measure.html) of the skimage library. 
   
