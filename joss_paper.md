@@ -39,11 +39,11 @@ While tailored for the specific requirements of petrographic analysis in archaeo
 
 # The graphical user interface
 
-STON is a graphical user interface composed of a main window (see Fig.\autoref{mainwindow}) and multiple sub-windows where specific tasks can be performed. The main window serves as a platform where images are loaded from disk and can be visualised as thumbnails. 
+STON is a graphical user interface consisting of a main window (see Fig. \autoref{fig:GUI}) and multiple sub-windows for performing specific tasks. The main window serves as a central platform where images are loaded from disk and displayed as thumbnails.
 
-![Main window of STON.\label{fig:mainwindow}](figures/all_GUI.png)
+![Main window of STON.\label{fig:GUI}](figures/all_GUI.png)
 
-STON was designed to simplify researchers' work by providing tools for image analysis and observation. From the main window the user can access several visualization tools and analysis tools, including:
+Designed to streamline researchers' work, STON provides a suite of tools for image analysis and observation. All these tools are accessible from the main window, allowing users to explore images in greater detail and conduct in-depth analyses:
 
 - Zoom Window: Enhances image inspection by allowing closer examination and note-taking. It also displays image metadata (currently supported for .tif files only) and provides options to adjust color, sharpness, brightness, and contrast. Additionally, it includes access to the analysis tool (see next section).
 - Side-by-Side Comparison Tool: Enables users to compare images directly.
@@ -51,11 +51,10 @@ STON was designed to simplify researchers' work by providing tools for image ana
 
 ![Image grouping. Left: Mashup image, Right: meta-image.\label{fig:cluster}](figures/cluster.png)
 
-## Main functionalities
+## Feature identification
 
 STON provides the user with a quick and easy analysis tool that will identify region of interest in the image it is based on the [measure module](https://scikit-image.org/docs/stable/api/skimage.measure.html) of the skimage library. 
   
-
 # Citations
 
 # Acknowledgements
