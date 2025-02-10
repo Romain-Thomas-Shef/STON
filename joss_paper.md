@@ -27,7 +27,7 @@ bibliography: joss_paper.bib
 # Summary
 
 STON (SofTware for petrOgraphic visualisatioN) is a graphical user interface developed with the objective to ease the inspection of images taken from microscopes. It has been developed in the framework of petrography, with images of minerals but it can be used for whatever images. This tool allows you the user to inspect image in detail, modify image parameters (contrast, brightness, sharpness), compare images side by side, combine images, etc. 
-Designed to be user friendly, STON is fully customizable. It is developed in Python using the (PySide6)[https://wiki.qt.io/Qt_for_Python] library for the GUI, Pillow [@Murray:2025] and matplotlib [@Hunter:2007] for image display and operation and scikit analysis [@Pedregosa:2011] for deeper image processing. 
+Designed to be user friendly, STON is fully customizable. It is developed in Python using the (PySide6)[https://wiki.qt.io/Qt_for_Python] library for the GUI, Pillow [@Murray:2025] and matplotlib [@Hunter:2007] for image display and operation and scikit-image [@vanderwalt:2014] for deeper image processing. 
 
 # Statement of need
 
@@ -37,30 +37,13 @@ This tool is designed to address these challenges by enabling users to observe m
 
 While tailored for the specific requirements of petrographic analysis in archaeology, the software has broader applications for other research fields that rely on visual image analysis. By providing an efficient and scalable tool for comparative analysis, it enhances research processes across various disciplines.
 
-
-
 # The graphical user interface
 
 ## GUI: Main window
 
 ## Secondary windows
 
-
 # Citations
-
-Citations to entries in paper.bib should be in
-[rMarkdown](http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html)
-format.
-
-If you want to cite a software repository URL (e.g. something on GitHub without a preferred
-citation) then you can do it with the example BibTeX entry below for @fidgit.
-
-For a quick reference, the following citation commands can be used:
-- `@author:2001`  ->  "Author et al. (2001)"
-- `[@author:2001]` -> "(Author et al., 2001)"
-- `[@author1:2001; @author2:2001]` -> "(Author1 et al., 2001; Author2 et al., 2002)"
-
-# Figures
 
 # Acknowledgements
 
