@@ -100,14 +100,18 @@
 <p>This image allows you to have a detailed view of an image. When you double click on an image in the <a class="reference internal" href="main_window.html"><span class="doc">Main window</span></a>, it will then be displayed at the center of this window. From top-left to bottom right, this image shows:</p>
 <ul class="simple">
 <li><p>The <strong>header</strong> display: This <em>only</em> works for <em>.tif</em> images. Pngs, jpegs or jpg are not supported.</p></li>
-<li><p>Below the header, you can see the <strong>close up image</strong>.  This image shows a subset of the loaded images. To control the section of the image that is displayed in the close up box, just move the mouse over the loaded image at the center of the window. Two parameters control what you see in the box and they can be modified in the configuration file (see <a class="reference internal" href="get_started.html"><span class="doc">Getting started</span></a>):</p></li>
+<li><p>Below the header, you can see the <strong>close up image</strong>.  This image shows a subset of the loaded images. To control the section of the image that is displayed in the close up box, just move the mouse over the loaded image at the center of the window:</p></li>
 </ul>
-<blockquote>
-<div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">closeup_window</span></code>: if set to <em>original</em>, this box will always display the original image. If set to <em>enhanced</em>, it will display the image as controlled by the enhancers (see below).</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">closeup_window_size</span></code>: This control the size (in pixel) of the box (the box is a square).</p></li>
-</ul>
-</div></blockquote>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="_images/closeup.gif"><img alt="_images/closeup.gif" src="_images/closeup.gif" style="width: 500px;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Example of closeup visualisation</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Two parameters control what you see in the box and they can be modified in the configuration file (see <a class="reference internal" href="get_started.html"><span class="doc">Getting started</span></a>):
+* <code class="docutils literal notranslate"><span class="pre">closeup_window</span></code>: if set to <em>original</em>, this box will always display the original image. If set to <em>enhanced</em>, it will display the image as controlled by the enhancers (see below).
+* <code class="docutils literal notranslate"><span class="pre">closeup_window_size</span></code>: This control the size (in pixel) of the box (the box is a square).</p>
 <ul class="simple">
 <li><p>At the center of the window: the loaded image</p></li>
 <li><p>Below the loaded image are the <strong>enhancers</strong> controlling some image properties (see last section below).</p></li>

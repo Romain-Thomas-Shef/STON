@@ -14,9 +14,18 @@ Description of the window
 This image allows you to have a detailed view of an image. When you double click on an image in the :doc:`main_window`, it will then be displayed at the center of this window. From top-left to bottom right, this image shows:
 
 * The **header** display: This *only* works for *.tif* images. Pngs, jpegs or jpg are not supported. 
-* Below the header, you can see the **close up image**.  This image shows a subset of the loaded images. To control the section of the image that is displayed in the close up box, just move the mouse over the loaded image at the center of the window. Two parameters control what you see in the box and they can be modified in the configuration file (see :doc:`get_started`): 
- * ``closeup_window``: if set to *original*, this box will always display the original image. If set to *enhanced*, it will display the image as controlled by the enhancers (see below).
- * ``closeup_window_size``: This control the size (in pixel) of the box (the box is a square).
+* Below the header, you can see the **close up image**.  This image shows a subset of the loaded images. To control the section of the image that is displayed in the close up box, just move the mouse over the loaded image at the center of the window:  
+
+.. figure:: /images/GUI/closeup.gif
+   :width: 500
+   :align: center
+
+   Example of closeup visualisation
+
+
+Two parameters control what you see in the box and they can be modified in the configuration file (see :doc:`get_started`):
+* ``closeup_window``: if set to *original*, this box will always display the original image. If set to *enhanced*, it will display the image as controlled by the enhancers (see below).
+* ``closeup_window_size``: This control the size (in pixel) of the box (the box is a square).
 
 * At the center of the window: the loaded image
 * Below the loaded image are the **enhancers** controlling some image properties (see last section below).
