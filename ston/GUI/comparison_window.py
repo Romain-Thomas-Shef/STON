@@ -49,7 +49,8 @@ class CompareWindow(QWidget):
         super().__init__()
 
         ###adjust the window
-        self.resize(config['Conf']['compare_window_width'], config['Conf']['compare_window_height'])
+        self.resize(config['Conf']['compare_window_width'],\
+                    config['Conf']['compare_window_height'])
         self.move(400,400)
 
         ###create some attributes
@@ -81,14 +82,16 @@ class CompareWindow(QWidget):
         self.setLayout(grid)
         row = 0
 
-        self.plot1, self.fig1, self.axs1, self.toolbar1 = plots.create_plot(toolbar=True)
+        self.plot1, self.fig1, self.axs1, self.toolbar1 =\
+                plots.create_plot(toolbar=True, transparent=True)
         self.change_image(self.images[0], 1)
         grid.addWidget(self.plot1, row, 0, 2, 8)
         row += 2
         grid.addWidget(self.toolbar1, row, 6, 1, 2)
         row += 1
 
-        self.plot2, self.fig2, self.axs2, self.toolbar2 = plots.create_plot(toolbar=True)
+        self.plot2, self.fig2, self.axs2, self.toolbar2 =\
+                plots.create_plot(toolbar=True, transparent=True)
         self.change_image(self.images[1], 2)
         grid.addWidget(self.plot2, row, 0, 2, 8)
         row += 2
