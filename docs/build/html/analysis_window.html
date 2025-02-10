@@ -52,7 +52,6 @@
 <li class="toctree-l1"><a class="reference internal" href="main_window.html">Main window</a></li>
 <li class="toctree-l1"><a class="reference internal" href="zoom_window.html">Individual image visualisation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Analysis window</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#description-of-the-window">Description of the window</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#cropping-and-gaussian-filtering">Cropping and Gaussian filtering</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#cropping">Cropping</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#gaussian-filtering">Gaussian filtering</a></li>
@@ -93,8 +92,6 @@
              
   <section id="analysis-window">
 <h1>Analysis window<a class="headerlink" href="#analysis-window" title="Link to this heading"></a></h1>
-<section id="description-of-the-window">
-<h2>Description of the window<a class="headerlink" href="#description-of-the-window" title="Link to this heading"></a></h2>
 <p>The analysis window allows you to segment images and identify regions of interest in the image.
 When opened, it will display the same image as in the <a class="reference internal" href="zoom_window.html"><span class="doc">Individual image visualisation</span></a> window:</p>
 <figure class="align-center" id="id1">
@@ -111,7 +108,6 @@ When opened, it will display the same image as in the <a class="reference intern
 <li><p>The analysis information box (green). Each time something is done in that window, information will be displayed on that box. You can clear it or save the text using the buttons at the bottom.</p></li>
 <li><p>Running the algotirhm (blue): This is the button you need to hit for STON to make the analysis</p></li>
 </ul>
-</section>
 <section id="cropping-and-gaussian-filtering">
 <h2>Cropping and Gaussian filtering<a class="headerlink" href="#cropping-and-gaussian-filtering" title="Link to this heading"></a></h2>
 <section id="cropping">
@@ -163,18 +159,18 @@ Once ran, you will some information displayed in the result box on the right:</p
 <a class="reference internal image-reference" href="_images/region_plots.jpg"><img alt="_images/region_plots.jpg" src="_images/region_plots.jpg" style="width: 900px;" />
 </a>
 <figcaption>
-<p><span class="caption-text">Visualisation of the identified regions</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+<p><span class="caption-text">Visualisation of the identified regions in three panels</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <p>You can visualize the result of the region identification on the three panels (Region plots, Region histrogam &amp; Explore Regions):</p>
 <ul class="simple">
-<li><p>Region plot: In this panel you will see all the region identified with a rectangle box around them (in yellow). In that panel you can also export the full list of region with their properties to a file.</p></li>
-<li><p>Region histogram: This is a simple histogram of all the region sizes.</p></li>
-<li><p>Explore Region: This gives you the opportunity to explore each region one by one (from largest to smallest). You can you the <em>choose region</em> sponbox to display the region you want (1 is the biggest and will go to smaller ones as the region number increases). You can also print on the result box information about the displayed region.</p></li>
+<li><p><strong>Region plot</strong>: In this panel you will see all the region identified with a rectangle box around them (in yellow). In that panel you can also export the full list of region with their properties to a file.</p></li>
+<li><p><strong>Region histogram</strong>: This is a simple histogram of all the region sizes.</p></li>
+<li><p><strong>Explore Region</strong>: This gives you the opportunity to explore each region one by one (from largest to smallest). For convinience they are displayed on top of the image loaded in the analysis window. You can you the <em>choose region</em> sponbox to display the region you want (1 is the biggest and will go to smaller ones as the region number increases). You can also print on the result box information about the displayed region.</p></li>
 </ul>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>We exclude by default regions of 1 pixel only.</p>
+<p>We exclude by default single-pixel regions.</p>
 </div>
 </section>
 </section>

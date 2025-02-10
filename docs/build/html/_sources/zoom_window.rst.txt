@@ -1,9 +1,6 @@
 Individual image visualisation
 ==============================
 
-Description of the window
--------------------------
-
 .. figure:: /images/zoom_window/Screenshot_with_annotation.png
    :width: 700
    :align: center

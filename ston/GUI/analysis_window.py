@@ -12,11 +12,12 @@ Year: 2024-2025
 ####python third party
 import numpy
 from PySide6.QtWidgets import QWidget, QGridLayout, QLabel, QPlainTextEdit,\
-                              QPushButton, QSpinBox, QTabWidget
+                              QPushButton, QSpinBox, QTabWidget, QFileDialog
 from matplotlib import patches
 
 ####Local imports
 from . import plots
+from ..utils import open_save_files
 from ..processing import enhancers
 from ..processing import segmentation_regions
 
@@ -124,6 +125,7 @@ class AnalysisWindow(QWidget):
         reset_to_cropped_button.clicked.connect(self.reset_to_cropped)
         gaussian_filter.clicked.connect(self.apply_gaussian_filter)
         clr_txt_button.clicked.connect(self.clear_result_box)
+        save_txt_button.clicked.connect(self.save_result_box)
         self.run_region_label.clicked.connect(self.run_region_id)
 
     def reset_image(self):
@@ -255,6 +257,28 @@ class AnalysisWindow(QWidget):
         '''
         self.resultsbox.clear()
 
+    def save_result_box(self):
+        '''
+        This method writes the result box into a file
+        It calls the a filedialog to choose the file
+        and then use the generic file save function
+        to save evertyhing.
+        
+        Parameters
+        ----------
+        None
+        
+        Return
+        ------
+        None
+        '''
+        save_path, _ = QFileDialog.getSaveFileName(self, "Export result text",
+                                                   "Analysis_results.txt",
+                                                   "Text Files, (*.txt)")
+
+        if save_path:
+            open_save_files.save_txt_to_file(save_path, self.resultsbox.toPlainText())
+
     def run_region_id(self):
         '''
         This method runs the algorithm
@@ -279,7 +303,7 @@ class AnalysisWindow(QWidget):
         self.region_plot.display_data(labeled_image, cmap='gray', clear=True)
 
 
-        self.indiv_region_plot.display_data(labeled_image, cmap='gray', clear=True)
+        self.indiv_region_plot.display_data(self.data_from_zoom_window, cmap='gray', clear=True)
         self.indiv_region_plot.draw_single_region(properties=self.results)
         self.indiv_region_plot.regioncounter.setMinimum(1)
         self.indiv_region_plot.regioncounter.setMaximum(len(self.results['area']))
@@ -517,6 +541,17 @@ class Plot(QTabWidget):
         ------
         None
         '''
-        for r in self.results:
-           print(r) 
-           ###TBD
+        ##Prepare catalog
+        txt = '#x\ty\tarea[pixels]\n'
+
+        for i,x in enumerate(self.results['x']):
+            line = f"{self.results['x'][i]}\t{self.results['y'][i]}"
+            line += f"\t{self.results['area'][i]}\n"
+            txt += line
+
+        save_path, _ = QFileDialog.getSaveFileName(self, "Export region catalog",
+                                                   "Catalog.txt",
+                                                   "Text Files, (*.txt)")
+
+        if save_path:
+            open_save_files.save_txt_to_file(save_path, txt)
