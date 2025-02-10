@@ -43,11 +43,15 @@ STON is a graphical user interface consisting of a main window (see \autoref{fig
 
 ![Main window of STON.\label{fig:GUI}](figures/all_GUI.png)
 
-Designed to streamline researchers' work, STON provides a suite of tools for image analysis and observation. All these tools are accessible from the main window, allowing users to explore images in greater detail and conduct in-depth analyses:
 
-- Image detail and note taking window: Enhances image inspection by allowing closer examination and note-taking. It also displays image metadata (currently supported for .tif files only) and provides options to adjust color, sharpness, brightness, and contrast. Additionally, it includes access to the analysis tool (see next section).
-- Side-by-Side Comparison Tool: Enables users to compare images directly.
-- Image Cluster Tool (See \autoref{fig:cluster}): Facilitates the creation of image mashups—combining multiple images into a single composite, which is particularly useful for merging images of the same material sample. It also supports generating meta-images, where all selected images are combined into one comprehensive view
+Designed to streamline researchers' work, STON provides a comprehensive suite of tools for image analysis and visual inspection.
+It offers a user-friendly interface and visualization features, STON simplifies the process of inspecting, comparing, and manipulating images.
+All these tools are accessible from the main window, enabling users to explore images in greater detail, extract meaningful insights, and conduct in-depth analyses with ease.
+
+- Image detail and note-taking window: This window allows the user to inspect an image in greater detail. It also displays image metadata (currently supported for .tif files only) and provides options to adjust color, sharpness, brightness, and contrast. Additionally, it includes access to the analysis tool (see next section), enabling users to identify and study specific regions of interest.
+- Side-by-Side Comparison Tool: Allows users to directly compare two images, making it easier to identify differences or similarities between samples. This feature is particularly useful in petrography and other disciplines where visual distinctions play a crucial role during the analysis.
+- Image Cluster Tool (see \autoref{fig:cluster}): Facilitates the creation of image mashups by combining multiple images into a single composite. This is especially useful for merging images of the same material sample to create a unified visualization.
+Additionally, it supports the generation of meta-images, where all selected images are compiled into one comprehensive view, helping researchers analyze patterns and relationships across multiple images.
 
 ![Image grouping. Mashup image (left): reconstruction of a complete sample; Meta-image (right): Cluster of images. \label{fig:cluster}](figures/cluster.png)
 
@@ -58,8 +62,6 @@ STON offers a fast and intuitive analysis tool for identifying regions of intere
 To account for pixel-to-pixel variations in the image, STON generates a binary image using a threshold set at the image’s average. Users can then inspect all detected regions simultaneously (see \autoref{fig:regions}) or examine them individually. Additionally, a catalog of region properties can be downloaded for further analysis.
 
 ![Region identification in STON. \label{fig:regions}](figures/allregions.png)
-
-# Citations
 
 # Acknowledgements
 
