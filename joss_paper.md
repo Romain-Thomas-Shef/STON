@@ -39,7 +39,7 @@ While tailored for the specific requirements of petrographic analysis in archaeo
 
 # The graphical user interface
 
-STON is a graphical user interface consisting of a main window (see Fig. \autoref{fig:GUI}) and multiple sub-windows for performing specific tasks. The main window serves as a central platform where images are loaded from disk and displayed as thumbnails.
+STON is a graphical user interface consisting of a main window (see \autoref{fig:GUI}) and multiple sub-windows for performing specific tasks. The main window serves as a central platform where images are loaded from disk and displayed as thumbnails.
 
 ![Main window of STON.\label{fig:GUI}](figures/all_GUI.png)
 
@@ -47,14 +47,14 @@ Designed to streamline researchers' work, STON provides a suite of tools for ima
 
 - Zoom Window: Enhances image inspection by allowing closer examination and note-taking. It also displays image metadata (currently supported for .tif files only) and provides options to adjust color, sharpness, brightness, and contrast. Additionally, it includes access to the analysis tool (see next section).
 - Side-by-Side Comparison Tool: Enables users to compare images directly.
-- Image Cluster Tool (See Fig.\autoref{cluster}): Facilitates the creation of image mashups—combining multiple images into a single composite, which is particularly useful for merging images of the same material sample. It also supports generating meta-images, where all selected images are combined into one comprehensive view
+- Image Cluster Tool (See Fig.\autoref{fig:cluster}): Facilitates the creation of image mashups—combining multiple images into a single composite, which is particularly useful for merging images of the same material sample. It also supports generating meta-images, where all selected images are combined into one comprehensive view
 
-![Image grouping. Left: Mashup image, Right: meta-image.\label{fig:cluster}](figures/cluster.png)
+![Image grouping. Mashup image (left): reconstruction of a complete sample; Meta-image (right): Cluster of images. \label{fig:cluster}](figures/cluster.png)
 
 ## Feature identification
 
-STON provides the user with a quick and easy analysis tool that will identify region of interest in the image it is based on the [measure module](https://scikit-image.org/docs/stable/api/skimage.measure.html) of the skimage library. 
-  
+STON provides the user with a quick and easy analysis tool that will identify region of interest in the image it is based on the [measure module](https://scikit-image.org/docs/stable/api/skimage.measure.html) of the skimage library.
+
 # Citations
 
 # Acknowledgements
