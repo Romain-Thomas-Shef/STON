@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 
-def create_plot(toolbar=False):
+def create_plot(toolbar=False, transparent=False):
     '''
     This creates the plot.
     
@@ -24,6 +24,8 @@ def create_plot(toolbar=False):
     toolbar     :   Bool
                     if use a toolbar. by default is false
 
+    transparent :   Bool
+                    if the background is set to be transparent. By default is False
     Return
     ------
     canvas      : FigureCanvasQT
@@ -37,9 +39,14 @@ def create_plot(toolbar=False):
     '''
     #Create a matplotlib figure and axes instance, with the plotting parameters
     fig, axs = plt.subplots(1, 1, dpi=100)
+    fig.set_facecolor('none')
+
 
     #Create the Matplotlib canvas widget, and add to parent layout
     canvas = FigureCanvas(fig)
+    if transparent is True:
+        canvas.setStyleSheet("background-color: transparent;")
+
 
     ##if we use a toolbar
     if toolbar:

@@ -24,6 +24,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import numpy
 
 ####Local imports
+from . import plots
 from . import slider
 from . import analysis_window
 from ..utils import open_save_files
@@ -84,11 +85,11 @@ class DetailWindow(QWidget):
         row += 1
 
         ##Plot
-        self.plot, self.fig, self.axs = self.create_plot()
+        self.plot, self.fig, self.axs, _ = plots.create_plot(toolbar=False, transparent=True)
         grid.addWidget(self.plot, 0, 1, 3, 8)
 
         ##live zoom Plot
-        self.plot_zoom, self.zoom_fig, self.zoom_axs = self.create_plot()
+        self.plot_zoom, self.zoom_fig, self.zoom_axs, _ = plots.create_plot(toolbar=False, transparent=True)
         self.zoom_axs.axis('off')
         self.plot_zoom.setFixedWidth(250)
         self.plot_zoom.setFixedHeight(250)
@@ -143,20 +144,6 @@ class DetailWindow(QWidget):
 
         ##At startup, add the logo
         self.change_image(self.logo)
-
-    def create_plot(self):
-        '''
-        This initialize the image plot
-        '''
-        #Create a matplotliub figure and axes isntance, witth the plotting parameters
-        fig, axs = plt.subplots(1, 1, dpi=100)
-
-        #Create the Matplotlib canvas widget, and add to parent layout
-        canvas = FigureCanvas(fig)
-
-        canvas.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        canvas.updateGeometry()
-        return canvas, fig, axs
 
     def change_image(self, file):
         '''
@@ -245,11 +232,11 @@ class DetailWindow(QWidget):
             self.xcursorloc = event.xdata
             self.ycursorloc = event.ydata
             #Update the zoom-in display of source_picker
-            self.update_picker_display()
+            self.update_zoomin_display()
 
 
 
-    def update_picker_display(self):
+    def update_zoomin_display(self):
         '''
         Update the zoom-in 2D display of the image in the source_picker window
 
@@ -257,15 +244,18 @@ class DetailWindow(QWidget):
         -------
 
         '''
-
+        ###remove the previous image
         self.zoom_axs.cla()
-        #Obtain the original 2D image data and plot in source_picker widget
+
+        #Get image properties
         self.maxx = self.data.shape[0]
         self.maxy = self.data.shape[1]
         self.zoom_axs.imshow(self.data, rasterized=True, origin='lower')
-
+        
+        ###update the size of the image based on the configuration
         self.winsize = self.conf['Zoom_window']['closeup_window_size']
-        #Zoom-in on original 2D image data according to size obtained from the sliding bar
+
+        ##Determine the x and y limits of the zommed in image
         xmin, xmax = self.xcursorloc - 0.5 * self.winsize, self.xcursorloc + 0.5 * self.winsize
         ymin, ymax = self.ycursorloc - 0.5 * self.winsize, self.ycursorloc + 0.5 * self.winsize
 
@@ -284,6 +274,7 @@ class DetailWindow(QWidget):
             ymax = self.data.shape[0]
             ymin = ymax - self.winsize
 
+        ##And update the image
         self.zoom_axs.set_xlim(xmin, xmax)
         self.zoom_axs.set_ylim(ymax, ymin)
         self.zoom_axs.axis('off')
