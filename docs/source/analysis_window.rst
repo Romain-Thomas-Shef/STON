@@ -58,7 +58,7 @@ Identifying regions and visualisation
 
 To analyse the image and identify regions within the image you must use the button *Run Region identification* (in blue, top-right corner).
 This will take the currently displayed image and send it to the identification algorithm. 
-The first step uses the *label* function of the scikit-image `measure module <https://scikit-image.org/docs/stable/api/skimage.measure.html>`_ scikit-image librarythat will identify regions based on pixels values.
+The first step uses the *label* function of the scikit-image `measure module <https://scikit-image.org/docs/stable/api/skimage.measure.html>`_ scikit-image library that will identify regions based on pixels values.
 It works only with images with integer values for each pixel. 
 In order to create such image with create a binary image where each pixel is set to 1 if it is above the average of the image, 0 otherwise. 
 Once this part is done with use the *regionprops* function that extract properties of the regions (e.g. position, areas, etc). 
@@ -71,7 +71,7 @@ Once ran, you will some information displayed in the result box on the right::
     Smallest region: 2.0 pixels
     Largest region: 186555.0 pixels
 
-This will give you some (hoepfuly) interesting information about the process. 
+This will give you some (hopefully) interesting information about the process. 
 
 .. figure:: images/Analysis/region_plots.jpg
     :width: 900
@@ -79,7 +79,7 @@ This will give you some (hoepfuly) interesting information about the process.
 
     Visualisation of the identified regions in three panels
 
-You can visualize the result of the region identification on the three panels (Region plots, Region histrogam & Explore Regions):
+You can visualize the result of the region identification on the three panels (Region plots, Region histogram & Explore Regions):
 
 * **Region plot**: In this panel you will see all the region identified with a rectangle box around them (in yellow). In that panel you can also export the full list of region with their properties to a file.
 
