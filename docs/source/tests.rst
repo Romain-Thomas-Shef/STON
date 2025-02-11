@@ -71,8 +71,7 @@ If you double click on **ceramic3.jpg** in the image area, you can go to the sec
 
    Detail window on the with **ceramic3.jpg** image loaded.
 
-
-Passing the mouse over the image, you will see the closeup window on the bottom left showing a zoom in part of the region where mouse is (see the short video in :doc:`zoom_window`). You can see that there are already some notes on the notepad. These are the notes displayed for testing purpose. You might modify these notes and save them back (**Note:** it will be saved only if the directory where ston is saved is available with write rights).
+Passing the mouse over the image, you will see the closeup window on the bottom left showing a zoom in part of the region where mouse is (see the short video in :doc:`zoom_window`). You can see that there are already some notes on the notepad. These are the notes displayed for testing purpose. You might modify this notes and save them back (**Note:** it will be saved only if the directory where ston is saved is available with write rights).
 
 
 Analysis window
