@@ -31,7 +31,7 @@ Built with user-friendliness in mind, STON is fully customizable. It is develope
 
 # Statement of need
 
-Thin-section petrography is a widely used technique in archaeology for analysing the composition of ceramic and stone objects, as well as investigating their production technology and provenance. This method involves studying thin sections mounted on glass slides under a polarised light microscope to examine microscopic features. A critical aspect of archaeological study is comparing and identifying patterns within these features across multiple samples. However, it is typically only possible to view one sample at a time under the microscope. Therefore, this method relies heavily on visual memory and repeated observations, making the process inefficient and time-consuming, particularly when dealing with hundreds of samples.
+Thin-section petrography is a widely used technique in archaeology for analysing the composition of ceramic and stone objects, as well as investigating their production technology and provenance [@Reedy:2008; @Peterson and Betancourt:2009; @Quinn:2022]. This method involves studying thin sections mounted on glass slides under a polarised light microscope to examine microscopic features. A critical aspect of archaeological study is comparing and identifying patterns within these features across multiple samples. However, it is typically only possible to view one sample at a time under the microscope. Therefore, this method relies heavily on visual memory and repeated observations, making the process inefficient and time-consuming, particularly when dealing with hundreds of samples.
 
 This tool is designed to address these challenges by enabling users to observe multiple photomicrographs simultaneously in a single, convenient interface. It facilitates detailed comparisons, clustering, and data recording, which is especially important in ceramic paste analysis. By allowing users to view multiple samples side by side, the software supports efficient sample grouping and evaluation of composition characteristics.
 
@@ -64,6 +64,7 @@ Users can then inspect all detected regions simultaneously (see \autoref{fig:reg
 
 # Acknowledgements
 
-This work was support by....
+This work was generously supported by the Gerda Henkel Foundation. E. Dammer would like to thank D. Braekmans (Leiden University) for his feedback and advice on optimisiation for archaeological research.
 
 # References
+Peterson, Sarah E., and Philip P. Betancourt. Thin-Section Petrography of Ceramic Materials: INSTAP Archaeological Excavation Manual 2. INSTAP Academic Press, 2009. https://doi.org/10.2307/j.ctt3fgvbq.
