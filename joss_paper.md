@@ -64,11 +64,9 @@ Users can then inspect all detected regions simultaneously (see \autoref{fig:reg
 
 # Acknowledgements
 
-This work was generously supported by the Gerda Henkel Foundation. E. Dammer would like to thank D. Braekmans (Leiden University) for his feedback and advice on optimisiation for archaeological research.
+This work was generously supported by the Gerda Henkel Foundation. E. D. would like to thank Dr. D. Braekmans (Leiden University) for his feedback and advice on optimisation for archaeological research.
 
 # References
 Peterson, Sarah E., and Philip P. Betancourt. Thin-Section Petrography of Ceramic Materials: INSTAP Archaeological Excavation Manual 2. INSTAP Academic Press, 2009. https://doi.org/10.2307/j.ctt3fgvbq.
-
 Quinn, Patrick Sean. Thin Section Petrography, Geochemistry and Scanning Electron Microscopy of Archaeological Ceramics. Archaeopress, 2022. https://doi.org/10.2307/j.ctv2nwq8x4.
-
 Reedy, Chandra L. Thin-Section Petrography of Stone and Ceramic Cultural Materials. London: Archetype, 2008.
