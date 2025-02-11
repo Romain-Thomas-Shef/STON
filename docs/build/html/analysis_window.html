@@ -104,9 +104,9 @@ When opened, it will display the same image as in the <a class="reference intern
 <p>The analysis window is composed of the following areas:</p>
 <ul class="simple">
 <li><p>Tabs (pink): This is where you will see images. It is always displaying the tab ‘Image to analyse’ at first. The other tabs (region plot, region histogram, explore regions) are all empty. At the bottom of each tab you will see the <em>matplotlib</em> toolbar (in red). This allows you to zoom in/out, save the image.</p></li>
-<li><p>The initial image tuning (yellow): A few button to tune what image will be analyse. It can be cropped and a gaussian filter can be applied to the image (see below).</p></li>
+<li><p>The initial image tuning (yellow): A few buttons to tune what image will be analyse. It can be cropped and a Gaussian filter can be applied to the image (see below).</p></li>
 <li><p>The analysis information box (green). Each time something is done in that window, information will be displayed on that box. You can clear it or save the text using the buttons at the bottom.</p></li>
-<li><p>Running the algotirhm (blue): This is the button you need to hit for STON to make the analysis</p></li>
+<li><p>Running the algorithm (blue): This is the button you need to hit for STON to make the analysis</p></li>
 </ul>
 <section id="cropping-and-gaussian-filtering">
 <h2>Cropping and Gaussian filtering<a class="headerlink" href="#cropping-and-gaussian-filtering" title="Link to this heading"></a></h2>
@@ -114,7 +114,7 @@ When opened, it will display the same image as in the <a class="reference intern
 <h3>Cropping<a class="headerlink" href="#cropping" title="Link to this heading"></a></h3>
 <p>In some case you might want to remove areas of the image. To make this easy we implemented a cropping option.
 To crop an image you must use the lense button at the bottom of the window (in the ref box in the screenshot), then select an area in the image.
-Once the image has been zoom to this area  you must use the button <em>Crop Image</em>.
+Once the image has been zoomed to this area  you must use the button <em>Crop Image</em>.
 This will ensure that the image that will be analysed will be the cropped one.
 To uncrop the image and revert back to the original image, use the <em>Reset to original</em> button.</p>
 </section>
@@ -134,14 +134,14 @@ When hitting the button, the filter will be applied to the displayed window:</p>
 <p class="admonition-title">Note</p>
 <p>If you use the button while the displayed image is already filtered, the gaussian filter will be applied to that filtered image. Make sure you reload the image with <em>Reset to Original</em> or <em>Reset to cropped</em> before applying again a Gaussian filter.</p>
 </div>
-<p>The gaussian filtering used here is the one of skimage (see <a class="reference external" href="https://scikit-image.org/docs/dev/api/skimage.filters.html#skimage.filters.gaussian">here</a>).</p>
+<p>The Gaussian filtering used here is the one of skimage (see <a class="reference external" href="https://scikit-image.org/docs/dev/api/skimage.filters.html#skimage.filters.gaussian">here</a>).</p>
 </section>
 </section>
 <section id="identifying-regions-and-visualisation">
 <h2>Identifying regions and visualisation<a class="headerlink" href="#identifying-regions-and-visualisation" title="Link to this heading"></a></h2>
 <p>To analyse the image and identify regions within the image you must use the button <em>Run Region identification</em> (in blue, top-right corner).
 This will take the currently displayed image and send it to the identification algorithm.
-The first step uses the <em>label</em> function of the scikit-image <a class="reference external" href="https://scikit-image.org/docs/stable/api/skimage.measure.html">measure module</a> scikit-image librarythat will identify regions based on pixels values.
+The first step uses the <em>label</em> function of the scikit-image <a class="reference external" href="https://scikit-image.org/docs/stable/api/skimage.measure.html">measure module</a> scikit-image library that will identify regions based on pixels values.
 It works only with images with integer values for each pixel.
 In order to create such image with create a binary image where each pixel is set to 1 if it is above the average of the image, 0 otherwise.
 Once this part is done with use the <em>regionprops</em> function that extract properties of the regions (e.g. position, areas, etc).
@@ -154,7 +154,7 @@ Once ran, you will some information displayed in the result box on the right:</p
 <span class="n">Largest</span> <span class="n">region</span><span class="p">:</span> <span class="mf">186555.0</span> <span class="n">pixels</span>
 </pre></div>
 </div>
-<p>This will give you some (hoepfuly) interesting information about the process.</p>
+<p>This will give you some (hopefully) interesting information about the process.</p>
 <figure class="align-center" id="id3">
 <a class="reference internal image-reference" href="_images/region_plots.jpg"><img alt="_images/region_plots.jpg" src="_images/region_plots.jpg" style="width: 900px;" />
 </a>
@@ -162,7 +162,7 @@ Once ran, you will some information displayed in the result box on the right:</p
 <p><span class="caption-text">Visualisation of the identified regions in three panels</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
 </figcaption>
 </figure>
-<p>You can visualize the result of the region identification on the three panels (Region plots, Region histrogam &amp; Explore Regions):</p>
+<p>You can visualize the result of the region identification on the three panels (Region plots, Region histogram &amp; Explore Regions):</p>
 <ul class="simple">
 <li><p><strong>Region plot</strong>: In this panel you will see all the region identified with a rectangle box around them (in yellow). In that panel you can also export the full list of region with their properties to a file.</p></li>
 <li><p><strong>Region histogram</strong>: This is a simple histogram of all the region sizes.</p></li>
