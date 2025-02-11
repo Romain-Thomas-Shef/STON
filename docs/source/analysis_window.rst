@@ -91,6 +91,3 @@ You can visualize the result of the region identification on the three panels (R
 
 
 .. warning:: We exclude by default single-pixel regions. 
-=======
-Description of the window
--------------------------
