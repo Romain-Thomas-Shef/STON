@@ -349,7 +349,7 @@ class Plot(QTabWidget):
         self.setLayout(grid)
 
         ###Add the plot
-        self.plot, self.fig, self.axs, self.toolbar = plots.create_plot(toolbar=True)
+        self.plot, self.fig, self.axs, self.toolbar = plots.create_plot(toolbar=True, transparent=True)
         self.axs.axis('off')
         grid.addWidget(self.plot, 0, 0, 7, 8)
         grid.addWidget(self.toolbar, 7, 0, 1, 5)
