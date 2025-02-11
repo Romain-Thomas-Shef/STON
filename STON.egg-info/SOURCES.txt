@@ -13,8 +13,10 @@ ston/main.py
 ston/pylintrc
 ston/template_file
 ston/GUI/__init__.py
+ston/GUI/analysis_window.py
 ston/GUI/cluster_window.py
 ston/GUI/comparison_window.py
+ston/GUI/image_qt_display.py
 ston/GUI/main_window.py
 ston/GUI/plots.py
 ston/GUI/slider.py
@@ -23,8 +25,10 @@ ston/GUI/logo/logo.jpeg
 ston/processing/__init__.py
 ston/processing/enhancers.py
 ston/processing/image_processing.py
+ston/processing/segmentation_regions.py
 ston/tests/general.py
 ston/tests/test_open_save_files.py
+ston/tests/test_processing_image_processing.py
 ston/tests/test_utils_cli.py
 ston/tests/test_utils_conf.py
 ston/tests/test_utils_explore_files.py

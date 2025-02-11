@@ -42,6 +42,35 @@ def default_conf():
 
     return config
 
+def test_conf():
+    '''
+    This function creates an default configuration
+    It takes no parameters but returns a dictionary
+    Parameters
+    ----------
+    None
+
+    Returns
+    -------
+    config  :   dict
+                configuration
+    '''
+    config = {}
+
+    ###get the default configuration file
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    conf_default = os.path.join(os.path.dirname(dir_path), 'test_data/test.conf')
+    
+    ##load it
+    config, msg = load_conf(conf_default)
+    del msg
+
+    ###project
+    config['Project_info']['directory'] = os.path.dirname(dir_path)
+
+    return config
+
+
 
 def load_conf(file):
     '''

@@ -51,11 +51,19 @@
 <li class="toctree-l1"><a class="reference internal" href="get_started.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="main_window.html">Main window</a></li>
 <li class="toctree-l1"><a class="reference internal" href="zoom_window.html">Individual image visualisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis_window.html">Analysis window</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cluster_window.html">Grouping images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="comparison_window.html">Compare images</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Testing STON</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#back-end-functions">Back-end functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#graphical-interface">Graphical Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#graphical-interface">Graphical Interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#main-window">Main window</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#zoom-window">Zoom window</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#analysis-window">Analysis window</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cluster-window">Cluster window</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#side-by-side-comparison">Side by side comparison</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="dev_notes.html">Development corner</a></li>
@@ -87,7 +95,7 @@
              
   <section id="testing-ston">
 <h1>Testing STON<a class="headerlink" href="#testing-ston" title="Link to this heading"></a></h1>
-<p>STON is fully testable. STON development fully separated the GUI from the back-end functions.
+<p>STON can be tested <em>relatively</em> easily. STON development fully separated the GUI from the back-end functions.
 You can test both separately.</p>
 <section id="back-end-functions">
 <h2>Back-end functions<a class="headerlink" href="#back-end-functions" title="Link to this heading"></a></h2>
@@ -98,7 +106,7 @@ You can test both separately.</p>
 <p>Here it will ask you what you want to test:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[me@mymachine]: ston --test
 What test do you want to run?
-[utils/processing, just press enter for all]:
+[utils/processing/segmentation, just press enter for all]:
 </pre></div>
 </div>
 <p>You can either press enter for the full test suite or write <cite>utils</cite> or <cite>processing</cite> to test some parts only.
@@ -106,12 +114,59 @@ This part of the testing uses the <code class="docutils literal notranslate"><sp
 <p>You can also use <code class="docutils literal notranslate"><span class="pre">pytest</span></code>. For this you must go to the installation directory of STON and run <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">ston/tests/</span></code>.</p>
 <p>A few details:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">utils</span></code>: This will test everything that deals with finding files, saving/opening txt files, reading configuration. So far there are <strong>21</strong> tests implemented.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">processing</span></code>: This will test everything that deal with images.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">utils</span></code>: This will test everything that deals with finding files, saving/opening txt files, reading configuration.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">processing</span></code>: This will test everything that deal with images creation (mashup, metaimage, etc).</p></li>
 </ul>
 </section>
 <section id="graphical-interface">
 <h2>Graphical Interface<a class="headerlink" href="#graphical-interface" title="Link to this heading"></a></h2>
+<p>We did not write unittests for the graphical interface. Instead we have stored <em>test data</em> in the package and you can follow the following procedure to test the main functionalities of the interface.</p>
+<p>To start the GUI in test mode just use the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">me</span><span class="nd">@mymachine</span><span class="p">]:</span> <span class="n">ston</span> <span class="o">--</span><span class="n">config</span> <span class="n">test</span>
+</pre></div>
+</div>
+<p>When starting, STON will start two windows: the <a class="reference internal" href="main_window.html"><span class="doc">Main window</span></a> and the <a class="reference internal" href="zoom_window.html"><span class="doc">Individual image visualisation</span></a> window.</p>
+<section id="main-window">
+<h3>Main window<a class="headerlink" href="#main-window" title="Link to this heading"></a></h3>
+<p>The <a class="reference internal" href="main_window.html"><span class="doc">Main window</span></a> should give you access to the following data (on the left file explorer):</p>
+<ul class="simple">
+<li><p>singletif –&gt; 1 image</p></li>
+<li><p>logo –&gt; 1 image</p></li>
+<li><p>cluster1_1sthalf –&gt; 5 images</p></li>
+<li><p>3rd_level –&gt; 4 images</p></li>
+<li><p>cluster2 –&gt; 10 images</p></li>
+<li><p>cluster1_2ndhalf –&gt; 5 images</p></li>
+</ul>
+<p>If you deploy the <em>3rd_level</em> directory, and double click on <strong>ceramic3.jpg</strong> and <strong>ceramic2.jpg</strong>, images will be displayed on the right part of the window. You should have the following window at this point:</p>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="_images/test_GUI_main_window.png"><img alt="_images/test_GUI_main_window.png" src="_images/test_GUI_main_window.png" style="width: 700px;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Main window of STON with <strong>ceramic3.jpg</strong> and <strong>ceramic2.jpg</strong> open on the display area</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="zoom-window">
+<h3>Zoom window<a class="headerlink" href="#zoom-window" title="Link to this heading"></a></h3>
+<p>If you double click on <strong>ceramic3.jpg</strong> in the image area, you can go to the second window (the detail window), you should see this:</p>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="_images/test_GUI_detail_window.png"><img alt="_images/test_GUI_detail_window.png" src="_images/test_GUI_detail_window.png" style="width: 700px;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Detail window on the with <strong>ceramic3.jpg</strong> image loaded.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Passing the mouse over the image, you will see the closeup window on the bottom left showing a zoom in part of the region where mouse is (see the short video in <a class="reference internal" href="zoom_window.html"><span class="doc">Individual image visualisation</span></a>). You can see that there are already some notes on the notepad. These are the notes displayed for testing purpose. You might modify these notes and save them back (<strong>Note:</strong> it will be saved only if the directory where ston is saved is available with write rights).</p>
+</section>
+<section id="analysis-window">
+<h3>Analysis window<a class="headerlink" href="#analysis-window" title="Link to this heading"></a></h3>
+</section>
+<section id="cluster-window">
+<h3>Cluster window<a class="headerlink" href="#cluster-window" title="Link to this heading"></a></h3>
+</section>
+<section id="side-by-side-comparison">
+<h3>Side by side comparison<a class="headerlink" href="#side-by-side-comparison" title="Link to this heading"></a></h3>
+</section>
 </section>
 </section>
 

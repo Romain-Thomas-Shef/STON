@@ -97,6 +97,6 @@ class TestConfGetLoadConf(unittest.TestCase):
         self.assertEqual(msg, 'Configuration file found')
 
         ####Test some things we changed
-        self.assertEqual(loaded['Project_info']['name'], 'test_conf')
-        self.assertCountEqual(loaded['Project_info']['extensions'], ['*.tif', '*.fits', '*.jpeg'])
-        self.assertFalse(loaded['Meta_image_options']['name_on_images'])
+        self.assertEqual(loaded['Project_info']['name'], 'Test_configuration')
+        self.assertCountEqual(loaded['Project_info']['extensions'], ['*.tif', '*.jpeg', '*.JPG', '*.JPEG', '*.jpg'])
+        self.assertTrue(loaded['Meta_image_options']['name_on_images'])

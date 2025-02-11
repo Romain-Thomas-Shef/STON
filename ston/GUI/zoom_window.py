@@ -25,6 +25,7 @@ import numpy
 
 ####Local imports
 from . import slider
+from . import analysis_window
 from ..utils import open_save_files
 from ..processing import enhancers
 
@@ -54,6 +55,9 @@ class DetailWindow(QWidget):
         self.brightness = False
         self.sharpness = False
         self.contrast = False
+
+        ###Analysis window counter
+        self.n_analysis = 1
 
         ##Make the layout
         self.make_layout()
@@ -120,14 +124,21 @@ class DetailWindow(QWidget):
 
         self.button_reset_enhancers = QPushButton('Reset Properties')
         grid.addWidget(self.button_reset_enhancers, row, 0, 1, 1)
+        row += 1
+
+        ###Analysis
+        self.button_analysis = QPushButton('Analysis tool')
+        grid.addWidget(self.button_analysis, row, 1, 1, 8)
+        row += 1
 
         ###connect event
         self.slider_color.sliderReleased.connect(partial(self.slider_change, 'col'))
         self.slider_contrast.sliderReleased.connect(partial(self.slider_change, 'con'))
         self.slider_brightness.sliderReleased.connect(partial(self.slider_change, 'br'))
         self.slider_sharpness.sliderReleased.connect(partial(self.slider_change, 'sh'))
-        self.button_reset_enhancers.clicked.connect(self.reset_sliders)
+        self.button_reset_enhancers.clicked.connect(partial(self.reset_sliders, True))
         self.button_save_notes.clicked.connect(self.save_notes)
+        self.button_analysis.clicked.connect(self.start_analysis_tool)
         self.fig.canvas.mpl_connect('motion_notify_event', self.move_in_image)
 
         ##At startup, add the logo
@@ -188,7 +199,8 @@ class DetailWindow(QWidget):
 
         ##display it
         self.data = numpy.array(image)
-        self.axs.imshow(self.data)
+        ondisplay = self.axs.imshow(self.data)
+        self.data_for_analysis = ondisplay.get_array()
 
         ##redraw
         self.fig.tight_layout()
@@ -341,6 +353,9 @@ class DetailWindow(QWidget):
         ###Adjust the closeup window (bottom left)
         if self.conf['Zoom_window']['closeup_window'] != 'original':
             self.data = numpy.array(sharpness_im)
+        
+        ##for analysis
+        self.data_for_analysis = numpy.array(sharpness_im)
 
         ##redraw
         self.fig.tight_layout()
@@ -394,3 +409,29 @@ class DetailWindow(QWidget):
         ##If we have some text to save
         if self.notepad.toPlainText():
             open_save_files.save_txt_to_file(self.final_notes, self.notepad.toPlainText())
+
+
+    def start_analysis_tool(self):
+        '''
+        This method open the analysis tool for the image
+        currently displayed
+        Parameters
+        ----------
+        None
+
+        Return
+        ------
+        None
+        '''
+        ##Create analysis window with a dynamic name (we can open multiple ones)
+        setattr(self, f'Analysis_window_n{self.n_analysis}',
+                analysis_window.AnalysisWindow(self.conf, self.data_for_analysis))
+
+        ###Extract it back
+        window = getattr(self, f'Analysis_window_n{self.n_analysis}')
+
+        ##And display it
+        window.show()
+
+        ##Increment the counter
+        self.n_analysis += 1

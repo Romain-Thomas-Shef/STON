@@ -67,6 +67,7 @@ Table of content
  get_started
  main_window
  zoom_window
+ analysis_window
  cluster_window
  comparison_window
  tests

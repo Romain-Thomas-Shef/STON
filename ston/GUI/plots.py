@@ -60,4 +60,4 @@ class NavigationToolbarCustom(NavigationToolbar):
     '''
     # only display the buttons we need
     toolitems = [t for t in NavigationToolbar.toolitems if
-                 t[0] in ('Home', 'Pan', 'Zoom')]
+                 t[0] in ('Home', 'Pan', 'Zoom', 'Customize', 'Save')]

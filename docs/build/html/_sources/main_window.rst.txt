@@ -1,9 +1,6 @@
 Main window
 ===========
 
-Description of the window
--------------------------
-
 .. figure:: /images/GUI/screenshot_main_window_with_annotation.png
    :width: 700
    :align: center
