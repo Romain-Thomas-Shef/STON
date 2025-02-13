@@ -34,14 +34,19 @@ class AnalysisWindow(QWidget):
         self.hidden = True
         self.move(400,400)
         self.conf = config
-        self.resize(self.conf['Conf']['zoom_window_width'] + 200,
-                    self.conf['Conf']['zoom_window_height'] + 400)
+        self.resize(self.conf['Conf']['analysis_window_width'],
+                    self.conf['Conf']['analysis_window_height'])
         self.setWindowTitle('STON: Analyse Image')
 
         ##the image data
         self.data_from_zoom_window = data
         ###An empty results dictionary
         self.results = {}
+
+        ###get converstion factor
+        pix_to_mm = self.conf['Analysis']['pix_to_mm']
+        ##areas are in number of pixel, so to get an area in mm2 we need
+        self.conversion_area = pix_to_mm * pix_to_mm
 
         ##Make the layout
         self.make_layout()
@@ -92,7 +97,7 @@ class AnalysisWindow(QWidget):
         self.reset_image()
 
         ###Colored segmented plot panel
-        self.region_plot = Plot(allregions=True)
+        self.region_plot = Plot(allregions=True, conversion=self.conversion_area)
         self.tabbox.addTab(self.region_plot, 'Region Plot')
 
         ###Colored segmented plot panel
@@ -102,7 +107,8 @@ class AnalysisWindow(QWidget):
 
         ###Colored segmented plot panel
         self.indiv_region_plot = Plot(explorer=True,
-                                      results_box_write=self.write_to_result_box)
+                                      results_box_write=self.write_to_result_box,
+                                      conversion=self.conversion_area)
         self.tabbox.addTab(self.indiv_region_plot, 'Explore Regions')
 
         ##Result box
@@ -297,7 +303,7 @@ class AnalysisWindow(QWidget):
         ondisplay = self.primary.ondisplay.get_array()
 
         ##Region segementaiton
-        labeled_image, self.results = segmentation_regions.find_regions(ondisplay)
+        labeled_image, self.results = segmentation_regions.find_regions(ondisplay, self.conf)
 
         ##Update plots
         self.region_plot.display_data(labeled_image, cmap='gray', clear=True)
@@ -325,7 +331,7 @@ class Plot(QTabWidget):
     '''
     This class codes a simple panel with a plot inside
     '''
-    def __init__(self, explorer=False, allregions=False, results_box_write=False):
+    def __init__(self, explorer=False, allregions=False, results_box_write=False, conversion=False):
         '''
         Class initialization
         Paramaeters
@@ -360,6 +366,9 @@ class Plot(QTabWidget):
 
         ##if explorer, we had a few widgets
         if explorer is True:
+            ##Conversion pix_to_mm area
+            self.conversion = conversion
+            ##widgets
             grid.addWidget(QLabel('Choose region:'), 7, 6, 1, 1)
             self.regioncounter = QSpinBox()
             grid.addWidget(self.regioncounter, 7, 7, 1, 1)
@@ -371,6 +380,9 @@ class Plot(QTabWidget):
             self.print_properties.clicked.connect(self.write_to_box_in_analysis_window)
 
         elif allregions is True:
+            ##Conversion pix_to_mm area
+            self.conversion = conversion
+            ##widgets
             self.save_properties = QPushButton('Save all regions properties')
             grid.addWidget(self.save_properties, 7, 7, 1, 1)
             self.save_properties.clicked.connect(self.save_properties_to_text)
@@ -525,8 +537,10 @@ class Plot(QTabWidget):
 
         ##Prepare text
         txt = f'Region #{region_number}:\n'
-        txt += f"Area = {int(area)}\n"
-        txt += f"Area_box = {int(area_box)}"
+        txt += f"Area [#pixels] = {int(area)}\n"
+        txt += f"Area [mm2] = {self.conversion * int(area)}\n"
+        txt += f"Area_box [#pixels] = {int(area_box)}\n"
+        txt += f"Area_box [mm2] = {self.conversion * int(area_box)}\n"
         self.results_box_write(txt)
 
     def save_properties_to_text(self):
@@ -542,11 +556,12 @@ class Plot(QTabWidget):
         None
         '''
         ##Prepare catalog
-        txt = '#x\ty\tarea[pixels]\n'
+        txt = '#x\ty\tarea[pixels]\tarea[mm2]\n'
 
         for i,x in enumerate(self.results['x']):
             line = f"{self.results['x'][i]}\t{self.results['y'][i]}"
-            line += f"\t{self.results['area'][i]}\n"
+            line += f"\t{int(self.results['area'][i])}"
+            line += f"\t{self.conversion*self.results['area'][i]}\n"
             txt += line
 
         save_path, _ = QFileDialog.getSaveFileName(self, "Export region catalog",

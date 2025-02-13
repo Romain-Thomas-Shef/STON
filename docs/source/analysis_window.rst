@@ -67,8 +67,8 @@ Once this part is done with use the *regionprops* function that extract properti
 Once ran, you will some information displayed in the result box on the right::
 
     Region identification (look at corresponfing panel):
-    Ratio of black regions: 0.66
-    Ratio of white regions: 0.34
+    Ratio of black regions [%]: 66.0
+    Ratio of white regions [%]: 34.0
     Number of regions identified: 191
     Smallest region: 2.0 pixels
     Largest region: 186555.0 pixels
@@ -90,4 +90,4 @@ You can visualize the result of the region identification on the three panels (R
 * **Explore Region**: This gives you the opportunity to explore each region one by one (from largest to smallest). For convinience they are displayed on top of the image loaded in the analysis window. You can you the *choose region* sponbox to display the region you want (1 is the biggest and will go to smaller ones as the region number increases). You can also print on the result box information about the displayed region.
 
 
-.. warning:: We exclude by default single-pixel regions. 
+.. warning:: The default configuration removes the single-pixel area. You can change this in the configuration in the Analysis section with the `minimum_size` parameter. 
