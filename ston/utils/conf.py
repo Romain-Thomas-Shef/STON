@@ -117,6 +117,10 @@ def load_conf(file):
     for i in config['Conf']:
         config['Conf'][i] = int(config['Conf'][i])
 
+    ##All elements in the 'Analysis' section are float
+    for i in config['Analysis']:
+        config['Analysis'][i] = float(config['Analysis'][i])
+
     ##All elements in the 'Option' section are ints
     for i in config['General_image_display']:
         config['General_image_display'][i] = int(config['General_image_display'][i])
