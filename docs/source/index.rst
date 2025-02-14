@@ -19,7 +19,7 @@ STON: SofTware for petrOgraphic visualisatioN
 What is STON?
 =============
 
-Welcome to the documenation of STON. STON is a visualisation tool that you can use if you want to get a better look at petrogrpahic images taken from microscopes. Supporting multiple image formats, it allows you to zoom, compare images side by side, cluster images together etc... 
+test Welcome to the documenation of STON. STON is a visualisation tool that you can use if you want to get a better look at petrogrpahic images taken from microscopes. Supporting multiple image formats, it allows you to zoom, compare images side by side, cluster images together etc... 
 
 How to navigate the documentation?
 ==================================
