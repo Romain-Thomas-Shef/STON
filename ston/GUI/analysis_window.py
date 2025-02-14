@@ -540,9 +540,9 @@ class Plot(QTabWidget):
         ##Prepare text
         txt = f'Region #{region_number}:\n'
         txt += f"Area [#pixels] = {int(area)}\n"
-        txt += f"Area [mm2] = {self.conversion * int(area)}\n"
+        txt += f"Area [mm2] = {round(self.conversion * int(area), 2)}\n"
         txt += f"Area_box [#pixels] = {int(area_box)}\n"
-        txt += f"Area_box [mm2] = {self.conversion * int(area_box)}\n"
+        txt += f"Area_box [mm2] = {round(self.conversion * int(area_box), 2)}\n"
         self.results_box_write(txt)
 
     def save_properties_to_text(self):
