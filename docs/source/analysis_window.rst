@@ -85,7 +85,7 @@ You can visualize the result of the region identification on the three panels (R
 
 * **Region histogram**: This is a simple histogram of all the region sizes.
 
-* **Explore Region**: This gives you the opportunity to explore each region one by one (from largest to smallest). For convinience they are displayed on top of the image loaded in the analysis window. You can use the *choose region* spinbox to display the region you want (1 is the biggest and will go to smaller ones as the region number increases). You can also print on the result box information about the displayed region.
+* **Explore Region**: This gives you the opportunity to explore each region one by one (from largest to smallest). For convinience they are displayed on top of the image used for the analysis. You can use the *choose region* spinbox to display the region you want (1 is the biggest and will go to smaller ones as the region number increases). You can also print on the result box information about the displayed region.
 
 
 .. warning:: The default configuration removes the single-pixel area. You can change this in the configuration in the Analysis section with the `minimum_size` parameter. 
