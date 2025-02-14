@@ -180,11 +180,6 @@ class ClusterWindow(QWidget):
             self.zoom_window.change_image(final_image)
             self.zoom_window.reset_sliders(False)
 
-        else:
-            ####if the user clicked on 'cancel', or pressed escape
-            print("Cancel!")
-
-
     def create_cluster_image(self):
         '''
         This method creates the cluster image. It takes all the images in the cluster
@@ -275,6 +270,7 @@ class MashupDialog(QDialog):
         '''
         filename, _ = QFileDialog.getSaveFileName(caption='Save File', dir=directory)
         self.name.setText(filename)
+
 
     def get_mashup_config(self):
         '''
