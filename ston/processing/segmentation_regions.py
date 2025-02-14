@@ -27,6 +27,16 @@ def find_regions(image_data):
     ----------
     image_data  :   numpy array
                     data of the image
+
+    conf        :   dict
+                    configuration of STON
+
+    return
+    ------
+    labeled     :   numpy array
+                    segmented images
+    result      :   dict
+                    with results
     '''
     #Convert to grayscale 
     image_data = color.rgb2gray(image_data)
@@ -48,7 +58,7 @@ def find_regions(image_data):
     region_bbox = []
  
     for region in properties:
-        if region.area > 1:
+        if region.area > conf['Analysis']['minimum_size']:
             x, y = region.centroid
             scatter_x.append(x)
             scatter_y.append(y)
