@@ -31,7 +31,7 @@ Source code flow
 To understand a bit how the structure of the code works you can look at the picture below.
 
 .. figure:: images/Dev_corner/STON.png
-   :width: 600
+   :width: 800
    :align: center
 
    Source code flow
