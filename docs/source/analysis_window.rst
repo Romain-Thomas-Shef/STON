@@ -64,9 +64,9 @@ The first step uses the *label* function of the scikit-image `measure module <ht
 It works only with images with integer values for each pixel. 
 In order to create such image with create a binary image where each pixel is set to 1 if it is above the average of the image, 0 otherwise. 
 Once this part is done with use the *regionprops* function that extract properties of the regions (e.g. position, areas, etc). 
-Once ran, you will some information displayed in the result box on the right::
+Once ran, you will have some information displayed in the result box on the right::
 
-    Region identification (look at corresponfing panel):
+    Region identification (look at corresponding panel):
     Ratio of black regions [%]: 66.0
     Ratio of white regions [%]: 34.0
     Number of regions identified: 191
@@ -87,7 +87,7 @@ You can visualize the result of the region identification on the three panels (R
 
 * **Region histogram**: This is a simple histogram of all the region sizes.
 
-* **Explore Region**: This gives you the opportunity to explore each region one by one (from largest to smallest). For convinience they are displayed on top of the image loaded in the analysis window. You can you the *choose region* sponbox to display the region you want (1 is the biggest and will go to smaller ones as the region number increases). You can also print on the result box information about the displayed region.
+* **Explore Region**: This gives you the opportunity to explore each region one by one (from largest to smallest). For convinience they are displayed on top of the image loaded in the analysis window. You can use the *choose region* spinbox to display the region you want (1 is the biggest and will go to smaller ones as the region number increases). You can also print on the result box information about the displayed region.
 
 
 .. warning:: The default configuration removes the single-pixel area. You can change this in the configuration in the Analysis section with the `minimum_size` parameter. 
