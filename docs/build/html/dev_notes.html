@@ -102,8 +102,7 @@
 ├──<span class="w"> </span>LICENCE.txt
 ├──<span class="w"> </span>pyproject.toml<span class="w"> </span><span class="c1"># Python Packaging configuration file</span>
 ├──<span class="w"> </span>README.md<span class="w">  </span><span class="c1"># github README</span>
-├──<span class="w"> </span>ston/<span class="w"> </span><span class="c1"># Where the source code is</span>
-├──<span class="w"> </span>test/<span class="w"> </span><span class="c1"># Where the tests are</span>
+└──<span class="w"> </span>ston/<span class="w"> </span><span class="c1"># Where the source code is</span>
 </pre></div>
 </div>
 <p>If you want to edit the source code you must go in the subdirectory called <strong>ston</strong>. The documentation can be edited under <strong>docs/source</strong>.</p>
@@ -145,8 +144,11 @@ This function is parsing the command line interface argument that were given by 
 <p>The content of <code class="docutils literal notranslate"><span class="pre">ston/</span></code> is visible below:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ston
 ├──<span class="w"> </span>GUI
+│<span class="w">   </span>├──<span class="w"> </span>__init__.py
+│<span class="w">   </span>├──<span class="w"> </span>analysis_window.py
 │<span class="w">   </span>├──<span class="w"> </span>cluster_window.py
 │<span class="w">   </span>├──<span class="w"> </span>comparison_window.py
+│<span class="w">   </span>├──<span class="w"> </span>image_qt_display.py
 │<span class="w">   </span>├──<span class="w"> </span>logo
 │<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>logo.jpeg
 │<span class="w">   </span>├──<span class="w"> </span>main_window.py
@@ -156,30 +158,35 @@ This function is parsing the command line interface argument that were given by 
 ├──<span class="w"> </span>__init__.py
 ├──<span class="w"> </span>main.py
 ├──<span class="w"> </span>processing
+│<span class="w">   </span>├──<span class="w"> </span>__init__.py
 │<span class="w">   </span>├──<span class="w"> </span>enhancers.py
-│<span class="w">   </span>└──<span class="w"> </span>image_processing.py
+│<span class="w">   </span>├──<span class="w"> </span>image_processing.py
+│<span class="w">   </span>└──<span class="w"> </span>segmentation_regions.py
 ├──<span class="w"> </span>pylintrc
 ├──<span class="w"> </span>template_file
+├──<span class="w"> </span>test_data/
 ├──<span class="w"> </span>tests
-│<span class="w">   </span>├──<span class="w"> </span>general.py
-│<span class="w">   </span>├──<span class="w"> </span>test_open_save_files.py
-│<span class="w">   </span>├──<span class="w"> </span>test_utils_cli.py
-│<span class="w">   </span>├──<span class="w"> </span>test_utils_conf.py
-│<span class="w">   </span>└──<span class="w"> </span>test_utils_explore_files.py
+│<span class="w">   </span>├──<span class="w"> </span>general.py
+│<span class="w">   </span>├──<span class="w"> </span>test_open_save_files.py
+│<span class="w">   </span>├──<span class="w"> </span>test_processing_image_processing.py
+│<span class="w">   </span>├──<span class="w"> </span>test_utils_cli.py
+│<span class="w">   </span>├──<span class="w"> </span>test_utils_conf.py
+│<span class="w">   </span>└──<span class="w"> </span>test_utils_explore_files.py
 └──<span class="w"> </span>utils
+<span class="w">    </span>├──<span class="w"> </span>__init__.py
 <span class="w">    </span>├──<span class="w"> </span>cli.py
 <span class="w">    </span>├──<span class="w"> </span>conf.py
 <span class="w">    </span>├──<span class="w"> </span>example.conf
 <span class="w">    </span>├──<span class="w"> </span>explore_files.py
-<span class="w">    </span>├──<span class="w"> </span>epen_save_files.py
-<span class="w">    </span>└──<span class="w"> </span>__init__.py
+<span class="w">    </span>└──<span class="w"> </span>open_save_files.py
 </pre></div>
 </div>
-<p>You can see that extra files/directories are available:</p>
+<p>Besideall the <em>.py</em> files, You can see that extra files/directories are available:</p>
 <ul class="simple">
 <li><p><em>pylintrc</em>: this is the pylint configuration file for STON.</p></li>
 <li><p><em>template_file</em>: This is a file with just a header. To start a new source code file.</p></li>
 <li><p><em>example.conf</em>: This is the generic configuration file used by the <code class="docutils literal notranslate"><span class="pre">--makeconfig</span></code> argument.</p></li>
+<li><p>Directory <em>test_data</em>: this is where all the data used for tests are stored.</p></li>
 </ul>
 </section>
 <section id="documentation">

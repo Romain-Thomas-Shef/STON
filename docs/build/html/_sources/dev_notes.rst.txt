@@ -20,8 +20,7 @@ STON is stored in `github <https://github.com/Romain-Thomas-Shef/STON>`_. The st
      ├── LICENCE.txt
      ├── pyproject.toml # Python Packaging configuration file
      ├── README.md  # github README
-     ├── ston/ # Where the source code is
-     ├── test/ # Where the tests are
+     └── ston/ # Where the source code is
 
 
 If you want to edit the source code you must go in the subdirectory called **ston**. The documentation can be edited under **docs/source**.
@@ -63,42 +62,50 @@ The content of ``ston/`` is visible below:
 
 .. code-block:: shell
 
-        ston
-        ├── GUI
-        │   ├── cluster_window.py
-        │   ├── comparison_window.py
-        │   ├── logo
-        │   │   └── logo.jpeg
-        │   ├── main_window.py
-        │   ├── plots.py
-        │   ├── slider.py
-        │   └── zoom_window.py
+    ston
+    ├── GUI
+    │   ├── __init__.py
+    │   ├── analysis_window.py
+    │   ├── cluster_window.py
+    │   ├── comparison_window.py
+    │   ├── image_qt_display.py
+    │   ├── logo
+    │   │   └── logo.jpeg
+    │   ├── main_window.py
+    │   ├── plots.py
+    │   ├── slider.py
+    │   └── zoom_window.py
+    ├── __init__.py
+    ├── main.py
+    ├── processing
+    │   ├── __init__.py
+    │   ├── enhancers.py
+    │   ├── image_processing.py
+    │   └── segmentation_regions.py
+    ├── pylintrc
+    ├── template_file
+    ├── test_data/
+    ├── tests
+    │   ├── general.py
+    │   ├── test_open_save_files.py
+    │   ├── test_processing_image_processing.py
+    │   ├── test_utils_cli.py
+    │   ├── test_utils_conf.py
+    │   └── test_utils_explore_files.py
+    └── utils
         ├── __init__.py
-        ├── main.py
-        ├── processing
-        │   ├── enhancers.py
-        │   └── image_processing.py
-        ├── pylintrc
-        ├── template_file
-        ├── tests
-        │   ├── general.py
-        │   ├── test_open_save_files.py
-        │   ├── test_utils_cli.py
-        │   ├── test_utils_conf.py
-        │   └── test_utils_explore_files.py
-        └── utils
-            ├── cli.py
-            ├── conf.py
-            ├── example.conf
-            ├── explore_files.py
-            ├── epen_save_files.py
-            └── __init__.py
+        ├── cli.py
+        ├── conf.py
+        ├── example.conf
+        ├── explore_files.py
+        └── open_save_files.py
 
-You can see that extra files/directories are available:
+Besideall the *.py* files, You can see that extra files/directories are available:
 
 * *pylintrc*: this is the pylint configuration file for STON.
 * *template_file*: This is a file with just a header. To start a new source code file.
 * *example.conf*: This is the generic configuration file used by the ``--makeconfig`` argument. 
+* Directory *test_data*: this is where all the data used for tests are stored.
 
 
 Documentation
