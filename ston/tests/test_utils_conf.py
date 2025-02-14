@@ -43,14 +43,18 @@ class TestGetDefaultConf(unittest.TestCase):
         self.assertEqual(default['Conf']['main_window_height'], 700)
         self.assertEqual(default['Conf']['zoom_window_width'], 900)
         self.assertEqual(default['Conf']['zoom_window_height'], 400)
-        self.assertEqual(default['Conf']['zoom_insert_pix_size'], 50)
         self.assertEqual(default['Conf']['cluster_window_width'], 900)
         self.assertEqual(default['Conf']['cluster_window_height'], 400)
         self.assertEqual(default['Conf']['compare_window_width'], 900)
         self.assertEqual(default['Conf']['compare_window_height'],400)
+        self.assertEqual(default['Conf']['analysis_window_width'], 1100)
+        self.assertEqual(default['Conf']['analysis_window_height'],600)
 
         self.assertEqual(default['General_image_display']['image_width'], 200)
         self.assertEqual(default['General_image_display']['downgrade_factor'], 10)
+
+        self.assertEqual(default['Analysis']['pix_to_mm'], 0.02)
+        self.assertEqual(default['Analysis']['minimum_size'], 1)
 
         self.assertEqual(default['Zoom_window']['closeup_window'], 'original')
         self.assertEqual(default['Zoom_window']['closeup_window_size'], 50)
@@ -81,7 +85,7 @@ class TestConfGetLoadConf(unittest.TestCase):
         ##The configuration is turn to a dictionary
         ##so we just need to check the keys
         expected = ['Project_info', 'Conf', 'General_image_display',
-                    'Meta_image_options', 'Zoom_window']
+                    'Meta_image_options', 'Zoom_window', 'Analysis']
         retrieved = list(loaded.keys())
 
         self.assertCountEqual(expected, retrieved)
