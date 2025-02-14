@@ -113,9 +113,9 @@ Documentation
 
 .. note::
 
-   If you want to edit the documentation, you will need to install ``sphinx`` and ``sphinx-rtd-theme``. 
+   If you want to edit the documentation AND see the changed locally on your laptop, you will need to install ``sphinx`` and ``sphinx-rtd-theme``. 
 
-All the documentation is written in **docs/**. To edit it you need to go to source and edit the file you want to modify. Everything is written in `reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_ markup language. 
+All the documentation is written in **docs/sources**. To edit it you need to go to source and edit the file you want to modify. Everything is written in `reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_ markup language. 
 
 Once modified, go to **docs/** and run ``make clean && make html`` in the terminal. This will erase the previous version and create a new version of the documentation with your modifications.
 
