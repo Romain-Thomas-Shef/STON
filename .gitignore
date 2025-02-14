@@ -3,3 +3,4 @@ ston/*/__pycache/*pyc
 *.pyc
 STON.egg-info
 .DS_Store
+docs/build/*

@@ -119,9 +119,10 @@ All the documentation is written in **docs/**. To edit it you need to go to sour
 
 Once modified, go to **docs/** and run ``make clean && make html`` in the terminal. This will erase the previous version and create a new version of the documentation with your modifications.
 
-.. danger:: 
+.. Note:: 
 
-   To be able to update the github documentation, you need to compile it first in your disk and then push everything in the repo.
+    You do not need to compile the documentation locally to update the github documentation.
+    A special github workflow is configured `here <https://github.com/Romain-Thomas-Shef/STON/actions/runs/13338093397/workflow>`_ and compiles the documentation automatically.   
 
 Linting
 -------
