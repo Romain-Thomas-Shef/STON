@@ -18,7 +18,7 @@ from skimage import filters, segmentation, measure, color
 #Local import
 
 
-def find_regions(image_data):
+def find_regions(image_data, conf):
     '''
     This method uses the label function from skimage
     to find connected region
