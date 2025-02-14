@@ -254,7 +254,7 @@ class DetailWindow(QWidget):
         self.maxx = self.data.shape[0]
         self.maxy = self.data.shape[1]
         self.zoom_axs.imshow(self.data, rasterized=True, origin='lower')
-        
+
         ###update the size of the image based on the configuration
         self.winsize = self.conf['Zoom_window']['closeup_window_size']
 
@@ -355,7 +355,7 @@ class DetailWindow(QWidget):
         ###Adjust the closeup window (bottom left)
         if self.conf['Zoom_window']['closeup_window'] != 'original':
             self.data = numpy.array(sharpness_im)
-        
+
         ##for analysis
         self.data_for_analysis = numpy.array(sharpness_im)
 
