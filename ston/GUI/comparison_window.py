@@ -87,7 +87,7 @@ class CompareWindow(QWidget):
         self.change_image(self.images[0], 1)
         grid.addWidget(self.plot1, row, 0, 2, 8)
         row += 2
-        grid.addWidget(self.toolbar1, row, 6, 1, 2)
+        grid.addWidget(self.toolbar1, row, 4, 1, 4)
         row += 1
 
         self.plot2, self.fig2, self.axs2, self.toolbar2 =\
@@ -95,7 +95,7 @@ class CompareWindow(QWidget):
         self.change_image(self.images[1], 2)
         grid.addWidget(self.plot2, row, 0, 2, 8)
         row += 2
-        grid.addWidget(self.toolbar2, row, 6, 1, 2)
+        grid.addWidget(self.toolbar2, row, 4, 1, 4)
 
         ###Label for common zoom
         common_zoom = QLabel('Common zoom?')
