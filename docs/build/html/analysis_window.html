@@ -145,10 +145,10 @@ The first step uses the <em>label</em> function of the scikit-image <a class="re
 It works only with images with integer values for each pixel.
 In order to create such image with create a binary image where each pixel is set to 1 if it is above the average of the image, 0 otherwise.
 Once this part is done with use the <em>regionprops</em> function that extract properties of the regions (e.g. position, areas, etc).
-Once ran, you will some information displayed in the result box on the right:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Region</span> <span class="n">identification</span> <span class="p">(</span><span class="n">look</span> <span class="n">at</span> <span class="n">corresponfing</span> <span class="n">panel</span><span class="p">):</span>
-<span class="n">Ratio</span> <span class="n">of</span> <span class="n">black</span> <span class="n">regions</span><span class="p">:</span> <span class="mf">0.66</span>
-<span class="n">Ratio</span> <span class="n">of</span> <span class="n">white</span> <span class="n">regions</span><span class="p">:</span> <span class="mf">0.34</span>
+Once ran, you will have some information displayed in the result box on the right:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Region</span> <span class="n">identification</span> <span class="p">(</span><span class="n">look</span> <span class="n">at</span> <span class="n">corresponding</span> <span class="n">panel</span><span class="p">):</span>
+<span class="n">Ratio</span> <span class="n">of</span> <span class="n">black</span> <span class="n">regions</span> <span class="p">[</span><span class="o">%</span><span class="p">]:</span> <span class="mf">66.0</span>
+<span class="n">Ratio</span> <span class="n">of</span> <span class="n">white</span> <span class="n">regions</span> <span class="p">[</span><span class="o">%</span><span class="p">]:</span> <span class="mf">34.0</span>
 <span class="n">Number</span> <span class="n">of</span> <span class="n">regions</span> <span class="n">identified</span><span class="p">:</span> <span class="mi">191</span>
 <span class="n">Smallest</span> <span class="n">region</span><span class="p">:</span> <span class="mf">2.0</span> <span class="n">pixels</span>
 <span class="n">Largest</span> <span class="n">region</span><span class="p">:</span> <span class="mf">186555.0</span> <span class="n">pixels</span>
@@ -166,11 +166,11 @@ Once ran, you will some information displayed in the result box on the right:</p
 <ul class="simple">
 <li><p><strong>Region plot</strong>: In this panel you will see all the region identified with a rectangle box around them (in yellow). In that panel you can also export the full list of region with their properties to a file.</p></li>
 <li><p><strong>Region histogram</strong>: This is a simple histogram of all the region sizes.</p></li>
-<li><p><strong>Explore Region</strong>: This gives you the opportunity to explore each region one by one (from largest to smallest). For convinience they are displayed on top of the image loaded in the analysis window. You can you the <em>choose region</em> sponbox to display the region you want (1 is the biggest and will go to smaller ones as the region number increases). You can also print on the result box information about the displayed region.</p></li>
+<li><p><strong>Explore Region</strong>: This gives you the opportunity to explore each region one by one (from largest to smallest). For convinience they are displayed on top of the image loaded in the analysis window. You can use the <em>choose region</em> spinbox to display the region you want (1 is the biggest and will go to smaller ones as the region number increases). You can also print on the result box information about the displayed region.</p></li>
 </ul>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>We exclude by default single-pixel regions.</p>
+<p>The default configuration removes the single-pixel area. You can change this in the configuration in the Analysis section with the <cite>minimum_size</cite> parameter.</p>
 </div>
 </section>
 </section>
