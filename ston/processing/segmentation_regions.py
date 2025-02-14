@@ -12,7 +12,7 @@ Year: 2025-
 
 #Third party
 import numpy
-from skimage import filters, segmentation, measure, color
+from skimage import measure, color
 
 
 #Local import
@@ -38,13 +38,13 @@ def find_regions(image_data, conf):
     result      :   dict
                     with results
     '''
-    #Convert to grayscale 
+    #Convert to grayscale
     image_data = color.rgb2gray(image_data)
 
     ##To find region we need to create a binary_image
     ##we set the threshold at image image
     binary_image = image_data > numpy.mean(image_data)
-    
+
     ##Label connected regions
     labeled_image = measure.label(binary_image)
 
@@ -56,7 +56,7 @@ def find_regions(image_data, conf):
     scatter_y = []
     region_area = []
     region_bbox = []
- 
+
     for region in properties:
         if region.area > conf['Analysis']['minimum_size']:
             x, y = region.centroid
@@ -78,8 +78,7 @@ def find_regions(image_data, conf):
     sorted_y = scatter_y[inds]
     sorted_bbox = region_bbox[inds]
     sorted_area = region_area[inds]
-    
-    
+
     results = {'x': sorted_x, 'y': sorted_y, 'area': sorted_area,
                'bbox': sorted_bbox}
 
