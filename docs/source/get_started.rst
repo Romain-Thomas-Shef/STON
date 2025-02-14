@@ -69,6 +69,10 @@ Configuration files are simple txt files. You can create one using the command `
     Meta_txt_fontsize = 25
     name_on_images = Yes
 
+    [Analysis]
+    pix_to_mm = 0.02
+    minimum_size = 1
+
     [Conf]
     main_window_width = 1150
     main_window_height = 700
@@ -81,15 +85,17 @@ Configuration files are simple txt files. You can create one using the command `
     compare_window_height = 400
 
 
-It is composed of 4 sections which are all related to a different thing to configure:
+It is composed of 6  sections which are all related to a different thing to configure:
 
 * **[Project_info]**: This is where you can give a project name, the path to your images and what image extension STON must look for. So far STON has been tested with pngs, jpegs and tif files.
 
-* **[Zoom_window]**: This contains the options regarding the :doc:`zoom_window`. They both concern the bottom left *close-up* display. The parameter ``closeup_window_size`` sets the size (in pixel) of that image. The parameter ``closeup_window`` requires either the work *original* or *enhanced*. If *original* is given, that *close-up* will always display section of the original image. If *enhanced* is given, the display will show the image as tune by the different enhancers. See :doc:`zoom_window` for more details.    
-
 * **[General_image_display]**: On the :doc:`main_window` and :doc:`cluster_window`, images will appear as thumbnails on the window. You can adjust the quality and size of these thumbnails on this section of the configuration file. ``Image_width`` will let you adjust the size while ``downgrade factor`` allows you to lower slightly the quality. It is important to emphasize that for very heavy images, the downgrade factor is crucial to be able to manipulate the images smoothly.
 
+* **[Zoom_window]**: This contains the options regarding the :doc:`zoom_window`. They both concern the bottom left *close-up* display. The parameter ``closeup_window_size`` sets the size (in pixel) of that image. The parameter ``closeup_window`` requires either the work *original* or *enhanced*. If *original* is given, that *close-up* will always display section of the original image. If *enhanced* is given, the display will show the image as tune by the different enhancers. See :doc:`zoom_window` for more details.    
+
 * **[Meta_image_options]**: On the :doc:`cluster_window` window, you have the opportunity to create a *meta image*: an image that shows all the images in the cluster. This section helps you tune that image. ``Downgrade_factor`` helps you reduce the size of the individual images, ``ncol_meta_image`` will define how many columns the final image will contain. Finally, ``name_on_images`` and ``Meta_txt_fontsize`` allows you to define if you want the name of individual images on the meta image and what is the fontsize to be used.
+
+* **[Analysis]**: On the :doc:`analysis_window`, you can retrieve regions of interests inside the image. The `minimum_size` parameter gives the minimum size of a region while `pix_to_mm` gives the conversion factor from pixels to millimeters that is used to convert areas from number of pixels to millimeters squared.
 
 * **[Conf]**: STON is composed of multiple windows that you can interact with. It might be annoying to resize windows each time you start the software to fit your screen. For that reason you can tune each window size in the configuration file.
 
