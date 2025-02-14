@@ -40,6 +40,10 @@ class AnalysisWindow(QWidget):
 
         ##the image data
         self.data_from_zoom_window = data
+
+        ###An empty results dictionary
+        self.results = {}
+
         ###An empty results dictionary
         self.results = {}
 
@@ -76,7 +80,6 @@ class AnalysisWindow(QWidget):
         grid.addWidget(gaussian_filter, row, 3, 1, 1)
         self.filtersigma = QSpinBox()
         grid.addWidget(self.filtersigma, row, 4, 1, 1)
-
 
         ##Run region labelling
         self.run_region_label = QPushButton('Run Region identification')
@@ -150,6 +153,7 @@ class AnalysisWindow(QWidget):
         ###display the data from zoom window
         self.primary.display_data(self.data_from_zoom_window, clear=True)
 
+
     def reset_to_cropped(self):
         '''
         When the reset to crop button is used, we just reload the cropped image
@@ -192,17 +196,17 @@ class AnalysisWindow(QWidget):
         yf, y0 = self.primary.axs.axes.get_ylim()
 
         ###crop the original image
-        self.cropped_image = self.primary.ondisplay.get_array()[int(y0):int(yf), int(x0):int(xf)]
+        self.cropped_image = \
+            self.primary.ondisplay.get_array()[int(y0):int(yf), int(x0):int(xf)]
 
         ###display it
         self.primary.display_data(self.cropped_image, clear=True)
 
         ###Write info the result box
-        txt = f'Cropping image:\nx0={int(x0)}, xf={int(xf)}; y0={int(y0)}, yf={int(yf)} \n'
+        txt = f'Cropping image:\nx0={int(x0)}, xf={int(xf)}; y0={int(y0)}, yf={int(yf)}\n'
         txt += f'New size: x = {int(xf)-int(x0)}; y = {int(yf)-int(y0)}\n'
         txt += f'Area = {(int(xf)-int(x0))*(int(yf)-int(y0))}'
         self.write_to_result_box(txt)
-
 
     def apply_gaussian_filter(self):
         '''
@@ -230,8 +234,6 @@ class AnalysisWindow(QWidget):
         ###Write info the result box
         txt = f'Gaussian filter:\nsigma={sigma}'
         self.write_to_result_box(txt)
-
-
 
     def write_to_result_box(self, text):
         '''
@@ -306,12 +308,10 @@ class AnalysisWindow(QWidget):
         labeled_image, self.results = segmentation_regions.find_regions(ondisplay, self.conf)
 
         ##Update plots
-        self.region_plot.display_data(labeled_image, cmap='gray', clear=True)
+        self.region_plot.display_data(labeled_image, clear=True, cmap='gray')
 
-
-        self.indiv_region_plot.display_data(self.data_from_zoom_window, cmap='gray', clear=True)
+        self.indiv_region_plot.display_data(ondisplay, clear=True, cmap='gray')
         self.indiv_region_plot.draw_single_region(properties=self.results)
-        self.indiv_region_plot.regioncounter.setMinimum(1)
         self.indiv_region_plot.regioncounter.setMaximum(len(self.results['area']))
 
         self.region_plot.display_data(self.results, datatype='scatter')
@@ -320,8 +320,8 @@ class AnalysisWindow(QWidget):
 
         ##Text to result box
         txt = 'Region identification (look at corresponfing panel):\n'
-        txt += f"Ratio of black regions: {self.results['black_ratio']}\n"
-        txt += f"Ratio of white regions: {self.results['white_ratio']}\n"
+        txt += f"Ratio of black regions [%]: {100*self.results['black_ratio']}\n"
+        txt += f"Ratio of white regions [%]: {100*self.results['white_ratio']}\n"
         txt += f"Number of regions identified: {len(self.results['area'])}\n"
         txt += f"Smallest region: {min(self.results['area'])} pixels\n"
         txt += f"Largest region: {max(self.results['area'])} pixels"
@@ -331,7 +331,8 @@ class Plot(QTabWidget):
     '''
     This class codes a simple panel with a plot inside
     '''
-    def __init__(self, explorer=False, allregions=False, results_box_write=False, conversion=False):
+    def __init__(self, explorer=False, allregions=False, results_box_write=False,\
+                 conversion=False):
         '''
         Class initialization
         Paramaeters
@@ -355,7 +356,8 @@ class Plot(QTabWidget):
         self.setLayout(grid)
 
         ###Add the plot
-        self.plot, self.fig, self.axs, self.toolbar = plots.create_plot(toolbar=True)
+        self.plot, self.fig, self.axs, self.toolbar =\
+                    plots.create_plot(toolbar=True, transparent=True)
         self.axs.axis('off')
         grid.addWidget(self.plot, 0, 0, 7, 8)
         grid.addWidget(self.toolbar, 7, 0, 1, 5)
@@ -371,6 +373,7 @@ class Plot(QTabWidget):
             ##widgets
             grid.addWidget(QLabel('Choose region:'), 7, 6, 1, 1)
             self.regioncounter = QSpinBox()
+            self.regioncounter.setMinimum(1)
             grid.addWidget(self.regioncounter, 7, 7, 1, 1)
             self.print_properties = QPushButton('Print region prop')
             grid.addWidget(self.print_properties, 7, 5, 1, 1)
@@ -414,7 +417,6 @@ class Plot(QTabWidget):
         ###Display
         if datatype == 'image':
             self.ondisplay = self.axs.imshow(data, cmap=cmap)
-
             ###Remove axis
             self.axs.axes.set_axis_off()
 
@@ -493,11 +495,11 @@ class Plot(QTabWidget):
             self.region_indiv.remove()
             self.region_center.remove()
 
-        ###if no results where passed before we made them an attribute
-        if not hasattr(self, 'results'):
+        ###if properties dictionary is passed, we update the results
+        if isinstance(properties, dict):
             self.results = properties
 
-        if hasattr(self, 'results') and properties is not None:
+        if hasattr(self, 'results'):
 
             ##region number
             region_number = self.regioncounter.value()
@@ -559,6 +561,7 @@ class Plot(QTabWidget):
         txt = '#x\ty\tarea[pixels]\tarea[mm2]\n'
 
         for i,x in enumerate(self.results['x']):
+            del x
             line = f"{self.results['x'][i]}\t{self.results['y'][i]}"
             line += f"\t{int(self.results['area'][i])}"
             line += f"\t{self.conversion*self.results['area'][i]}\n"
