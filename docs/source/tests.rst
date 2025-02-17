@@ -32,7 +32,7 @@ A few details:
 Graphical Interface
 -------------------
 
-We did not write unittests for the graphical interface. Instead we have stored *test data* in the package and you can follow the following procedure to test the main functionalities of the interface. 
+We did not write unittests for the graphical interface. Instead we have stored *test data* in the package and you can follow the following procedure to test the main functionalities of the interface. The STON documentation has been written with these test_data so you can actually follow the documentation and test the tool at the same time. 
 
 To start the GUI in test mode just use the following command::
 
@@ -109,8 +109,7 @@ As described in :doc:`zoom_window`, you can adjust the enhancers (color, contras
 Cluster window
 ^^^^^^^^^^^^^^
 
-If you load all the images under the directory *cluster1_1sthalf* you can then open the cluster window. You will find yourself in the same setup as in the :doc:`cluster_window`. With the exact same images. To create a mashup image, you need to select the order in which the images will be associated. Follow the image names and you will get the same mashup as in :doc:`cluster_window`. 
-
+If you load all the images under the directory *cluster1_1sthalf* you can then open the cluster window. You will find yourself in the same setup as in the :doc:`cluster_window`, with the exact same images. To create a mashup image, you need to select the order in which the images will be associated. Follow the image names and you will get the same mashup as in :doc:`cluster_window`. 
 
 
 Side by side comparison
