@@ -39,7 +39,8 @@ def find_regions(image_data, conf):
                     with results
     '''
     #Convert to grayscale
-    image_data = color.rgb2gray(image_data)
+    if len(image_data.shape) == 3:
+        image_data = color.rgb2gray(image_data)
 
     ##To find region we need to create a binary_image
     ##we set the threshold at image image
@@ -58,7 +59,7 @@ def find_regions(image_data, conf):
     region_bbox = []
 
     for region in properties:
-        if region.area > conf['Analysis']['minimum_size']:
+        if region.area => conf['Analysis']['minimum_size']:
             x, y = region.centroid
             scatter_x.append(x)
             scatter_y.append(y)
