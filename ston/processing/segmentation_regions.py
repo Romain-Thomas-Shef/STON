@@ -59,7 +59,7 @@ def find_regions(image_data, conf):
     region_bbox = []
 
     for region in properties:
-        if region.area => conf['Analysis']['minimum_size']:
+        if region.area >= conf['Analysis']['minimum_size']:
             x, y = region.centroid
             scatter_x.append(x)
             scatter_y.append(y)
