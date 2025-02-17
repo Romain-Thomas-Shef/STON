@@ -106,10 +106,6 @@ Anf the following image:
 As described in :doc:`zoom_window`, you can adjust the enhancers (color, contrast, etc) to change the property of the image.
 
 
-Analysis window
-^^^^^^^^^^^^^^^
-
-
 Cluster window
 ^^^^^^^^^^^^^^
 
@@ -121,3 +117,5 @@ Side by side comparison
 ^^^^^^^^^^^^^^^^^^^^^^^
 If you select  **ceramic3.jpg** and **ceramic2.jpg** and click on size-by-size comparison, you will have the corresponding window appearing. The page :doc:`comparison_window` shows you how to change the zoom with a small video.
 
+Analysis window
+^^^^^^^^^^^^^^^
