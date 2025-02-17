@@ -13,7 +13,7 @@
 
 
 
-Full documentation is available [here](romain-thomas-shef.github.io/STON/).
+Full documentation is available [here](https://romain-thomas-shef.github.io/STON/index.html).
 
 
 ## What is STON?
