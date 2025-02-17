@@ -95,7 +95,7 @@ As the image is a *jpg*, there is not metadata associated with it. If you want t
     NewSubfileType       	0,
 
 
-Anf the following image:
+And the following image:
 
 .. figure:: /images/zoom_window/testwithtif.png
    :width: 700
