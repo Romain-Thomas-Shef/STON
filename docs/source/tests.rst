@@ -48,6 +48,7 @@ The :doc:`main_window` should give you access to the following data (on the left
 * singletif --> 1 image
 * logo --> 1 image 
 * cluster1_1sthalf --> 5 images
+* dummy_analysis --> 2 images
 * 3rd_level --> 4 images
 * cluster2 --> 10 images
 * cluster1_2ndhalf --> 5 images
@@ -118,3 +119,40 @@ If you select  **ceramic3.jpg** and **ceramic2.jpg** and click on size-by-size c
 
 Analysis window
 ^^^^^^^^^^^^^^^
+
+To test that the Analysis tool works correctly you can load the two images under **dummy_analysis**. These images are made-up images that are made of artificial shapes (colored or white) on a black background.
+If you load them in the analysis tool you and run the region identification (without any filtering or cropping), you should see these two region indentifications:
+
+.. figure:: images/Analysis/square_with_regions.png
+   :width: 700
+   :align: center
+
+   test_segmentation regions
+
+
+
+For **test_segmentation**, all shapes are squares or rectangle so you might not see the boxes around the shapes. But you should get the following statistics::
+
+    Region identification (look at corresponfing panel):
+    Ratio of black regions [%]: 86.0
+    Ratio of white regions [%]: 14.0
+    Number of regions identified: 8
+    Smallest region: 1794.0 pixels
+    Largest region: 32757.0 pixels 
+
+For the second image (**test_segmentation2**). shapes are not squared and you should see the following:
+
+.. figure:: images/Analysis/bananas_with_regions.png
+   :width: 700
+   :align: center
+
+   test_segmentation2 regions
+
+In addition, the information on region identification should give you::
+
+    Region identification (look at corresponfing panel):
+    Ratio of black regions [%]: 83.0
+    Ratio of white regions [%]: 17.0
+    Number of regions identified: 9
+    Smallest region: 2544.0 pixels
+    Largest region: 23835.0 pixels

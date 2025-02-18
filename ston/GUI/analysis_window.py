@@ -320,8 +320,8 @@ class AnalysisWindow(QWidget):
 
         ##Text to result box
         txt = 'Region identification (look at corresponfing panel):\n'
-        txt += f"Ratio of black regions [%]: {100*self.results['black_ratio']}\n"
-        txt += f"Ratio of white regions [%]: {100*self.results['white_ratio']}\n"
+        txt += f"Ratio of black regions [%]: {round(100*self.results['black_ratio'], 2)}\n"
+        txt += f"Ratio of white regions [%]: {round(100*self.results['white_ratio'], 2)}\n"
         txt += f"Number of regions identified: {len(self.results['area'])}\n"
         txt += f"Smallest region: {min(self.results['area'])} pixels\n"
         txt += f"Largest region: {max(self.results['area'])} pixels"
