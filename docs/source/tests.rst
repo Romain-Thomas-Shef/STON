@@ -27,6 +27,7 @@ A few details:
 
 * ``utils``: This will test everything that deals with finding files, saving/opening txt files, reading configuration.
 * ``processing``: This will test everything that deal with images creation (mashup, metaimage, etc). 
+* ``segmentation``: This will test the region identification.
 
 
 Graphical Interface
