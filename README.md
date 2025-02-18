@@ -22,12 +22,14 @@ Full documentation is available [here](https://romain-thomas-shef.github.io/STON
 Built with user-friendliness in mind, STON is fully customizable. It is developed in Python using the [PySide6](https://wiki.qt.io/Qt_for_Python) library for the GUI, [Pillow](https://pillow.readthedocs.io/en/stable/index.html) and [matplotlib](https://matplotlib.org/) for image display and interactions and [scikit-learn](https://scikit-learn.org/1.6/index.html) for deeper image processing.
 
 While tailored for the specific requirements of petrographic analysis in archaeology, the software has broader applications for other research fields that rely on visual image analysis. By providing an efficient and scalable tool for comparative analysis, it enhances research processes across various disciplines. Designed to streamline researchers' work, STON provides a comprehensive suite of tools for image analysis and visual inspection. It offers a user-friendly interface and visualization features, STON simplifies the process of inspecting, comparing, and manipulating images. All these tools are accessible from the main window, enabling users to explore images in greater detail, extract meaningful insights, and conduct in-depth analyses with ease.
-<p align="center">
-<img src="./docs/source/images/frontpage/screenshot_main_window.png" width="550" height="380">
-</p>
+
 ---
 
 ## The graphical interface
+
+<p align="center">
+<img src="./docs/source/images/frontpage/screenshot_main_window.png" width="550" height="380">
+</p>
 
 STON is a graphical user interface consisting of a main window and multiple sub-windows for performing specific tasks. The main window serves as a central platform where images are loaded from disk and displayed as thumbnails.
 
