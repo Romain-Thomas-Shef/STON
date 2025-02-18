@@ -20,7 +20,7 @@ You can either press enter for the full test suite or write `utils` or `processi
 This part of the testing uses the ``unittest`` module, part of the standard library.
 
 
-You can also use ``pytest``. For this you must go to the installation directory of STON and run ``pytest ston/tests/``.
+You can also use ``pytest``. For this you must go to the installation directory of STON and run ``pytest ston/tests/segmentation``.
 
 
 A few details:
