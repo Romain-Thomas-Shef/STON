@@ -18,9 +18,9 @@ STON is written entirely in Python. To make it work you will neec the following 
 Install from pip
 ----------------
 
-.. note:: 
+For the moment, STON is available on the `test server <https://test.pypi.org/project/STON/>`_ of Pypi. You can install it using the following command::
 
-    Coming soon!
+    python -m pip install --extra-index-url https://test.pypi.org/simple/ STON
 
 
 
