@@ -19,6 +19,7 @@ from . import test_utils_conf
 from . import test_utils_cli
 from . import test_open_save_files
 from . import test_processing_image_processing
+from . import test_segmentation
 
 def run_tests(tests='all'):
     '''
@@ -70,3 +71,12 @@ def run_tests(tests='all'):
         print('\n')
         suite = unittest.TestLoader().loadTestsFromModule(test_processing_image_processing)
         unittest.TextTestRunner(verbosity=2).run(suite)
+
+    if tests in ['all', 'segmentation']:
+        print('ok')
+        ####ston/processing/segmentation_region.py
+        print('\n')
+        suite = unittest.TestLoader().loadTestsFromModule(test_segmentation)
+        unittest.TextTestRunner(verbosity=2).run(suite)
+
+
