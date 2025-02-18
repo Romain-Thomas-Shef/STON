@@ -128,7 +128,7 @@ If you load them in the analysis tool you and run the region identification (wit
    :width: 700
    :align: center
 
-   test_segmentation regions
+   test_segmentation Region explorer panel.
 
 
 
@@ -147,7 +147,7 @@ For the second image (**test_segmentation2**). shapes are not squared and you sh
    :width: 700
    :align: center
 
-   test_segmentation2 regions
+   test_segmentation2 All regions panel.
 
 In addition, the information on region identification should give you::
 
