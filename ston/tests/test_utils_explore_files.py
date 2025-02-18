@@ -38,7 +38,8 @@ class ExploreGetDirAndFiles(unittest.TestCase):
 
         ##Expected list of directories with files
         expected = ['cluster1_1sthalf', 'cluster1_2ndhalf',
-                    '3rd_level', 'cluster2', 'singletif', 'test_data'] 
+                    '3rd_level', 'cluster2', 'singletif', 'test_data',
+                    'dummy_analysis'] 
 
 
         ###Make a bit of cleanup
@@ -92,7 +93,7 @@ class ExploreGetDirAndFiles(unittest.TestCase):
         file_dict = explore_files.get_dir_and_files(data_directory, [extensions[1]])
 
         ###Check that 4 directories are found
-        self.assertEqual(len(file_dict.keys()), 4)
+        self.assertEqual(len(file_dict.keys()), 5)
 
 
     def test_5_directory_wrong_ext(self):
