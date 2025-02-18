@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "STON"
-version = "0.1"
+version = "25.2.1"
 requires-python = ">=3.10"
 authors = [{ name = "R. Thomas", email = "romain.thomas@sheffield.ac.uk" },
     	   { name = 'E. Dammer'}]
