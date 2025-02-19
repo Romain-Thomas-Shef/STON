@@ -16,8 +16,7 @@ dependencies = ["PySide6 >= 6.7.1",
 
 [project.urls]
 repository = "https://github.com/Romain-Thomas-Shef/STON"
-homepage = "https://romain-thomas-shef.github.io/STON/build/html/index.html"
-changelog = "https://romain-thomas-shef.github.io/STON/build/html/CHANGELOG.html"
+homepage = "https://romain-thomas-shef.github.io/STON/index.html"
 
 
 [project.scripts]
