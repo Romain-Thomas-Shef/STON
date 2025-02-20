@@ -27,7 +27,7 @@ bibliography: joss_paper.bib
 # Summary
 
 `STON` (SofTware for petrOgraphic visualisatioN) is a tool designed to simplify the inspection of microscope images. Originally developed for petrography, specifically for analyzing mineral images, it can be used with any type of image. STON allows users to closely examine images, adjust parameters (contrast, brightness, sharpness), compare images side by side, combine multiple images and analyse features.
-Built with user-friendliness in mind, STON is fully customizable. It is developed in Python using the (PySide6)[https://wiki.qt.io/Qt_for_Python] library for the GUI, Pillow [@Murray:2025] and matplotlib [@Hunter:2007] for image display and operation and scikit-image [@vanderwalt:2014] for deeper image processing. 
+Built with user-friendliness in mind, STON is fully customizable. It is developed in Python using the [PySide6](https://wiki.qt.io/Qt_for_Python) library for the GUI, Pillow [@Murray:2025] and matplotlib [@Hunter:2007] for image display and operation, and scikit-image [@vanderwalt:2014] for deeper image processing. 
 
 # Statement of need
 
@@ -57,13 +57,14 @@ Additionally, it supports the generation of meta-images, where all selected imag
 
 ## Feature identification
 
-STON offers a fast and eqsy-to-use analysis tool for identifying regions of interest within an image. The underlying algorithm is based on the [measure module](https://scikit-image.org/docs/stable/api/skimage.measure.html) from the scikit-image library. It defines a region as a group of connected pixels sharing the same value. To account for pixel-to-pixel variations in the image, STON generates a binary image using a threshold set at the image’s average. 
-Users can then inspect all detected regions simultaneously (see \autoref{fig:regions}) or examine them individually. Additionally, a catalog of region properties can be downloaded for further analysis.
+STON offers a fast and easy-to-use analysis tool for identifying regions of interest within an image. The underlying algorithm is based on the [measure module](https://scikit-image.org/docs/stable/api/skimage.measure.html) from the scikit-image library. It defines a region as a group of connected pixels sharing the same value. To account for pixel-to-pixel variations in the image, STON generates a binary image using a threshold set at the image’s average. 
 
-![Region identification in STON. \label{fig:regions}](figures/allregions.png)
+![Regions identification in STON's image analysis window. \label{fig:regions}](figures/allregions.png)
+
+Users can then inspect all detected regions simultaneously (see \autoref{fig:regions}) or examine them individually. Additionally, a catalog of region properties can be downloaded for further analysis.
 
 # Acknowledgements
 
-This work was generously supported by the Gerda Henkel Foundation. E. D. would like to thank Dr. D. Braekmans (Leiden University) for his feedback and advice on optimisation for archaeological research.
+This work was generously supported by the Gerda Henkel Foundation. E. D. would like to thank Dr. D. Braekmans (Leiden University) for his feedback and advice on optimisation for archaeological research. R. T. would like to thank Peter Heywood, Edwin Brown and Neil Shephard for their advices during the development of the tool.
 
 # References
