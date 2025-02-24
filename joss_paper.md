@@ -19,7 +19,7 @@ affiliations:
    index: 1
  - name: Rathgen Research Laboratory, Staatliche Museen zu Berlin, Stiftung Preussischer Kulturbesitz, Schloßstrasse 1A, 14059 Berlin
    index: 2
-date: 20 January 2025
+date: 24 February 2025
 bibliography: joss_paper.bib
 
 ---
