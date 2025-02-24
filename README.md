@@ -47,6 +47,9 @@ STON offers a fast and eqsy-to-use analysis tool for identifying regions of inte
 Users can then inspect all detected regions simultaneously or examine them individually. Additionally, a catalog of region properties can be downloaded for further analysis.
 
 ## Installation
+For the moment, STON is available on the test server of Pypi. You can install it using the following command:
+
+```python -m pip install --extra-index-url https://test.pypi.org/simple/ STON```
 
 ---
 
