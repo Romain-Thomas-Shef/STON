@@ -41,7 +41,7 @@ While tailored for the specific requirements of petrographic analysis in archaeo
 
 STON is a graphical user interface consisting of a main window (see \autoref{fig:GUI}) and multiple sub-windows for performing specific tasks. The main window serves as a central platform where images are loaded from disk and displayed as thumbnails.
 
-![Main window of STON.\label{fig:GUI}](figures/all_GUI.png)
+![Main window of STON.\label{fig:GUI}](figures/all_GUI_corrected.png)
 
 
 Designed to streamline researchers' work, STON provides a comprehensive suite of tools for image analysis and visual inspection.
