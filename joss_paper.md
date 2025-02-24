@@ -65,6 +65,6 @@ Users can then inspect all detected regions simultaneously (see \autoref{fig:reg
 
 # Acknowledgements
 
-This work was generously supported by the Gerda Henkel Foundation. E. D. would like to thank Dr. D. Braekmans (Leiden University) for his feedback and advice on optimisation for archaeological research. R. T. would like to thank Peter Heywood, Edwin Brown and Neil Shephard for their advices during the development of the tool.
+This work was generously supported by the Gerda Henkel Foundation. E. D. would like to thank Dr. Dennis Braekmans (Leiden University) for his feedback and advice on optimisation for archaeological research. R. T. would like to thank Peter Heywood, Edwin Brown and Neil Shephard for their advices during the development of the tool.
 
 # References
