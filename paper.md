@@ -41,7 +41,7 @@ While tailored for the specific requirements of petrographic analysis in archaeo
 
 STON is a graphical user interface consisting of a main window (see \autoref{fig:GUI}) and multiple sub-windows for performing specific tasks. The main window serves as a central platform where images are loaded from disk and displayed as thumbnails.
 
-![Main window of STON.\label{fig:GUI}](figures_paper/all_GUI_corrected.png)
+![Main window of STON.\label{fig:GUI}](docs/source/images/figures_paper/all_GUI_corrected.png)
 
 
 Designed to streamline researchers' work, STON provides a comprehensive suite of tools for image analysis and visual inspection.
@@ -53,13 +53,13 @@ All these tools are accessible from the main window, enabling users to explore i
 - Image Cluster Tool (see \autoref{fig:cluster}): Facilitates the creation of image mashups by combining multiple images into a single composite. This is especially useful for merging images of the same material sample to create a unified visualization.
 Additionally, it supports the generation of meta-images, where all selected images are compiled into one comprehensive view, helping researchers analyze patterns and relationships across multiple images.
 
-![Image grouping. Mashup image (left): reconstruction of a complete sample; Meta-image (right): Cluster of images. \label{fig:cluster}](figures_paper/cluster.png)
+![Image grouping. Mashup image (left): reconstruction of a complete sample; Meta-image (right): Cluster of images. \label{fig:cluster}](docs/source/images/figures_paper/cluster.png)
 
 ## Feature identification
 
 STON offers a fast and easy-to-use analysis tool for identifying regions of interest within an image. The underlying algorithm is based on the [measure module](https://scikit-image.org/docs/stable/api/skimage.measure.html) from the scikit-image library. It defines a region as a group of connected pixels sharing the same value. To account for pixel-to-pixel variations in the image, STON generates a binary image using a threshold set at the image’s average. 
 
-![Regions identification in STON's image analysis window. \label{fig:regions}](figures_paper/allregions.png)
+![Regions identification in STON's image analysis window. \label{fig:regions}](docs/source/images/figures_paper/allregions.png)
 
 Users can then inspect all detected regions simultaneously (see \autoref{fig:regions}) or examine them individually. Additionally, a catalog of region properties can be downloaded for further analysis.
 
