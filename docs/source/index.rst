@@ -19,7 +19,7 @@ STON: SofTware for petrOgraphic visualisatioN
 What is STON and why did we do it?
 ==================================
 
-Thin-section petrography is a widely used technique in archaeology for analyzing the composition of ceramic and stone objects, as well as investigating their production technology and provenance (`Reedy, 2008 <https://books.google.nl/books?id=t1ErAQAAIAAJ>`; `Peterson & Betancourt, 2009 <https://www.jstor.org/stable/j.ctt3fgvbq>`; `Quinn, 2022 <https://books.google.nl/books?id=b7B1EAAAQBAJ>`). 
+Thin-section petrography is a widely used technique in archaeology for analyzing the composition of ceramic and stone objects, as well as investigating their production technology and provenance (`Reedy, 2008 <https://books.google.nl/books?id=t1ErAQAAIAAJ>`_; `Peterson & Betancourt, 2009 <https://www.jstor.org/stable/j.ctt3fgvbq>`_; `Quinn, 2022 <https://books.google.nl/books?id=b7B1EAAAQBAJ>`_). 
 This method involves studying these materials in thin sections mounted on glass slides under a polarizing microscope to examine their microscopic features. A critical aspect of archaeological study is the comparison and identification of patterns within these features across multiple samples.
 However, it is typically only possible to view one sample at a time under the microscope. As a result, this method relies heavily on visual memory and repeated observations, making the process inefficient and time-consuming, particularly when dealing with hundreds of samples.
 
