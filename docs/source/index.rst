@@ -16,10 +16,19 @@ STON: SofTware for petrOgraphic visualisatioN
 
 
 
-What is STON?
-=============
+What is STON and why did we do it?
+==================================
 
-Welcome to the documenation of STON. STON is a visualisation tool that you can use if you want to get a better look at petrogrpahic images taken from microscopes. Supporting multiple image formats, it allows you to zoom, compare images side by side, cluster images together etc... 
+Thin-section petrography is a widely used technique in archaeology for analyzing the composition of ceramic and stone objects, as well as investigating their production technology and provenance (`Reedy, 2008 <https://books.google.nl/books?id=t1ErAQAAIAAJ>`; `Peterson & Betancourt, 2009 <https://www.jstor.org/stable/j.ctt3fgvbq>`; `Quinn, 2022 <https://books.google.nl/books?id=b7B1EAAAQBAJ>`). 
+This method involves studying these materials in thin sections mounted on glass slides under a polarizing microscope to examine their microscopic features. A critical aspect of archaeological study is the comparison and identification of patterns within these features across multiple samples.
+However, it is typically only possible to view one sample at a time under the microscope. As a result, this method relies heavily on visual memory and repeated observations, making the process inefficient and time-consuming, particularly when dealing with hundreds of samples.
+
+This tool is designed to address these challenges by enabling users to observe multiple photomicrographs simultaneously within a single, convenient interface. It facilitates detailed comparisons, clustering, and data recording, which is especially important in ceramic paste analysis.
+By allowing users to view multiple samples side by side, the software supports efficient sample grouping and evaluation of compositional characteristics.
+
+While tailored for the specific requirements of petrographic analysis in archaeology, the software has broader applications in other research fields that rely on visual image analysis.
+By providing an efficient and scalable tool for comparative analysis, it enhances research processes across various disciplines.
+
 
 How to navigate the documentation?
 ==================================
