@@ -4,9 +4,9 @@ Getting started
 STON is composed of two different interfaces:
 
 * The Command Line Interface [CLI]. It will help you start STON, run some tests, load/create configuration files.
-* The Graphical User Interface [GUI]. This is the main part of STON and where you will browse/inspect/manipulate images. 
+* The Graphical User Interface [GUI]. This is the main part of STON and where you will browse/inspect/manipulate images.  
 
-In this part of the documentation you will learn how to start STON and configure it. If you are interested about the GUI please have a look at the :doc:`main_window`.
+In this part of the documentation you will learn how to start STON and configure it. If you are interested about the GUI please have a look at the :doc:`main_window` page. If you want to explore how the GUI works but do not yet have data ready to work with, you can use the test data that is distributed with STON (see :doc:`tests`).
 
 Command line interface
 ----------------------
