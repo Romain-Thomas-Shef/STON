@@ -31,6 +31,8 @@ ston/test_data/test.conf
 ston/test_data/test_meta_1image_with_text.png
 ston/test_data/test_meta_1image_with_text_noname.png
 ston/test_data/test_meta_threeimage_2columns.png
+ston/test_data/test_segmentation.png
+ston/test_data/test_segmentation2.png
 ston/test_data/testdoublemashup_manual.png
 ston/test_data/testtriple_manual.png
 ston/test_data/cluster1_1sthalf/1-ker-ppl.jpg
@@ -43,6 +45,8 @@ ston/test_data/cluster1_2ndhalf/6-ker-ppl.jpg
 ston/test_data/cluster1_2ndhalf/7-ker-ppl.jpg
 ston/test_data/cluster1_2ndhalf/8-ker-ppl.jpg
 ston/test_data/cluster1_2ndhalf/9-ker-ppl.jpg
+ston/test_data/dummy_analysis/test_segmentation.jpg
+ston/test_data/dummy_analysis/test_segmentation2.jpg
 ston/test_data/nested/.DS_Store
 ston/test_data/nested/2nd_level/.DS_Store
 ston/test_data/nested/2nd_level/3rd_level/ceramic2-2.jpg
@@ -66,6 +70,7 @@ ston/test_data/nested/test_empty/empty.txt
 ston/tests/general.py
 ston/tests/test_open_save_files.py
 ston/tests/test_processing_image_processing.py
+ston/tests/test_segmentation.py
 ston/tests/test_utils_cli.py
 ston/tests/test_utils_conf.py
 ston/tests/test_utils_explore_files.py
