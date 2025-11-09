@@ -53,7 +53,13 @@ For the moment, STON is available on the test server of Pypi. You can install it
 
 ---
 
-**Contribute!** STON is not perfect! If you have any comment or anything you would like to be added to STON, or, even better, if you want to modify you can either do it yourself or please feel free to contact us! ---> romain.thomas@sheffield.ac.uk & dammer.evgenia@gmail.com
+**Contribute!** STON is not perfect! If you have any comment or anything you would like to be added to STON, or, even better, if you want to modify you can 
+
+- create an issue at https://github.com/Romain-Thomas-Shef/STON/issues
+- [make a fork of the source code on github](https://github.com/Romain-Thomas-Shef/STON/fork), implement the changes and [open a PR](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)
+- contact us via mail! ---> romain.thomas@sheffield.ac.uk & dammer.evgenia@gmail.com
+
+To implement your changes, the [*Development corner* in the docs](https://romain-thomas-shef.github.io/STON/dev_notes.html) might give you further information and we are happy to help if you get in touch with us!
 
 ---
 
