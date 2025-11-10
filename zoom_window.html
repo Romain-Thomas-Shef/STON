@@ -1,0 +1,166 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Individual image visualisation &mdash; STON 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=2709fde1"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Analysis window" href="analysis_window.html" />
+    <link rel="prev" title="Main window" href="main_window.html" />
+    <link href="_static/my_theme.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            STON
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="get_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main_window.html">Main window</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Individual image visualisation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#notepad">Notepad</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#image-enhancers">Image Enhancers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="analysis_window.html">Analysis window</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster_window.html">Grouping images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comparison_window.html">Compare images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">Testing STON</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev_notes.html">Development corner</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">STON</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Individual image visualisation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/zoom_window.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="individual-image-visualisation">
+<h1>Individual image visualisation<a class="headerlink" href="#individual-image-visualisation" title="Link to this heading"></a></h1>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="_images/Screenshot_with_analysis.png"><img alt="_images/Screenshot_with_analysis.png" src="_images/Screenshot_with_analysis.png" style="width: 700px;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Detailed image window of STON</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>This image allows you to have a detailed view of an image. When you double click on an image in the <a class="reference internal" href="main_window.html"><span class="doc">Main window</span></a>, it will then be displayed at the center of this window. It is composed of:</p>
+<ul class="simple">
+<li><p>The <strong>header</strong> display (in yellow): This <em>only</em> works for <em>.tif</em> images. Pngs, jpegs or jpg are not supported.</p></li>
+<li><p>Below the header, you can see the <strong>close up image</strong> (in pink). This image shows a subset of the loaded images. To control the section of the image that is displayed in the close up box, just move the mouse over the loaded image at the center of the window:</p></li>
+</ul>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="_images/closeup.gif"><img alt="_images/closeup.gif" src="_images/closeup.gif" style="width: 500px;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Example of closeup visualisation</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Two parameters control what you see in the box and they can be modified in the configuration file (see <a class="reference internal" href="get_started.html"><span class="doc">Getting started</span></a>):
+* <code class="docutils literal notranslate"><span class="pre">closeup_window</span></code>: if set to <em>original</em>, this box will always display the original image. If set to <em>enhanced</em>, it will display the image as controlled by the enhancers (see below).
+* <code class="docutils literal notranslate"><span class="pre">closeup_window_size</span></code>: This control the size (in pixel) of the box (the box is a square).</p>
+<ul class="simple">
+<li><p>At the center of the window (in green): the loaded image</p></li>
+<li><p>Below the loaded image are the <strong>enhancers</strong> (in blue) controlling some image properties (see last section below).</p></li>
+<li><p>On the right of the window (in red) you can find the <strong>notepad</strong> and the <strong>Save Notes</strong> button (see next section).</p></li>
+<li><p>At the bottom of the window (in white), the <strong>analysis tool</strong> button gives you access to the <a class="reference internal" href="analysis_window.html"><span class="doc">Analysis window</span></a>. It is worth saying that if enhancers are applied to the image, the analysis window will be opened on the enhanced image.</p></li>
+</ul>
+<section id="notepad">
+<h2>Notepad<a class="headerlink" href="#notepad" title="Link to this heading"></a></h2>
+<p>The right part of the window is the <strong>notepad</strong>. This is where you can take notes about the image you are seeing.
+If you want to save these notes you must hit the <strong>Save Notes</strong> button. If you do that, a new file will be created on disk. Assuming the loaded image is named <em>image.tif</em>, a note file will be created in the same directory with the name <em>image_ston_notes.txt</em>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is important to note that if, for a given image, a note file exists next to the image file, it will be automatically loaded in the notepad. This will allow you to continue your notes.</p>
+</div>
+</section>
+<section id="image-enhancers">
+<h2>Image Enhancers<a class="headerlink" href="#image-enhancers" title="Link to this heading"></a></h2>
+<p>At the bottom of the window, four <strong>enhancers</strong> are available. They allow you to modify the image adjusting the <em>color</em>, <em>contrast</em>, <em>brightness</em> and <em>sharpness</em>.</p>
+<p>To reset the image to its original state you must use the button <strong>Reset Properties</strong>, on the bottom left.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="main_window.html" class="btn btn-neutral float-left" title="Main window" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="analysis_window.html" class="btn btn-neutral float-right" title="Analysis window" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, R. Thomas &amp; E. Dammer.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
