@@ -1,0 +1,51 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: 'STON: SofTware for petrOgraphic visualisatioN'
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Romain
+    family-names: Thomas
+    email: romain.thomas@sheffield.ac.uk
+    affiliation: University of Sheffield
+    orcid: 'https://orcid.org/0000-0001-8385-3276'
+  - given-names: Evgenia
+    family-names: Dammer
+    orcid: 'https://orcid.org/0000-0003-0870-9324'
+    affiliation: Rathgen Research Laboratory
+    email: dammer.evgenia@gmail.com
+identifiers:
+  - type: doi
+    value: 10.21105/joss.08144
+    description: JOSS publication
+  - type: doi
+    value: 10.5281/zenodo.17604694
+    description: Zenodo Archive
+repository-code: 'https://github.com/Romain-Thomas-Shef/STON'
+url: 'https://romain-thomas-shef.github.io/STON/#'
+abstract: >-
+  STON (SofTware for petrOgraphic visualisatioN) is a tool
+  designed to simplify the inspection of microscope images.
+  Originally developed for petrography, specifically for
+  analyzing mineral images, it can be used with any type of
+  image. STON allows users to closely examine images, adjust
+  parameters (contrast, brightness, sharpness), compare
+  images side by side, combine multiple images and analyse
+  features. Built with user-friendliness in mind, STON is
+  fully customizable. It is developed in Python using the
+  PySide6 library for the GUI, Pillow and matplotlib for
+  image display and interactions and scikit-learn for deeper
+  image processing.
+keywords:
+  - software
+  - Archeology
+  - petrography
+  - python
+  - Graphical user interface
+license: GPL-3.0
+version: 25.11.1
+date-released: '2025-11-13'
