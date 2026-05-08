@@ -49,3 +49,18 @@ keywords:
 license: GPL-3.0
 version: 25.11.1
 date-released: '2025-11-13'
+preferred-citation:
+  type: article
+  authors:
+    - given-names: Romain
+      family-names: Thomas
+    - given-names: Evgenia
+      family-names: Dammer
+  title: "STON: SofTware for petrOgraphic visualisatioN"
+  year: 2007
+  journal: Journal of Open Source Software
+  volume: 10
+  number: 115
+  pages: 8144
+  doi: 10.21105/joss.08144
+  publisher: The Open Journal
